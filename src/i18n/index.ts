@@ -1,4 +1,3 @@
-import { ay } from "./ay";
 import { en } from "./en";
 import { es, type Textos } from "./es";
 import { fijarLocale } from "./formato";
@@ -13,17 +12,16 @@ export {
   formatoPctSigno,
 } from "./formato";
 
-export type CodigoIdioma = "es" | "qu" | "ay" | "en";
+export type CodigoIdioma = "es" | "qu" | "en";
 
 /** Cada idioma se muestra con su propio nombre. `lang` va al atributo <html lang>. */
 export const IDIOMAS: { codigo: CodigoIdioma; nombre: string; lang: string }[] = [
   { codigo: "es", nombre: "Español", lang: "es" },
   { codigo: "qu", nombre: "Runasimi", lang: "qu" },
-  { codigo: "ay", nombre: "Aymar aru", lang: "ay" },
   { codigo: "en", nombre: "English", lang: "en" },
 ];
 
-const DICCIONARIOS: Record<CodigoIdioma, Textos> = { es, qu, ay, en };
+const DICCIONARIOS: Record<CodigoIdioma, Textos> = { es, qu, en };
 
 export const esCodigoIdioma = (c: unknown): c is CodigoIdioma =>
   typeof c === "string" && c in DICCIONARIOS;
