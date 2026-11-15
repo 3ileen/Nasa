@@ -211,6 +211,11 @@ button:not(:disabled) {
   font-weight: 700;
   color: var(--marca-azul);
 }
+.marca p.marca-lema {
+  font-size: calc(10px * var(--text-scale));
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
 .marca-textos {
   min-width: 0;
 }

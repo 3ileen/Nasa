@@ -14,14 +14,17 @@ export function MenuSuperior() {
         {t.saltar}
       </a>
       <header className="menu-superior">
-        <div className="marca" title={t.subtitulo}>
+        <div className="marca" title={`${t.titulo} · ${t.subtitulo}`}>
           <LogoNinaWillay className="marca-logo" />
           <div className="marca-textos">
             <h1>
               <span className="marca-nina">Nina</span>
               <span className="marca-willay">Willay</span>
             </h1>
-            <p>{t.titulo}</p>
+            {/* Lema de la marca: igual en todos los idiomas, como en el logo. */}
+            <p className="marca-lema" lang="en">
+              Satellite Fire Intelligence
+            </p>
           </div>
         </div>
         <div className="menu-acciones">
