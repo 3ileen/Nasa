@@ -1,0 +1,87 @@
+# Pipeline Configuration (FIRMS - Peru & Regional AOIs)
+
+paths:
+  modis: dataset/modis
+  snpp: dataset/snpp
+  noaa20: dataset/noaa20     # optional: skipped if folder does not exist
+  noaa21: dataset/noaa21     # optional
+  reports: output/reports
+  interim: output/interim
+  processed: output/processed
+  web: output/web            # Structured JSON outputs for frontend dashboard
+
+years:
+  min: 2012
+  max: 2017
+
+windows:                     # Methodological windows for calibration and validation
+  calibration: [2012, 2017]
+  validation: [2018, 2022]
+  final: [2012, 2022]        # Final GLM fit with orbitally stable years (Aqua drifted starting 2023)
+
+processing:
+  utc_offset_hours: -5
+  cell_size_deg: 0.25         # Analytical grid cell (~28 km): cell_025, consistent across all years
+  fine_cell_size_deg: 0.1     # Fine map cell (~11 km) starting fine_cell_from_year (VIIRS 375 m era)
+  fine_cell_from_year: 2012   # Effective start date for fine grid
+
+seasons:                     # Fire burning seasons by month (ISO week Thursday month)
+  high: [8, 9]               # Aug-Sep: ~60-65% of historical active fire detections
+  medium: [6, 7, 10, 11]
+  low: [12, 1, 2, 3, 4, 5]
+
+outages:                     # NASA documented instrument outage windows: sensor: [start, end]
+  Aqua: [2020-08-16, 2020-09-02]   # Aqua FMU anomaly (MODIS C6 Fire User Guide rev. C, sec. 7.2.4)
+  SNPP: [2022-07-27, 2022-08-10]   # S-NPP VIIRS anomaly (VIIRS C2 Burned Area User Guide v1.1, sec. 8.2)
+
+harmonize:                   # Single series: Aqua x factor (estimated) + VIIRS observed
+  estimated: [2002, 2011]    # Historical estimated span (pre-VIIRS)
+  aqua_start: 2002-07-04     # Aqua initial operational date (first week flagged as partial)
+  aqua_gaps: [2002-07-30, 2002-08-07, 2022-03-31, 2022-04-16]   # Undocumented sensor data gaps (flagged NaN)
+  band_coverage: 0.90        # Weekly empirical prediction band coverage
+
+climatology:                 # Historical baseline and anomaly thresholds
+  baseline: [2003, 2024]     # Full reference years
+  aoi_cusco: [-15.8, -11.2, -74.0, -70.3]   # Cusco and adjacent provinces
+  aoi_amazonas: [-7.1, -2.9, -78.9, -77.1]
+  aoi_ancash: [-10.8, -8.1, -78.7, -76.7]
+  aoi_apurimac: [-14.9, -13.1, -73.9, -72.0]
+  aoi_arequipa: [-16.5, -14.6, -75.1, -70.8]
+  aoi_ayacucho: [-15.8, -12.1, -75.2, -72.9]
+  aoi_cajamarca: [-7.9, -4.8, -79.4, -77.7]
+  aoi_callao: [-12.2, -11.7, -77.3, -77.0]
+  aoi_huancavelica: [-14.2, -11.9, -75.8, -74.3]
+  aoi_huanuco: [-10.4, -8.4, -77.3, -74.7]
+  aoi_ica: [-15.5, -13.2, -76.4, -74.7]
+  aoi_junin: [-12.6, -10.7, -76.6, -73.4]
+  aoi_la_libertad: [-8.9, -6.9, -79.7, -76.6]
+  aoi_lambayeque: [-7.2, -5.4, -80.6, -79.1]
+  aoi_lima: [-13.4, -10.3, -77.9, -75.4]
+  aoi_loreto: [-8.8, 0.1, -77.9, -69.9]
+  aoi_madre_de_dios: [-13.4, -9.8, -72.5, -68.6]
+  aoi_moquegua: [-17.9, -15.9, -71.6, -70.4]
+  aoi_pasco: [-11.2, -9.4, -76.8, -74.4]
+  aoi_piura: [-6.4, -4.0, -81.4, -79.2]
+  aoi_puno: [-17.3, -13.0, -71.2, -68.8]
+  aoi_san_martin: [-8.9, -5.4, -78.0, -75.7]
+  aoi_tacna: [-18.4, -16.7, -71.2, -69.6]
+  aoi_tumbes: [-4.2, -3.4, -81.0, -80.1]
+  aoi_ucayali: [-11.5, -7.3, -76.1, -70.5]
+
+static_mask:                 # Static persistent heat sources (types 1/2) excluded across all years
+  enabled: true
+  cell_deg: 0.01             # Mask cell (~1.1 km, MODIS nominal pixel size)
+  buffer_cells: 1            # Cell buffer margin (MODIS geolocation uncertainty)
+  min_years: 2               # Minimum distinct years required to classify location as persistent static source
+
+alerts:
+  max_gap_days: 3
+  max_low_conf_pct: 40.0
+  max_pass_shift_min: 60
+  max_yoy_ratio_change: 0.30
+
+bbox:
+  lat_min: -18.5
+  lat_max: 0.1
+  lon_min: -81.5
+  lon_max: -68.5
