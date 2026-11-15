@@ -1603,3 +1603,17 @@ button:not(:disabled) {
   color: var(--summary-muted);
   line-height: 1.4;
 }
+
+/* Dato preliminar (NRT): borde punteado en la matriz y etiqueta en el resumen */
+.matriz-celda[data-preliminar="true"] {
+  outline: 1.5px dashed var(--muted-foreground);
+  outline-offset: -3px;
+}
+.muestra-preliminar {
+  background: transparent;
+  outline: 1.5px dashed var(--muted-foreground);
+  outline-offset: -3px;
+}
+.etiqueta-preliminar-borde {
+  border-style: dashed;
+}

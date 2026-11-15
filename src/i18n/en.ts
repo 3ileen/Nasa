@@ -21,7 +21,7 @@ export const en: Textos = {
   locale: "en-US",
 
   titulo: "Fire Hotspots in Peru",
-  subtitulo: "MODIS + VIIRS in a single series, 2002–2024",
+  subtitulo: "MODIS + VIIRS in a single series, 2002–2026",
   equipo: "NASA Space Apps Challenge 2026 · Junior FC, Moquegua",
   saltar: "Skip to filters",
   idioma: "Language",
@@ -124,6 +124,24 @@ export const en: Textos = {
   soloNiveles: (lista) => `Only ${lista}`,
   mesesSobre: "Months higher than usual",
   mesesSobreDet: (n) => `${n} lower`,
+  preliminarCorto: "preliminary",
+  avisoPreliminar:
+    "Preliminary (near real-time) data: it may change when NASA publishes the final data.",
+  notaPreliminar: "Dotted border: preliminary data, may change.",
+  mapaPreliminar: "Includes preliminary data that may change.",
+  anioIncompleto: "Incomplete year: not compared.",
+  enCurso: "in progress",
+  densidadTexto: (d) => `${d} per 100 km²`,
+  mapaResolucion: (fina) =>
+    fina
+      ? "~11 km squares (VIIRS, since 2012)."
+      : "~28 km squares (estimated with MODIS, 2002–2011): looks grainy.",
+  mapaTitulo: (periodo) => `Hotspots per 100 km² · ${periodo}`,
+  ayudaMapa: (periodo) => [
+    "Each square is about 28 km wide until 2011 and about 11 km since 2012 (VIIRS sees more detail).",
+    `The color shows how many hotspots there were in ${periodo} per 100 km²: blue, very few; red, very many.`,
+    "Where there is no square, no hotspots were detected.",
+  ],
   mapaDescripcion:
     "Map of fire hotspots in Peru in 28 km cells. Use the arrow keys to move and the plus and minus keys to zoom.",
   cargandoMapa: "Loading map…",
@@ -133,16 +151,9 @@ export const en: Textos = {
   alejar: "Zoom out",
   relieve: "Terrain relief",
   coloresAltura: "Elevation colors",
-  mapaTitulo: (periodo) => `Number of hotspots · ${periodo}`,
   nivelesMapa: ["Very few", "Few", "Moderate", "Many", "Very many"],
   comoLeerMapa: "How to read the map",
-  ayudaMapa: (periodo) => [
-    "Each square covers about 28 × 28 km.",
-    `The color shows how many hotspots there were in ${periodo}: blue, very few; red, very many.`,
-    "Where there is no square, no hotspots were detected.",
-  ],
   filtrarNivelesMapa: "Filter the map by number of hotspots",
-  mapaEstimado: "Estimated: looks grainy",
   tooltipCelda: (focos, frp) => `${focos} equivalent hotspots${frp ? `<br>FRP ${frp} MW` : ""}`,
 
   meses: months,

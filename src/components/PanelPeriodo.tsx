@@ -9,7 +9,7 @@ import { PanelFlotante } from "./PanelFlotante";
 export function PanelPeriodo() {
   const e = useEstado();
   const i = e.anios.indexOf(e.anio);
-  const tramoDe = (a: number) => e.datos?.ranking.find((r) => r.anio === a)?.tramo;
+  const infoAnio = (a: number) => e.datos?.ranking.find((r) => r.anio === a);
 
   const descargar = () => {
     const csv = Papa.unparse(filasCsv(e.mesesAnio));
@@ -53,7 +53,11 @@ export function PanelPeriodo() {
         >
           {[...e.anios].reverse().map((a) => (
             <option key={a} value={a}>
-              {tramoDe(a) === "estimado" ? `${a} (${t.tramo.estimado})` : a}
+              {infoAnio(a)?.preliminar
+                ? `${a} (${t.enCurso})`
+                : infoAnio(a)?.tramo === "estimado"
+                  ? `${a} (${t.tramo.estimado})`
+                  : a}
             </option>
           ))}
         </select>

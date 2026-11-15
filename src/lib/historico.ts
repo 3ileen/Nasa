@@ -1,4 +1,4 @@
-// Datos históricos armonizados MODIS + VIIRS (2002–2024), según output/frontend_datos.md (esquema 1.0).
+// Datos históricos armonizados MODIS + VIIRS (2002–2026), según output/frontend_datos.md (esquema 1.2).
 // Regla clave: null = sin dato (hueco), 0 = cero real.
 
 export const BASE_DATOS = "/data/historico/";
@@ -54,6 +54,8 @@ export type Meta = {
     Record<"alta" | "media" | "baja", { factor: number; ic_inf: number; ic_sup: number }>
   >;
   celdas_anios: number[];
+  /** Datos casi en tiempo real (NRT) que pueden cambiar. `nrt_inicio` vacío = no hay. */
+  preliminar?: { etiqueta: string; descripcion: string; nrt_inicio: Record<string, string> };
 };
 
 /** Campos de un mes frente a lo normal. */
@@ -85,12 +87,16 @@ export type Mes = Anomalia & {
   mes: number; // 1–12
   temporada: "alta" | "media" | "baja";
   dias_sin_dato: number;
+  /** Mes con al menos un día del producto NRT: puede cambiar; no se presenta como récord. */
+  preliminar: boolean;
+  dias_preliminar: number;
 };
 
 export type AnioRanking = {
   anio: number;
   tramo: Tramo;
   completo: boolean;
+  preliminar: boolean;
   puesto: number | null;
   percentil: number | null;
   count: number;
@@ -101,11 +107,15 @@ export type AnioRanking = {
   pct_ago_sep: number;
 };
 
-export type Celda = { id: string; lat: number; lon: number };
+/** Celda del mapa: 0,25° (~28 km) hasta 2011 y 0,1° (~11 km) desde 2012. */
+export type Celda = { id: string; lat: number; lon: number; tamano: number };
 export type CeldasAnio = {
   anio: number;
+  /** Tamaño de las celdas de ese año (0,25 o 0,1). */
+  tamano_celda: number;
   tramo: Tramo;
   meses_con_dato: boolean[];
+  preliminar_meses: (boolean | null)[];
   max_count: number;
   celdas: Record<string, { count: number; frp: number; meses: (number | null)[] }>;
 };
@@ -115,7 +125,6 @@ export type Historico = {
   meses: Mes[];
   ranking: AnioRanking[];
   celdas: Celda[];
-  tamanoCelda: number;
 };
 
 const leer = async <T>(archivo: string): Promise<T> => {
@@ -129,14 +138,13 @@ export async function cargarHistorico(): Promise<Historico> {
     leer<Meta>("meta.json"),
     leer<{ meses: Mes[] }>(`calendar_${AMBITO}.json`),
     leer<{ anios: AnioRanking[] }>(`ranking_${AMBITO}.json`),
-    leer<{ tamano_celda: number; celdas: Celda[] }>("cells_index.json"),
+    leer<{ celdas: Celda[] }>("cells_index.json"),
   ]);
   return {
     meta,
     meses: cal.meses,
     ranking: rank.anios,
     celdas: idx.celdas,
-    tamanoCelda: idx.tamano_celda,
   };
 }
 
@@ -180,8 +188,22 @@ export function resumenMeses(meses: (Mes | null)[]) {
 
 // ---------- Mapa: escala secuencial fija (no el semáforo; ver la guía, sección 8) ----------
 
-/** Cortes fijos para comparar años: anual y mensual por celda de 0,25°. */
-export const CORTES_MAPA = { anio: [10, 50, 150, 400], mes: [3, 10, 30, 90] } as const;
+/** Área aproximada de una celda en km² (se achica hacia los polos). */
+export const areaCeldaKm2 = (c: Pick<Celda, "tamano" | "lat">) =>
+  (c.tamano * 111.32) ** 2 * Math.cos((c.lat * Math.PI) / 180);
+
+/**
+ * Densidad: focos por 100 km². Es lo que se pinta, porque las celdas cambian de tamaño en 2012
+ * (una de 0,25° tiene 6,25 veces el área de una de 0,1°) y así todos los años se comparan igual.
+ */
+export const densidad = (focos: number, c: Pick<Celda, "tamano" | "lat">) =>
+  (100 * focos) / areaCeldaKm2(c);
+
+/**
+ * Cortes fijos de densidad (focos por 100 km²), elegidos con la distribución real 2002–2025
+ * (aprox. percentiles 25, 45, 75 y 95), iguales para celdas grandes y chicas.
+ */
+export const CORTES_MAPA = { anio: [2, 5, 15, 50], mes: [1, 2.5, 5, 15] } as const;
 
 export function claseMapa(valor: number, cortes: readonly number[]): number {
   if (!(valor > 0)) return -1;
@@ -213,5 +235,6 @@ export function filasCsv(meses: (Mes | null)[]) {
       percentil: m.percentil,
       categoria: m.cat,
       incierta: m.incierta,
+      preliminar: m.preliminar,
     }));
 }

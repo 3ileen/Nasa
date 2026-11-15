@@ -24,7 +24,7 @@ export const ay: Textos = {
   locale: "es-ES",
 
   titulo: "Perú markan junt'u chiqanaka",
-  subtitulo: "MODIS + VIIRS mä siqiru, 2002–2024",
+  subtitulo: "MODIS + VIIRS mä siqiru, 2002–2026",
   equipo: "NASA Space Apps Challenge 2026 · Junior FC, Moquegua",
   saltar: "Ajllinakaru saraña",
   idioma: "Aru",
@@ -127,6 +127,23 @@ export const ay: Textos = {
   soloNiveles: (lista) => `${lista}ki`,
   mesesSobre: "Sapa kutit juk'amp phaxsinaka",
   mesesSobreDet: (n) => `${n} juk'a`,
+  preliminarCorto: "nayraqata",
+  avisoPreliminar: "Nayraqat yatiyawi: NASA tukut yatiyawi uñstayaspa mayjt'aspawa.",
+  notaPreliminar: "Ch'iqi thiya: nayraqat yatiyawi, mayjt'aspawa.",
+  mapaPreliminar: "Nayraqat yatiyawinak utji, mayjt'aspawa.",
+  anioIncompleto: "Jan phuqhata mara: janiw chikachaskiti.",
+  enCurso: "jichha mara",
+  densidadTexto: (d) => `sapa 100 km²-n ${d}`,
+  mapaResolucion: (fina) =>
+    fina
+      ? "~11 km k'uchunaka (VIIRS, 2012ta)."
+      : "~28 km k'uchunaka (MODISampi jakhuta, 2002–2011): ch'iqi ukham uñjasi.",
+  mapaTitulo: (periodo) => `Sapa 100 km²-n junt'u chiqanaka · ${periodo}`,
+  ayudaMapa: (periodo) => [
+    "Sapa k'uchux 2011kama 28 km ukhama, 2012ta 11 km ukhama (VIIRS juk'amp qhan uñji).",
+    `Saminakax ${periodo} pachan sapa 100 km²-n qawqha junt'u chiqanakas utjatap uñacht'ayi: larama, sinti juk'a; wila, sinti walja.`,
+    "Kawkhan jan k'uchu utjki ukanx janiw junt'u chiqanakax jikxataskiti.",
+  ],
   mapaDescripcion:
     "Perú markan junt'u chiqanakapa mapa, 28 km k'uchunakana. Wach'i llavenakampi sarnaqaña, más menos llavenakampi jak'achaña jayachañsa.",
   cargandoMapa: "Mapa apanisiski…",
@@ -136,16 +153,9 @@ export const ay: Textos = {
   alejar: "Mapa jayachaña",
   relieve: "Qullunaka",
   coloresAltura: "Jach'a kankañar uñtat saminaka",
-  mapaTitulo: (periodo) => `Junt'u chiqanakan jakhupa · ${periodo}`,
   nivelesMapa: ["Sinti juk'a", "Juk'a", "Taypi", "Walja", "Sinti walja"],
   comoLeerMapa: "¿Kunjamarak mapa liyiñaxa?",
-  ayudaMapa: (periodo) => [
-    "Sapa k'uchux 28 × 28 km ukhamaw.",
-    `Saminakax ${periodo} pachan qawqha junt'u chiqanakas utjatap uñacht'ayi: larama, sinti juk'a; wila, sinti walja.`,
-    "Kawkhan jan k'uchu utjki ukanx janiw junt'u chiqanakax jikxataskiti.",
-  ],
   filtrarNivelesMapa: "Mapa junt'u chiqanakan jakhupar uñtat ajlliña",
-  mapaEstimado: "Jakhuta: ch'iqi ukham uñjasi",
   tooltipCelda: (focos, frp) => `${focos} kikipa junt'u chiqanaka${frp ? `<br>FRP ${frp} MW` : ""}`,
 
   meses: phaxsinaka,

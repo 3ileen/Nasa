@@ -5,6 +5,7 @@ import {
   claseMapa,
   COLORES_CATEGORIA,
   CORTES_MAPA,
+  densidad,
   filasCsv,
   mesesDelAnio,
   resumenMeses,
@@ -21,8 +22,8 @@ const meses = leer<{ meses: Mes[] }>("calendar_peru.json").meses;
 const ranking = leer<{ anios: AnioRanking[] }>("ranking_peru.json").anios;
 
 describe("datos históricos", () => {
-  it("el calendario cubre de julio de 2002 a diciembre de 2024 (270 meses)", () => {
-    expect(meses).toHaveLength(270);
+  it("el calendario cubre de julio de 2002 a noviembre de 2026 (293 meses)", () => {
+    expect(meses).toHaveLength(293);
     expect(mesesDelAnio(meses, 2002).slice(0, 6)).toEqual([null, null, null, null, null, null]);
     expect(mesesDelAnio(meses, 2024).every(Boolean)).toBe(true);
   });
@@ -34,7 +35,14 @@ describe("datos históricos", () => {
         .filter((r) => r.puesto === null)
         .map((r) => r.anio)
         .sort(),
-    ).toEqual([2002, 2010]);
+    ).toEqual([2002, 2010, 2026]);
+  });
+
+  it("solo los meses NRT recientes son preliminares y no hay récord preliminar", () => {
+    const prel = meses.filter((m) => m.preliminar);
+    expect(prel.length).toBeGreaterThan(0);
+    expect(prel.every((m) => m.anio === 2026)).toBe(true);
+    expect(ranking.find((r) => r.anio === 2026)?.preliminar).toBe(true);
   });
 
   it("cuenta los meses sobre y bajo lo normal", () => {
@@ -52,9 +60,17 @@ describe("datos históricos", () => {
 describe("escala del mapa", () => {
   it("0 no se pinta y los cortes son inclusivos", () => {
     expect(claseMapa(0, CORTES_MAPA.anio)).toBe(-1);
-    expect([1, 10, 11, 50, 51, 400, 401].map((v) => claseMapa(v, CORTES_MAPA.anio))).toEqual([
-      0, 0, 1, 1, 2, 3, 4,
+    expect([1, 2, 3, 5, 6, 15, 16, 50, 51].map((v) => claseMapa(v, CORTES_MAPA.anio))).toEqual([
+      0, 0, 1, 1, 2, 2, 3, 3, 4,
     ]);
+  });
+
+  it("la densidad iguala celdas grandes y chicas", () => {
+    // Una celda de 0,25° tiene 6,25 veces el área de una de 0,1° en la misma latitud.
+    const grande = densidad(625, { tamano: 0.25, lat: -10 });
+    const chica = densidad(100, { tamano: 0.1, lat: -10 });
+    expect(grande).toBeCloseTo(chica, 6);
+    expect(chica).toBeCloseTo((100 * 100) / (11.132 ** 2 * Math.cos((10 * Math.PI) / 180)), 3);
   });
 });
 

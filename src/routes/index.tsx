@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Calendario histórico de focos de calor del Perú, 2002–2024: MODIS y VIIRS en una sola serie, comparado con lo normal.",
+          "Calendario histórico de focos de calor del Perú, 2002–2026: MODIS y VIIRS en una sola serie, comparado con lo normal.",
       },
       { property: "og:title", content: "Focos de calor del Perú" },
       {

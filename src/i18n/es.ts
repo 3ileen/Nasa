@@ -24,7 +24,7 @@ export const es = {
   locale: "es-ES",
 
   titulo: "Focos de calor del Perú",
-  subtitulo: "MODIS + VIIRS en una sola serie, 2002–2024",
+  subtitulo: "MODIS + VIIRS en una sola serie, 2002–2026",
   equipo: "NASA Space Apps Challenge 2026 · Junior FC, Moquegua",
   saltar: "Saltar a los filtros",
   idioma: "Idioma",
@@ -131,6 +131,24 @@ export const es = {
   mesesSobre: "Meses más altos que lo usual",
   mesesSobreDet: (n: number) => `${n} más bajos`,
   // Mapa
+  preliminarCorto: "preliminar",
+  avisoPreliminar:
+    "Dato preliminar (casi en tiempo real): puede cambiar cuando NASA publique el definitivo.",
+  notaPreliminar: "Borde punteado: dato preliminar, puede cambiar.",
+  mapaPreliminar: "Incluye datos preliminares que pueden cambiar.",
+  anioIncompleto: "Año incompleto: no se compara.",
+  enCurso: "en curso",
+  densidadTexto: (d: string) => `${d} por cada 100 km²`,
+  mapaResolucion: (fina: boolean): string =>
+    fina
+      ? "Cuadros de ~11 km (VIIRS, desde 2012)."
+      : "Cuadros de ~28 km (estimado con MODIS, 2002–2011): se ve granulado.",
+  mapaTitulo: (periodo: string) => `Focos por cada 100 km² · ${periodo}`,
+  ayudaMapa: (periodo: string) => [
+    "Cada cuadro mide unos 28 km de lado hasta 2011 y unos 11 km desde 2012 (VIIRS ve más detalle).",
+    `El color dice cuántos focos de calor hubo ahí en ${periodo} por cada 100 km²: azul, muy pocos; rojo, muchísimos.`,
+    "Donde no hay cuadro, no se detectaron focos.",
+  ],
   mapaDescripcion:
     "Mapa de focos de calor del Perú en celdas de 28 km. Usa las flechas para moverte y las teclas más y menos para acercarte.",
   cargandoMapa: "Cargando mapa…",
@@ -140,16 +158,9 @@ export const es = {
   alejar: "Alejar mapa",
   relieve: "Relieve del terreno",
   coloresAltura: "Colores por altura",
-  mapaTitulo: (periodo: string) => `Cantidad de focos · ${periodo}`,
   nivelesMapa: ["Muy pocos", "Pocos", "Moderado", "Muchos", "Muchísimos"],
   comoLeerMapa: "¿Cómo leer el mapa?",
-  ayudaMapa: (periodo: string) => [
-    "Cada cuadro cubre unos 28 × 28 km.",
-    `El color dice cuántos focos de calor hubo ahí en ${periodo}: azul, muy pocos; rojo, muchísimos.`,
-    "Donde no hay cuadro, no se detectaron focos.",
-  ],
   filtrarNivelesMapa: "Filtrar el mapa por cantidad de focos",
-  mapaEstimado: "Estimado: se ve granulado",
   tooltipCelda: (focos: string, frp?: string) =>
     `${focos} focos equivalentes${frp ? `<br>FRP ${frp} MW` : ""}`,
 

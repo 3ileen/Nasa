@@ -1,7 +1,7 @@
 import { formatoNumero, t } from "@/i18n";
 import { useEstado } from "@/estado/contexto";
 import { mesesDelAnio } from "@/lib/historico";
-import { colorCategoria, nombreCategoria } from "./anomalia";
+import { categoriaMostrada, colorCategoria, nombreCategoria } from "./anomalia";
 
 /**
  * Todos los años × meses. Tocar una casilla elige ese mes; tocar el año elige el año completo.
@@ -50,12 +50,12 @@ export function MatrizHistorica() {
             </button>
             {mesesDelAnio(datos.meses, a).map((m, i) => {
               if (!m) return <span key={i} className="matriz-celda matriz-vacia" aria-hidden />;
-              const cat = m.count === null ? "sin_dato" : m.cat;
+              const cat = categoriaMostrada(m);
               const texto = t.tooltipMatriz(
                 capitalizar(t.meses[i] ?? ""),
                 a,
                 m.count === null ? t.sinDato : formatoNumero(m.count),
-                nombreCategoria(cat),
+                nombreCategoria(cat) + (m.preliminar ? ` · ${t.preliminarCorto}` : ""),
               );
               const elegido = actual && e.gran === "mes" && e.mes === i + 1;
               return (
@@ -65,6 +65,7 @@ export function MatrizHistorica() {
                   className="matriz-celda"
                   style={{ backgroundColor: colorCategoria(datos.meta, cat) }}
                   data-estimado={m.tramo === "estimado"}
+                  data-preliminar={m.preliminar}
                   data-atenuado={!elegido && !e.categoriaVisible(cat)}
                   data-elegido={elegido}
                   aria-pressed={elegido}
