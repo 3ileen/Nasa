@@ -1623,3 +1623,101 @@ button:not(:disabled) {
 .etiqueta-preliminar-borde {
   border-style: dashed;
 }
+
+/* ---------- Cabecera fija de los paneles: el botón para cerrar siempre a la vista ---------- */
+.panel-cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--card); /* opaco: lo que se desplaza no se ve por detrás */
+  border-radius: 12px 12px 0 0;
+}
+.panel-resumen .panel-cabecera {
+  position: sticky;
+  top: 6px;
+  right: auto;
+  height: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0 6px;
+  background: none;
+  overflow: visible;
+}
+.panel-resumen .panel-ocultar {
+  background: var(--summary);
+  margin-top: 0;
+}
+
+/* ---------- Pantallas compactas: un panel a la vez, sin capas encima ---------- */
+@media (max-width: 1180px) {
+  /* Resumen: chip abajo al centro; abierto, una hoja desde abajo. */
+  .panel-resumen,
+  .app-root[data-anios-abierto="true"] .panel-resumen,
+  .app-root[data-fechas-abierto="true"] .panel-resumen {
+    top: auto;
+    bottom: 24px;
+    left: 12px;
+    right: 12px;
+    max-height: calc(100% - 92px);
+  }
+  /* Chip del Resumen centrado en el mapa libre cuando la matriz está abierta. */
+  .app-root[data-fechas-abierto="true"] .panel-resumen {
+    right: 424px;
+  }
+  /* La leyenda del mapa queda sobre el chip del Resumen. */
+  .map-etiqueta {
+    bottom: 80px;
+  }
+  /* Con la matriz abierta, la leyenda se centra en el espacio libre del mapa. */
+  .mapa[data-fechas-abierto="true"] .map-etiqueta {
+    left: calc((100% - 424px) / 2);
+    max-width: calc(100% - 448px);
+  }
+  .map-controls,
+  .app-root[data-fechas-abierto="true"] .map-controls {
+    bottom: 80px;
+  }
+}
+@media (max-width: 900px) {
+  /* Los botones del mapa suben bajo los chips para no tapar la leyenda. */
+  .map-controls,
+  .app-root[data-fechas-abierto="true"] .map-controls {
+    top: 68px;
+    bottom: auto;
+    right: 12px;
+  }
+  .mapa[data-fechas-abierto="true"] .map-etiqueta {
+    left: 50%;
+    max-width: calc(100% - 24px);
+  }
+  .app-root[data-fechas-abierto="true"] .panel-resumen {
+    right: 12px;
+  }
+  /* Un panel abierto ocupa el ancho bajo la fila de chips y deja ver el chip del Resumen,
+     así se puede pasar de un panel a otro sin cerrarlo antes. */
+  .panel-anios[data-abierto="true"],
+  .panel-fechas[data-abierto="true"] {
+    top: 64px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    max-height: calc(100% - 64px - 80px);
+    z-index: 30;
+  }
+  .panel-anios[data-abierto="true"] .panel,
+  .panel-fechas[data-abierto="true"] .panel {
+    width: 100%;
+  }
+  .panel-resumen[data-abierto="true"] {
+    z-index: 30;
+    max-height: calc(100% - 64px - 24px);
+  }
+}
+
+/* Escritorio con poca altura: el Resumen no baja hasta la leyenda del mapa. */
+@media (min-width: 1181px) {
+  .panel-resumen {
+    max-height: calc(100% - 260px);
+  }
+}

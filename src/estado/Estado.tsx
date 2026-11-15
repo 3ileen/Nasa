@@ -12,6 +12,15 @@ import {
 } from "@/lib/historico";
 
 const angosto = () => window.matchMedia("(max-width: 900px)").matches;
+/** Hasta 1180 px no caben los tres paneles con el mapa: se abre uno a la vez. */
+const COMPACTO = "(max-width: 1180px)";
+const compacto = () => window.matchMedia(COMPACTO).matches;
+/** Deja abierto solo el panel indicado (o ninguno). */
+const soloPanel = (p: keyof Paneles | null): Paneles => ({
+  anios: p === "anios",
+  resumen: p === "resumen",
+  fechas: p === "fechas",
+});
 
 export function ProveedorEstado({ children }: { children: ReactNode }) {
   const [datos, setDatos] = useState<Historico | null>(null);
@@ -47,7 +56,19 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
       if (temaUrl === "claro" || temaUrl === "oscuro") setTema(temaUrl);
       if (esCodigoIdioma(idiomaUrl)) setIdioma(idiomaUrl);
     }
-    if (angosto()) setPaneles({ anios: false, resumen: true, fechas: false });
+    // Teléfono: se ve el mapa primero. Tableta: solo la matriz.
+    if (compacto()) setPaneles(soloPanel(angosto() ? null : "fechas"));
+    // Al achicar la ventana con varios paneles abiertos, queda uno solo.
+    const mq = window.matchMedia(COMPACTO);
+    const alCambiar = () => {
+      if (!mq.matches) return;
+      setPaneles((s) => {
+        const abiertos = (Object.keys(s) as (keyof Paneles)[]).filter((k) => s[k]);
+        return abiertos.length > 1 ? soloPanel(s.fechas ? "fechas" : (abiertos[0] ?? null)) : s;
+      });
+    };
+    mq.addEventListener("change", alCambiar);
+    return () => mq.removeEventListener("change", alCambiar);
   }, []);
   useEffect(() => {
     try {
@@ -110,7 +131,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     } else if (activas.length > 0 && nuevas.length === 0 && panelesAntes.current) {
       const antes = panelesAntes.current;
       panelesAntes.current = null;
-      setPaneles((p) => ({ ...p, ...antes }));
+      setPaneles((p) => (compacto() ? p : { ...p, ...antes }));
     }
     setActivas(nuevas);
   };
@@ -163,10 +184,9 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     categoriaVisible: (c) => activas.length === 0 || activas.includes(c),
     alternarPanel: (p) =>
       setPaneles((s) => {
-        const sig = { ...s, [p]: !s[p] };
-        // En pantallas angostas, solo un panel lateral abierto a la vez.
-        if (sig[p] && p !== "resumen" && angosto()) sig[p === "anios" ? "fechas" : "anios"] = false;
-        return sig;
+        // En pantallas compactas, abrir un panel cierra los otros (no se apilan).
+        if (!s[p] && compacto()) return soloPanel(p);
+        return { ...s, [p]: !s[p] };
       }),
     fijarEscala: setEscala,
     elegirIdioma: setIdioma,
