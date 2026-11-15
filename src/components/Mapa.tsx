@@ -6,7 +6,7 @@ import { maplibreGL } from "@maplibre/maplibre-gl-leaflet";
 import { Check, X } from "lucide-react";
 import { formatoDecimal, formatoNumero, t } from "@/i18n";
 import { useEstado, type Tema } from "@/estado/contexto";
-import { CORTES_MAPA, claseMapa, densidad } from "@/lib/historico";
+import { CORTES_MAPA, claseMapa, claveDepto, densidad, PERU } from "@/lib/historico";
 import {
   departamentoDeCeldas,
   fronteraExterior,
@@ -145,15 +145,35 @@ export default function Mapa() {
     if (!b.isValid()) return;
     const ancho = window.innerWidth > 900;
     const p = ultimo.current.paneles;
+    // Alto real de lo que tapa el mapa arriba (Resumen) y abajo (leyenda), para no dejar la
+    // zona detrás de ellos.
+    const cont = mapa.current?.getContainer().getBoundingClientRect();
+    const resumen = document.querySelector("#panel-resumen .panel:not([hidden])");
+    const leyenda = document.querySelector(".leyenda-mapa");
+    const arriba =
+      ancho && p.resumen && resumen && cont
+        ? resumen.getBoundingClientRect().bottom - cont.top + 16
+        : 40;
+    const abajo = leyenda && cont ? cont.bottom - leyenda.getBoundingClientRect().top + 16 : 90;
     mapa.current?.flyToBounds(b, {
-      paddingTopLeft: [ancho && p.anios ? 330 : 40, ancho && p.resumen ? 120 : 40],
-      paddingBottomRight: [ancho && p.fechas ? 440 : 70, 90],
+      paddingTopLeft: [ancho && p.anios ? 330 : 40, Math.max(40, arriba)],
+      // Abajo solo se reserva la leyenda en pantallas angostas; en escritorio, con el Resumen
+      // abierto, reservarla dejaría la región diminuta.
+      paddingBottomRight: [ancho && p.fechas ? 440 : 70, ancho ? 40 : Math.max(90, abajo)],
       maxZoom: 10,
       duration: reducido() ? 0 : 0.7,
     });
   };
   const verPeru = () => {
     if (limites) encuadrar(L.geoJSON(limites).getBounds());
+  };
+  /** Departamento elegido (NOMBDEP) o null para todo el Perú. */
+  const claveRegion = e.region === PERU ? null : claveDepto(e.region);
+  const featureRegion = limites?.features.find((f) => f.properties.NOMBDEP === claveRegion);
+  /** Encuadra la región elegida, o todo el Perú. */
+  const verRegion = () => {
+    if (featureRegion) encuadrar(L.geoJSON(featureRegion).getBounds());
+    else verPeru();
   };
 
   // Crear el mapa una sola vez.
@@ -265,10 +285,22 @@ export default function Mapa() {
       (l as L.Polyline).setStyle({ color: linea, weight: 2.4, opacity: 1 }),
     );
   }, [limites, tema]);
+  // Al cambiar de región: se acerca a ella y se resalta su borde (o vuelve a todo el Perú).
   useEffect(() => {
-    if (limites) verPeru();
+    const m = mapa.current;
+    if (!m || !limites) return;
+    verRegion();
+    if (!featureRegion) return;
+    const borde = L.geoJSON(featureRegion, {
+      pane: "limites",
+      interactive: false,
+      style: { color: css("--primary"), weight: 3, opacity: 1, fill: false },
+    }).addTo(m);
+    return () => {
+      borde.remove();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limites]);
+  }, [limites, claveRegion, tema]);
 
   // Cambio de tema: otro mapa base (el relieve se vuelve a agregar en "style.load").
   useEffect(() => {
@@ -287,10 +319,11 @@ export default function Mapa() {
   const eligiendo = activas.length > 0 && gran === "anio";
   const porMes = gran !== "anio";
   const cortes = porMes ? CORTES_MAPA.mes : CORTES_MAPA.anio;
+  const celdasBase = datos?.celdas;
   const deptoDeCelda = useMemo(
     () =>
-      limites && datos ? departamentoDeCeldas(limites, datos.celdas) : new Map<string, string>(),
-    [limites, datos],
+      limites && celdasBase ? departamentoDeCeldas(limites, celdasBase) : new Map<string, string>(),
+    [limites, celdasBase],
   );
   useEffect(() => {
     const m = mapa.current;
@@ -300,6 +333,10 @@ export default function Mapa() {
     const grupo = L.layerGroup();
     for (const c of datos.celdas) {
       if (c.tamano !== celdasAnio.tamano_celda) continue; // cada año usa un solo tamaño
+      // Solo la región, recortada con el contorno oficial del departamento. (Los "ambitos" del
+      // pipeline son un recorte aproximado que incluye bordes de los vecinos: se verían cuadros
+      // fuera del departamento.)
+      if (claveRegion && deptoDeCelda.get(c.id) !== claveRegion) continue;
       const v = celdasAnio.celdas[c.id];
       if (!v) continue; // ausente = 0
       const valor = porMes ? v.meses[mes - 1] : v.count;
@@ -339,7 +376,18 @@ export default function Mapa() {
     return () => {
       grupo.remove();
     };
-  }, [celdasAnio, datos, porMes, mes, cortes, tema, deptoDeCelda, nivelesMapa, eligiendo]);
+  }, [
+    celdasAnio,
+    datos,
+    porMes,
+    mes,
+    cortes,
+    tema,
+    deptoDeCelda,
+    nivelesMapa,
+    eligiendo,
+    claveRegion,
+  ]);
 
   // Prender o apagar el sombreado y los colores por altura (cada uno por separado).
   useEffect(() => {
@@ -352,7 +400,9 @@ export default function Mapa() {
     if (relieve || coloresAltura) atrib?.addAttribution(ATRIBUCION_RELIEVE);
   }, [relieve, coloresAltura]);
 
-  const periodoMapa = porMes ? t.mesAnio(mes - 1, e.anio) : String(e.anio);
+  const periodoMapa = `${claveRegion ? `${e.nombreRegion} · ` : ""}${
+    porMes ? t.mesAnio(mes - 1, e.anio) : String(e.anio)
+  }`;
   // Cortes de densidad (pueden tener decimales, p. ej. 2,5).
   const num = (n: number) => (Number.isInteger(n) ? formatoNumero(n) : formatoDecimal(n));
   const rangos = [
@@ -384,6 +434,19 @@ export default function Mapa() {
                   <X size={13} aria-hidden />
                 </button>
               )}
+            </span>
+          )}
+          {claveRegion && (
+            <span className="chip-mapa">
+              {e.nombreRegion}
+              <button
+                type="button"
+                aria-label={t.verPeru}
+                title={t.verPeru}
+                onClick={() => e.elegirRegion(PERU)}
+              >
+                <X size={13} aria-hidden />
+              </button>
             </span>
           )}
           {filtroCantidad && (

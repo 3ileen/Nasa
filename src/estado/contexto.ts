@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import type { CodigoIdioma } from "@/i18n";
-import type { AnioRanking, CategoriaId, CeldasAnio, Historico, Mes } from "@/lib/historico";
+import type { AnioRanking, CategoriaId, CeldasAnio, Historico, Mes, Region } from "@/lib/historico";
 
 // Contexto separado del proveedor para que la recarga en caliente (HMR) no cree un contexto nuevo.
 
@@ -17,6 +17,10 @@ export type Estado = {
   /** Años completos con puesto en el ranking. */
   aniosCompletos: number;
   // Selección
+  /** "peru" o el id de un departamento. Cambia matriz, ranking, resumen y mapa. */
+  region: string;
+  regiones: Region[];
+  nombreRegion: string;
   anio: number;
   gran: Granularidad;
   /** Mes elegido, 1–12. */
@@ -34,6 +38,7 @@ export type Estado = {
   etiquetaPeriodo: string;
   celdasAnio: CeldasAnio | null;
   // Acciones
+  elegirRegion: (id: string) => void;
   elegirAnio: (a: number) => void;
   elegirGran: (g: Granularidad) => void;
   elegirMes: (m: number) => void;

@@ -256,7 +256,7 @@ function ListaAvisos({ avisos }: { avisos: string[] }) {
 export function PanelResumen() {
   const e = useEstado();
   const meta = e.datos?.meta;
-  const titulo = `${t.peru} · ${e.etiquetaPeriodo}`;
+  const titulo = `${e.nombreRegion} · ${e.etiquetaPeriodo}`;
   const periodo: Mes | null = e.gran === "mes" ? e.mesSel : null;
   const r = e.rankingAnio;
 
@@ -408,6 +408,7 @@ export function PanelResumen() {
         )}
       </div>
       {cuerpo}
+      {e.region !== "peru" && !e.cargando && <ListaAvisos avisos={[t.avisoRegion]} />}
       <p className="resumen-nota">{t.nota}</p>
     </PanelFlotante>
   );

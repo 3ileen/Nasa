@@ -108,7 +108,14 @@ export type AnioRanking = {
 };
 
 /** Celda del mapa: 0,25° (~28 km) hasta 2011 y 0,1° (~11 km) desde 2012. */
-export type Celda = { id: string; lat: number; lon: number; tamano: number };
+export type Celda = {
+  id: string;
+  lat: number;
+  lon: number;
+  tamano: number;
+  /** Departamentos a los que el pipeline asigna la celda (recorte aproximado; no se usa en el mapa). */
+  ambitos?: string[];
+};
 export type CeldasAnio = {
   anio: number;
   /** Tamaño de las celdas de ese año (0,25 o 0,1). */
@@ -160,6 +167,34 @@ export function cargarCeldas(anio: number): Promise<CeldasAnio> {
   return p;
 }
 
+// ---------- Regiones (departamentos) ----------
+
+/** "peru" es el país; el resto son departamentos con sus propios calendario y ranking. */
+export const PERU = "peru";
+export type Region = { id: string; nombre: string };
+export type DatosRegion = { meses: Mes[]; ranking: AnioRanking[] };
+
+/** Id del pipeline ("la_libertad") → NOMBDEP del mapa ("LA LIBERTAD"). */
+export const claveDepto = (id: string) => id.toUpperCase().replace(/_/g, " ");
+
+export const cargarRegiones = () =>
+  leer<{ hasta: number; regiones: Region[] }>("regiones/regiones.json");
+
+const cacheRegiones = new Map<string, Promise<DatosRegion>>();
+/** Calendario y ranking de un departamento (carga perezosa, una vez por región). */
+export function cargarRegion(id: string): Promise<DatosRegion> {
+  let p = cacheRegiones.get(id);
+  if (!p) {
+    p = Promise.all([
+      leer<{ meses: Mes[] }>(`regiones/calendar_${id}.json`),
+      leer<{ anios: AnioRanking[] }>(`regiones/ranking_${id}.json`),
+    ]).then(([c, r]) => ({ meses: c.meses, ranking: r.anios }));
+    p.catch(() => cacheRegiones.delete(id));
+    cacheRegiones.set(id, p);
+  }
+  return p;
+}
+
 // ---------- Ayudas de agrupación ----------
 
 /** Los 12 meses de un año (null donde no hay fila, p. ej. ene–jun de 2002). */
@@ -184,6 +219,23 @@ export function resumenMeses(meses: (Mes | null)[]) {
     inciertos: validos.filter((m) => m.incierta).length,
     frp: validos.reduce((s, m) => s + (m.frp ?? 0), 0),
   };
+}
+
+/**
+ * Categoría de un año completo frente a los demás años, con los mismos cortes de percentil que
+ * usa el pipeline para los meses (p10, p25, p75, p90) y récord para el puesto 1.
+ * Los años incompletos no se comparan.
+ */
+export function categoriaAnio(
+  r: Pick<AnioRanking, "completo" | "puesto" | "percentil">,
+): CategoriaId {
+  if (!r.completo || r.percentil === null) return "sin_dato";
+  if (r.puesto === 1) return "maximo";
+  if (r.percentil >= 90) return "muy_por_encima";
+  if (r.percentil > 75) return "por_encima";
+  if (r.percentil >= 25) return "normal";
+  if (r.percentil >= 10) return "por_debajo";
+  return "muy_por_debajo";
 }
 
 // ---------- Mapa: escala secuencial fija (no el semáforo; ver la guía, sección 8) ----------

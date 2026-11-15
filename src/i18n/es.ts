@@ -62,6 +62,8 @@ export const es = {
   errorDatos: "No se pudieron cargar los datos.",
 
   // Fechas
+  region: "Región",
+  avisoRegion: "Datos por región: recorte aproximado y sin margen de error en los años estimados.",
   anio: "Año",
   anioAnterior: "Año anterior",
   anioSiguiente: "Año siguiente",
@@ -89,6 +91,12 @@ export const es = {
   mesEtiqueta: "Mes",
   todoElAnio: "Todo el año",
   sincronizado: "Lo elegido se marca igual en la matriz",
+  vistaCalendario: "Calendario",
+  vistaTop: "Top años",
+  colFocos: "Focos",
+  notaTop: (a: number, b: number) => `Color: el año frente a un año usual (${a}–${b}).`,
+  tooltipTop: (anio: number, focos: string, situacion: string) =>
+    `${anio}: ${focos} focos · ${situacion}`,
   todosLosAnios: "Todos los años",
   ayudaMatriz: "Toca un mes, o un año para verlo completo.",
   comparadoMismoMes: (a: number, b: number) => `Fuego comparado con el mismo mes en ${a}–${b}`,

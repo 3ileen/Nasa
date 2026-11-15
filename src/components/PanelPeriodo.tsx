@@ -2,7 +2,7 @@ import Papa from "papaparse";
 import { CalendarDays, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { t } from "@/i18n";
 import { useEstado } from "@/estado/contexto";
-import { filasCsv } from "@/lib/historico";
+import { filasCsv, PERU } from "@/lib/historico";
 import { PanelFlotante } from "./PanelFlotante";
 
 /** Forma simple de elegir el periodo: un año y un mes (o el año completo). Sincronizado con la matriz. */
@@ -16,7 +16,7 @@ export function PanelPeriodo() {
     const url = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = `focos_peru_${e.anio}.csv`;
+    a.download = `focos_${e.region}_${e.anio}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -26,11 +26,27 @@ export function PanelPeriodo() {
       id="panel-anios"
       className="panel-anios"
       titulo={t.periodo}
-      resumenCerrado={`${t.periodo} · ${e.etiquetaPeriodo}`}
+      resumenCerrado={`${e.region === PERU ? "" : `${e.nombreRegion} · `}${e.etiquetaPeriodo}`}
       abierto={e.paneles.anios}
       alternar={() => e.alternarPanel("anios")}
       icono={<CalendarDays size={16} aria-hidden />}
     >
+      <label className="form-label" htmlFor="elegir-region">
+        {t.region}
+      </label>
+      <select
+        id="elegir-region"
+        className="select-field region-sel"
+        value={e.region}
+        onChange={(ev) => e.elegirRegion(ev.target.value)}
+      >
+        <option value={PERU}>{t.peru}</option>
+        {e.regiones.map((r) => (
+          <option key={r.id} value={r.id}>
+            {r.nombre}
+          </option>
+        ))}
+      </select>
       <label className="form-label" htmlFor="elegir-anio">
         {t.anio}
       </label>
