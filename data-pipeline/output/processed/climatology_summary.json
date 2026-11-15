@@ -1,0 +1,3086 @@
+{
+  "linea_base": [
+    2003,
+    2024
+  ],
+  "ambitos": {
+    "peru": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 60.9424036098424,
+      "top5_anios": [
+        {
+          "year": 2005,
+          "count": 100339.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2024,
+          "count": 92702.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 89745.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2007,
+          "count": 83042.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2016,
+          "count": 83002.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 14452.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 7832.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 27593.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 8095.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 4506.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 805.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 4,
+          "count": 1031.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 3363.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 35501.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 10,
+          "count": 11798.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 5222.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 13132.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por debajo",
+        "2": "muy por debajo",
+        "3": "normal",
+        "4": "normal",
+        "5": "normal",
+        "6": "normal",
+        "7": "por debajo",
+        "8": "por debajo",
+        "9": "muy por debajo",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "cusco": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 60.03440832680148,
+      "top5_anios": [
+        {
+          "year": 2020,
+          "count": 11351.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 10496.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2022,
+          "count": 10128.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2016,
+          "count": 8025.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2019,
+          "count": 7753.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 30.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 1,
+          "count": 61.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 2232.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 2862.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 1698.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 439.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 63.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 2,
+          "count": 18.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 229.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 1,
+          "count": 79.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 2,
+          "count": 32.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 2664.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por encima",
+        "2": "máximo histórico",
+        "3": "por encima",
+        "4": "normal",
+        "5": "por encima",
+        "6": "normal",
+        "7": "normal",
+        "8": "normal",
+        "9": "normal",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "amazonas": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 42.40661635251411,
+      "top5_anios": [
+        {
+          "year": 2024,
+          "count": 6114.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 5432.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2022,
+          "count": 4722.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 4663.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2016,
+          "count": 4628.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 6,
+          "count": 148.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 1091.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 967.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 2,
+          "count": 115.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 89.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 5,
+          "count": 145.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 162.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 8,
+          "count": 1392.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 2072.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 11,
+          "count": 954.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 916.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 4,
+          "count": 76.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "muy por debajo",
+        "3": "por encima",
+        "4": "muy por encima",
+        "5": "por encima",
+        "6": "normal",
+        "7": "normal",
+        "8": "normal",
+        "9": "normal",
+        "10": "normal",
+        "11": "sin dato completo"
+      }
+    },
+    "ancash": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 46.76411871178115,
+      "top5_anios": [
+        {
+          "year": 2016,
+          "count": 3511.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 3459.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 3123.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2020,
+          "count": 2909.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2023,
+          "count": 2115.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 8,
+          "count": 1092.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 327.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 424.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 4,
+          "count": 77.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 304.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 372.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 177.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 61.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 1572.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 527.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 5,
+          "count": 95.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 804.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "normal",
+        "3": "por encima",
+        "4": "normal",
+        "5": "muy por encima",
+        "6": "normal",
+        "7": "por debajo",
+        "8": "normal",
+        "9": "por encima",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "apurimac": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 53.428186420019124,
+      "top5_anios": [
+        {
+          "year": 2022,
+          "count": 3721.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 2839.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 2507.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2016,
+          "count": 1760.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2019,
+          "count": 1578.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 3.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 3,
+          "count": 5.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 5,
+          "count": 47.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 751.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 1402.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 819.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 183.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 20.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 3,
+          "count": 3.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 2,
+          "count": 2.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 4,
+          "count": 7.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 1101.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "muy por encima",
+        "3": "normal",
+        "4": "muy por encima",
+        "5": "por encima",
+        "6": "normal",
+        "7": "normal",
+        "8": "por debajo",
+        "9": "normal",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "arequipa": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 35.55951592479601,
+      "top5_anios": [
+        {
+          "year": 2022,
+          "count": 947.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2013,
+          "count": 940.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2003,
+          "count": 925.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2020,
+          "count": 763.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2021,
+          "count": 725.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 4,
+          "count": 44.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 183.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 276.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 57.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 8,
+          "count": 153.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 12,
+          "count": 93.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 2,
+          "count": 16.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 119.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 1,
+          "count": 31.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 6,
+          "count": 101.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 8,
+          "count": 187.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 477.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por encima",
+        "2": "por encima",
+        "3": "por encima",
+        "4": "por encima",
+        "5": "por debajo",
+        "6": "muy por encima",
+        "7": "por encima",
+        "8": "muy por encima",
+        "9": "por encima",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "ayacucho": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 58.606828815912095,
+      "top5_anios": [
+        {
+          "year": 2020,
+          "count": 7222.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 5879.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 5863.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2016,
+          "count": 5092.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2019,
+          "count": 4463.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 1126.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 19.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 1,
+          "count": 38.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 4,
+          "count": 22.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 1772.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 1076.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 327.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 4,
+          "count": 20.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 1117.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 284.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 5,
+          "count": 62.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 1427.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "normal",
+        "3": "por encima",
+        "4": "normal",
+        "5": "muy por encima",
+        "6": "normal",
+        "7": "normal",
+        "8": "normal",
+        "9": "normal",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "cajamarca": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 33.341978000460905,
+      "top5_anios": [
+        {
+          "year": 2016,
+          "count": 8533.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 7977.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 6216.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2020,
+          "count": 5880.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 5674.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 1365.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 397.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 3,
+          "count": 91.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 2,
+          "count": 173.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 110.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 185.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 7,
+          "count": 296.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 8,
+          "count": 1367.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 2673.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 11,
+          "count": 1831.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 1163.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 4,
+          "count": 124.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "normal",
+        "3": "por encima",
+        "4": "muy por encima",
+        "5": "normal",
+        "6": "por encima",
+        "7": "normal",
+        "8": "por encima",
+        "9": "normal",
+        "10": "por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "callao": {
+      "mes_pico_mediana": "abr",
+      "pct_mediana_en_ago_sep": 0.0,
+      "top5_anios": [
+        {
+          "year": 2016,
+          "count": 55.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2018,
+          "count": 48.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2015,
+          "count": 37.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2017,
+          "count": 34.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2013,
+          "count": 27.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 8,
+          "count": 1.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 4.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 10.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 5.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 8,
+          "count": 3.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 7,
+          "count": 2.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 11,
+          "count": 10.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 11,
+          "count": 4.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 3,
+          "count": 5.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 8,
+          "count": 2.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 9,
+          "count": 5.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 4.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "normal",
+        "3": "muy por encima",
+        "4": "normal",
+        "5": "normal",
+        "6": "normal",
+        "7": "por encima",
+        "8": "muy por encima",
+        "9": "máximo histórico",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "huancavelica": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 50.96139221179672,
+      "top5_anios": [
+        {
+          "year": 2020,
+          "count": 2363.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 1976.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2016,
+          "count": 1874.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 1255.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 1188.0,
+          "tramo": "estimado"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 348.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 579.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 389.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 185.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 25.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 4,
+          "count": 25.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 5,
+          "count": 27.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 399.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 1,
+          "count": 15.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 3,
+          "count": 11.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 164.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 765.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "normal",
+        "3": "normal",
+        "4": "por encima",
+        "5": "normal",
+        "6": "normal",
+        "7": "normal",
+        "8": "normal",
+        "9": "normal",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "huanuco": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 71.55309094099701,
+      "top5_anios": [
+        {
+          "year": 2005,
+          "count": 24174.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2012,
+          "count": 20220.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2007,
+          "count": 19725.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2003,
+          "count": 18480.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2024,
+          "count": 16079.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2015,
+          "month": 3,
+          "count": 56.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2015,
+          "month": 12,
+          "count": 163.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2016,
+          "month": 1,
+          "count": 186.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2016,
+          "month": 7,
+          "count": 1998.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2017,
+          "month": 2,
+          "count": 69.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2017,
+          "month": 12,
+          "count": 164.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 4,
+          "count": 183.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 5,
+          "count": 459.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 917.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 1024.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 683.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 401.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por debajo",
+        "2": "normal",
+        "3": "normal",
+        "4": "muy por debajo",
+        "5": "por debajo",
+        "6": "muy por debajo",
+        "7": "muy por debajo",
+        "8": "por debajo",
+        "9": "muy por debajo",
+        "10": "normal",
+        "11": "sin dato completo"
+      }
+    },
+    "ica": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 21.908599258985177,
+      "top5_anios": [
+        {
+          "year": 2025,
+          "count": 569.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2021,
+          "count": 518.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 507.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 474.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 471.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2024,
+          "month": 11,
+          "count": 53.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 3,
+          "count": 28.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 4,
+          "count": 58.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 5,
+          "count": 60.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 10,
+          "count": 63.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 11,
+          "count": 122.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 60.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 3,
+          "count": 29.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 4,
+          "count": 53.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 5,
+          "count": 52.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 9,
+          "count": 76.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 95.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "por encima",
+        "3": "muy por encima",
+        "4": "muy por encima",
+        "5": "muy por encima",
+        "6": "por encima",
+        "7": "por encima",
+        "8": "por encima",
+        "9": "máximo histórico",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "junin": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 64.41050589812129,
+      "top5_anios": [
+        {
+          "year": 2020,
+          "count": 12167.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 11445.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2016,
+          "count": 10155.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2019,
+          "count": 8623.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 7728.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 49.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 1,
+          "count": 44.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 1325.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 933.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 413.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 74.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 4,
+          "count": 72.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 2446.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 1,
+          "count": 46.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 2,
+          "count": 42.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 332.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 1780.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "normal",
+        "3": "normal",
+        "4": "normal",
+        "5": "por encima",
+        "6": "normal",
+        "7": "normal",
+        "8": "normal",
+        "9": "muy por debajo",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "la_libertad": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 64.1023398666129,
+      "top5_anios": [
+        {
+          "year": 2005,
+          "count": 8826.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2016,
+          "count": 8331.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2003,
+          "count": 7963.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2024,
+          "count": 7401.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2007,
+          "count": 7089.0,
+          "tramo": "estimado"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 3,
+          "count": 130.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 4,
+          "count": 175.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 5,
+          "count": 274.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 6,
+          "count": 383.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 682.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 568.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 597.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 543.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 7,
+          "count": 713.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 3111.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 684.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 668.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por debajo",
+        "2": "muy por debajo",
+        "3": "por debajo",
+        "4": "normal",
+        "5": "normal",
+        "6": "normal",
+        "7": "muy por debajo",
+        "8": "por debajo",
+        "9": "por debajo",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "lambayeque": {
+      "mes_pico_mediana": "nov",
+      "pct_mediana_en_ago_sep": 20.295134381717073,
+      "top5_anios": [
+        {
+          "year": 2016,
+          "count": 2854.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 2062.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 1884.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 1775.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2018,
+          "count": 1602.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 88.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2021,
+          "month": 7,
+          "count": 159.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2021,
+          "month": 8,
+          "count": 167.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 6,
+          "count": 179.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 9,
+          "count": 336.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 81.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 4,
+          "count": 97.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 5,
+          "count": 217.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 170.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 8,
+          "count": 161.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 296.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 11,
+          "count": 560.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "muy por debajo",
+        "3": "normal",
+        "4": "normal",
+        "5": "por encima",
+        "6": "por encima",
+        "7": "normal",
+        "8": "por encima",
+        "9": "normal",
+        "10": "normal",
+        "11": "sin dato completo"
+      }
+    },
+    "lima": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 47.60022668411942,
+      "top5_anios": [
+        {
+          "year": 2016,
+          "count": 2780.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 2613.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2020,
+          "count": 2405.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 2108.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 1992.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 5,
+          "count": 83.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 8,
+          "count": 1170.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 296.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 48.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 337.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 377.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 153.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 166.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 582.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 10,
+          "count": 258.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 530.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 612.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "normal",
+        "3": "por encima",
+        "4": "normal",
+        "5": "normal",
+        "6": "normal",
+        "7": "normal",
+        "8": "normal",
+        "9": "normal",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "loreto": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 61.20245145925579,
+      "top5_anios": [
+        {
+          "year": 2007,
+          "count": 41150.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2005,
+          "count": 38297.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2024,
+          "count": 37494.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2012,
+          "count": 33006.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 31344.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 6,
+          "count": 2103.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 3665.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 6,
+          "count": 1264.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 11464.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 1608.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 1386.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 1243.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 316.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 4,
+          "count": 435.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 15146.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 10,
+          "count": 3781.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 1643.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por debajo",
+        "2": "por debajo",
+        "3": "por debajo",
+        "4": "muy por debajo",
+        "5": "normal",
+        "6": "muy por debajo",
+        "7": "muy por debajo",
+        "8": "muy por debajo",
+        "9": "por debajo",
+        "10": "por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "madre_de_dios": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 74.18888854382541,
+      "top5_anios": [
+        {
+          "year": 2024,
+          "count": 10041.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2005,
+          "count": 9835.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2020,
+          "count": 8441.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2007,
+          "count": 7073.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2019,
+          "count": 6782.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 1,
+          "count": 56.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 677.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 62.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 2,
+          "count": 17.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 2,
+          "count": 17.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 31.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 223.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 8,
+          "count": 2505.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 4753.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 10,
+          "count": 1756.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 12,
+          "count": 86.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 1,
+          "count": 43.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por encima",
+        "2": "normal",
+        "3": "por debajo",
+        "4": "normal",
+        "5": "normal",
+        "6": "por debajo",
+        "7": "por debajo",
+        "8": "normal",
+        "9": "muy por debajo",
+        "10": "normal",
+        "11": "sin dato completo"
+      }
+    },
+    "moquegua": {
+      "mes_pico_mediana": "oct",
+      "pct_mediana_en_ago_sep": 29.036526733824324,
+      "top5_anios": [
+        {
+          "year": 2018,
+          "count": 289.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 281.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2021,
+          "count": 247.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 232.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2013,
+          "count": 213.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 4,
+          "count": 25.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 8,
+          "count": 52.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 76.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 2,
+          "count": 22.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 12,
+          "count": 33.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 8,
+          "count": 43.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 10,
+          "count": 67.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 10,
+          "count": 73.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 11,
+          "count": 35.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 3,
+          "count": 8.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 6,
+          "count": 61.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 163.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "normal",
+        "2": "normal",
+        "3": "muy por encima",
+        "4": "por encima",
+        "5": "normal",
+        "6": "máximo histórico",
+        "7": "normal",
+        "8": "por encima",
+        "9": "por encima",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "pasco": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 69.37335116525931,
+      "top5_anios": [
+        {
+          "year": 2005,
+          "count": 12385.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2003,
+          "count": 10155.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2020,
+          "count": 10012.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2012,
+          "count": 9310.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2007,
+          "count": 8790.0,
+          "tramo": "estimado"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 4,
+          "count": 113.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 5,
+          "count": 291.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 8,
+          "count": 4304.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 1784.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 575.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2021,
+          "month": 2,
+          "count": 15.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 608.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 119.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 57.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 407.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 2,
+          "count": 22.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 172.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por debajo",
+        "2": "normal",
+        "3": "normal",
+        "4": "normal",
+        "5": "normal",
+        "6": "muy por debajo",
+        "7": "por debajo",
+        "8": "muy por debajo",
+        "9": "muy por debajo",
+        "10": "normal",
+        "11": "sin dato completo"
+      }
+    },
+    "piura": {
+      "mes_pico_mediana": "nov",
+      "pct_mediana_en_ago_sep": 17.80234338272341,
+      "top5_anios": [
+        {
+          "year": 2016,
+          "count": 4035.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 2954.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2018,
+          "count": 2655.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 2628.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2017,
+          "count": 2335.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 208.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 9,
+          "count": 519.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 81.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 4,
+          "count": 80.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 5,
+          "count": 150.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 310.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 11,
+          "count": 962.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 1,
+          "count": 230.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 7,
+          "count": 281.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 662.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 5,
+          "count": 124.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 6,
+          "count": 265.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "normal",
+        "3": "normal",
+        "4": "normal",
+        "5": "muy por encima",
+        "6": "muy por encima",
+        "7": "normal",
+        "8": "normal",
+        "9": "normal",
+        "10": "por debajo",
+        "11": "sin dato completo"
+      }
+    },
+    "puno": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 48.52217718687604,
+      "top5_anios": [
+        {
+          "year": 2020,
+          "count": 3550.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 3296.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2016,
+          "count": 2832.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2019,
+          "count": 2704.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2024,
+          "count": 2085.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 2,
+          "count": 25.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 10,
+          "count": 854.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 517.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 238.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 46.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 2,
+          "count": 34.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 3,
+          "count": 17.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 176.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 10,
+          "count": 437.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 6,
+          "count": 175.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 7,
+          "count": 422.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 674.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "normal",
+        "3": "por encima",
+        "4": "normal",
+        "5": "por encima",
+        "6": "muy por encima",
+        "7": "muy por encima",
+        "8": "normal",
+        "9": "normal",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "san_martin": {
+      "mes_pico_mediana": "ago",
+      "pct_mediana_en_ago_sep": 63.081693293172236,
+      "top5_anios": [
+        {
+          "year": 2007,
+          "count": 27025.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2005,
+          "count": 25717.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2004,
+          "count": 21497.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2012,
+          "count": 20656.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2003,
+          "count": 19942.0,
+          "tramo": "estimado"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2013,
+          "month": 9,
+          "count": 6629.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2015,
+          "month": 10,
+          "count": 1461.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2016,
+          "month": 11,
+          "count": 1903.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2020,
+          "month": 5,
+          "count": 603.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 6,
+          "count": 1515.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 6,
+          "count": 866.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 877.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 229.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 822.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 6112.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 1163.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 1507.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por debajo",
+        "2": "muy por debajo",
+        "3": "por debajo",
+        "4": "muy por debajo",
+        "5": "normal",
+        "6": "muy por debajo",
+        "7": "muy por debajo",
+        "8": "muy por debajo",
+        "9": "por debajo",
+        "10": "muy por encima",
+        "11": "sin dato completo"
+      }
+    },
+    "tacna": {
+      "mes_pico_mediana": "oct",
+      "pct_mediana_en_ago_sep": 24.91575120802918,
+      "top5_anios": [
+        {
+          "year": 2020,
+          "count": 183.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2021,
+          "count": 175.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2018,
+          "count": 147.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2023,
+          "count": 143.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2022,
+          "count": 142.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2022,
+          "month": 2,
+          "count": 28.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 8,
+          "count": 31.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 2,
+          "count": 27.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 10,
+          "count": 46.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 1,
+          "count": 13.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2025,
+          "month": 10,
+          "count": 56.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 11,
+          "count": 26.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 9.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 3,
+          "count": 11.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 6,
+          "count": 14.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 9,
+          "count": 31.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2026,
+          "month": 10,
+          "count": 111.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "normal",
+        "3": "muy por encima",
+        "4": "normal",
+        "5": "normal",
+        "6": "máximo histórico",
+        "7": "por encima",
+        "8": "normal",
+        "9": "muy por encima",
+        "10": "máximo histórico",
+        "11": "sin dato completo"
+      }
+    },
+    "tumbes": {
+      "mes_pico_mediana": "dic",
+      "pct_mediana_en_ago_sep": 6.74431649714748,
+      "top5_anios": [
+        {
+          "year": 2024,
+          "count": 293.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2020,
+          "count": 288.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2016,
+          "count": 286.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2023,
+          "count": 262.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2013,
+          "count": 240.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 8,
+          "count": 24.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 9,
+          "count": 15.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 39.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 71.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 1,
+          "count": 32.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 1,
+          "count": 55.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 47.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 7,
+          "count": 57.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 5,
+          "count": 21.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 6,
+          "count": 61.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 19.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2026,
+          "month": 7,
+          "count": 40.0,
+          "categoria": "muy por encima"
+        }
+      ],
+      "categorias_2026": {
+        "1": "por encima",
+        "2": "normal",
+        "3": "por encima",
+        "4": "por encima",
+        "5": "normal",
+        "6": "normal",
+        "7": "muy por encima",
+        "8": "normal",
+        "9": "normal",
+        "10": "por debajo",
+        "11": "sin dato completo"
+      }
+    },
+    "ucayali": {
+      "mes_pico_mediana": "sep",
+      "pct_mediana_en_ago_sep": 69.06361869018545,
+      "top5_anios": [
+        {
+          "year": 2005,
+          "count": 34055.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2024,
+          "count": 32278.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2007,
+          "count": 31195.0,
+          "tramo": "estimado"
+        },
+        {
+          "year": 2023,
+          "count": 27916.0,
+          "tramo": "VIIRS real"
+        },
+        {
+          "year": 2012,
+          "count": 27516.0,
+          "tramo": "VIIRS real"
+        }
+      ],
+      "meses_muy_por_encima_o_record": [
+        {
+          "year": 2020,
+          "month": 5,
+          "count": 827.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "count": 5465.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "count": 1526.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 1,
+          "count": 521.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 9,
+          "count": 13555.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2022,
+          "month": 11,
+          "count": 1765.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2022,
+          "month": 12,
+          "count": 418.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2023,
+          "month": 6,
+          "count": 1198.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 3,
+          "count": 119.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2024,
+          "month": 4,
+          "count": 276.0,
+          "categoria": "muy por encima"
+        },
+        {
+          "year": 2024,
+          "month": 9,
+          "count": 15159.0,
+          "categoria": "máximo histórico"
+        },
+        {
+          "year": 2025,
+          "month": 12,
+          "count": 590.0,
+          "categoria": "máximo histórico"
+        }
+      ],
+      "categorias_2026": {
+        "1": "muy por debajo",
+        "2": "normal",
+        "3": "normal",
+        "4": "muy por debajo",
+        "5": "normal",
+        "6": "muy por debajo",
+        "7": "por debajo",
+        "8": "por debajo",
+        "9": "muy por debajo",
+        "10": "normal",
+        "11": "sin dato completo"
+      }
+    }
+  },
+  "peru_categorias_meses": {
+    "normal": 131,
+    "muy por debajo": 44,
+    "por debajo": 41,
+    "por encima": 36,
+    "muy por encima": 24,
+    "máximo histórico": 13,
+    "sin dato completo": 4
+  },
+  "peru_pct_meses_estimados_con_categoria_incierta": 88.59649122807018
+}

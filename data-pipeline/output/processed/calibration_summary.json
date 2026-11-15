@@ -1,0 +1,92 @@
+{
+  "ref": "Aqua",
+  "target": "SNPP",
+  "calibration_years": [
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017
+  ],
+  "validation_years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "final_years": [
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "chosen_model": "B",
+  "selection_rule": "modelo más simple salvo mejora de MAE > 5.0 % en validación",
+  "diagnostics_calibration": {
+    "A_count": {
+      "formula": "y ~ C(week_id) + viirs",
+      "family": "poisson",
+      "n_obs": 618,
+      "n_weeks": 309,
+      "pearson_dispersion": 14.766014716211073,
+      "aic": 9852.238965427581,
+      "converged": true
+    },
+    "B_count": {
+      "formula": "y ~ C(week_id) + viirs:C(season)",
+      "family": "poisson",
+      "n_obs": 618,
+      "n_weeks": 309,
+      "pearson_dispersion": 9.350658993857252,
+      "aic": 7917.251184832,
+      "converged": true
+    },
+    "A_total_frp": {
+      "formula": "y ~ C(week_id) + viirs",
+      "family": "tweedie",
+      "n_obs": 618,
+      "n_weeks": 309,
+      "pearson_dispersion": 4.888161896084416,
+      "aic": 10261.414198118599,
+      "converged": true
+    },
+    "B_total_frp": {
+      "formula": "y ~ C(week_id) + viirs:C(season)",
+      "family": "tweedie",
+      "n_obs": 618,
+      "n_weeks": 309,
+      "pearson_dispersion": 3.8547161818429534,
+      "aic": 10101.16595389556,
+      "converged": true
+    }
+  },
+  "diagnostics_final": {
+    "B_count": {
+      "formula": "y ~ C(week_id) + viirs:C(season)",
+      "family": "poisson",
+      "n_obs": 1122,
+      "n_weeks": 561,
+      "pearson_dispersion": 9.789534878936188,
+      "aic": 14666.124996971774,
+      "converged": true
+    },
+    "B_total_frp": {
+      "formula": "y ~ C(week_id) + viirs:C(season)",
+      "family": "tweedie",
+      "n_obs": 1122,
+      "n_weeks": 561,
+      "pearson_dispersion": 4.226265212726174,
+      "aic": 18540.45501257707,
+      "converged": true
+    }
+  }
+}

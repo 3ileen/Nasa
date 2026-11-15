@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MODIS to VIIRS · Satellite Timeline & Harmonization Pipeline · NASA Space Apps Challenge</title>
+<meta name="description" content="Interactive satellite timeline and harmonization methodology for MODIS and VIIRS fire data (NASA FIRMS) across Peru (2002-2026).">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+
+<style>
+:root {
+  --bg: #0b0d12;
+  --bg2: #12151d;
+  --panel: #161a24;
+  --line: #262c3d;
+  --text: #ece9e4;
+  --muted: #9499ad;
+  --amber: #fbbf24;
+  --orange: #fb923c;
+  --blue: #60a5fa;
+  --green: #4ade80;
+  --red: #f87171;
+  --label: 7.5rem;
+  --font-head: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.badge-amber { background: rgba(251, 191, 36, 0.15); color: var(--amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+.badge-blue { background: rgba(96, 165, 250, 0.15); color: var(--blue); border: 1px solid rgba(96, 165, 250, 0.3); }
+.badge-green { background: rgba(74, 222, 128, 0.15); color: var(--green); border: 1px solid rgba(74, 222, 128, 0.3); }
+.badge-red { background: rgba(248, 113, 113, 0.15); color: var(--red); border: 1px solid rgba(248, 113, 113, 0.3); }
+.nav-link { color: var(--muted); transition: color 0.2s; font-weight: 500; text-decoration: none; }
+.nav-link:hover { color: var(--amber); }
+
+/* Controls & Chips */
+.chip {
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.chip:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--amber); border-color: var(--amber); color: #1a1100; font-weight: 600; }
+.chip.zone[aria-pressed="true"] { background: var(--zc); border-color: var(--zc); color: #0b0d12; font-weight: 600; }
+
+/* Timeline Chart */
+.chart-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg2); }
+.chart { position: relative; min-width: 840px; isolation: isolate; }
+.row { display: grid; grid-template-columns: var(--label) 1fr; align-items: stretch; min-height: 42px; }
+.lbl { position: sticky; left: 0; z-index: 6; background: var(--bg2); border-right: 1px solid var(--line); padding: 0.3rem 0.6rem; display: flex; flex-direction: column; justify-content: center; line-height: 1.2; }
+.lbl b { font-size: 0.9rem; }
+.lbl small { color: var(--muted); font-size: 0.72rem; }
+.track { position: relative; }
+.axis { min-height: 28px; border-bottom: 1px solid var(--line); }
+.axis .track span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 0.72rem; color: var(--muted); }
+.axis .track span:first-child { transform: none; }
+.grp { display: grid; grid-template-columns: var(--label) 1fr; background: rgba(255,255,255,0.03); border-top: 1px solid var(--line); }
+.grp span { position: sticky; left: 0; z-index: 6; padding: 0.2rem 0.6rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; grid-column: 1/-1; width: max-content; }
+.grp.modis span { color: var(--orange); }
+.grp.viirs span { color: var(--blue); }
+.grp.zones span { color: var(--muted); }
+.under, .over { position: absolute; top: 0; bottom: 0; left: var(--label); right: 0; pointer-events: none; }
+.under { z-index: 0; }
+.over { z-index: 5; }
+.gl { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.05); }
+.gl.major { background: rgba(255,255,255,0.12); }
+.tint { position: absolute; top: 0; bottom: 0; background: var(--zc); opacity: 0; transition: opacity 0.3s; }
+.tint.on { opacity: 0.15; }
+.row.dim .track, .row.dim .lbl b { opacity: 0.25; }
+.row .track, .row .lbl b { transition: opacity 0.2s; }
+
+.bar {
+  position: absolute; top: 6px; bottom: 6px; border: 0; border-radius: 0.4rem; padding: 0 0.5rem;
+  text-align: left; font-size: 0.78rem; font-weight: 600; color: #1a0f00; overflow: hidden; white-space: nowrap;
+  z-index: 2; cursor: pointer; transition: filter 0.2s, box-shadow 0.2s;
+}
+.bar.modis { background: linear-gradient(90deg, var(--amber), var(--orange) 60%, var(--red)); }
+.bar.viirs { background: linear-gradient(90deg, #93c5fd, var(--blue)); }
+.bar:hover, .bar.sel { box-shadow: 0 0 0 2px #fff, 0 0 15px rgba(251,191,36,0.4); filter: brightness(1.1); }
+.mk { position: absolute; top: 50%; z-index: 3; pointer-events: none; transform: translate(-50%,-50%); }
+.mk.launch { width: 10px; height: 10px; background: #fff; transform: translate(-50%,-50%) rotate(45deg); }
+.mk.start { width: 11px; height: 11px; border-radius: 50%; background: #fff; border: 2px solid #0b0d12; }
+.mk.end { width: 12px; height: 12px; line-height: 12px; font-weight: 700; color: var(--red); font-size: 14px; text-align: center; }
+
+.lane-bar { position: absolute; top: 8px; bottom: 8px; border-radius: 0.35rem; background: var(--zc); opacity: 0.85; }
+.lane-lbl { color: var(--muted); font-size: 0.72rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; color: var(--muted); margin-top: 0.6rem; align-items: center; }
+.legend i { display: inline-block; vertical-align: middle; margin-right: 0.3rem; }
+</style>
+</head>
+
+<body>
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-50 bg-[#0b0d13]/90 backdrop-blur border-b border-[#262c3d]">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="../assets/logo.png" alt="NinaWillay Logo" class="h-9 w-auto object-contain rounded">
+        <span class="font-bold text-lg text-[#fbbf24] tracking-tight">NinaWillay · NASA Space Apps</span>
+      </div>
+      <nav class="flex gap-6 text-sm">
+        <a href="#timeline" class="nav-link">Satellite Timeline</a>
+        <a href="#pipeline" class="nav-link">Pipeline</a>
+        <a href="#solution" class="nav-link">Validation & Charts</a>
+        <a href="#metrics" class="nav-link">Model Metrics</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-12">
+    <!-- Hero Section -->
+    <section class="space-y-4">
+      <div class="inline-flex gap-2">
+        <span class="badge badge-amber">NASA FIRMS 2002–2026</span>
+        <span class="badge badge-blue">Peru & 25 Regions</span>
+        <span class="badge badge-green">Quasi-Poisson GLM Validated</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
+        Active Fire Harmonization: From MODIS to VIIRS
+      </h1>
+      <p class="text-base md:text-lg text-[#9499ad] max-w-3xl">
+        In 2012, NASA FIRMS shifted its primary instrument from <b>MODIS (1 km)</b> to <b>VIIRS (375 m)</b>.
+        VIIRS detects 3 to 4 times more thermal anomalies than MODIS due to its finer spatial resolution.
+        This pipeline corrects the artificial sensor gap, constructing a <b>continuous, calibrated 25-year historical series</b>.
+      </p>
+    </section>
+
+    <!-- SECTION 1: INTERACTIVE SATELLITE TIMELINE -->
+    <section id="timeline" class="space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#262c3d] pb-3">
+        <div>
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+            <span>🛰️</span> Satellites & Sensors: Historical Timeline (2000–2027)
+          </h2>
+          <p class="text-sm text-[#9499ad]">Click any satellite bar to inspect its orbital equatorial crossing time and role in the calibration.</p>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p class="text-xs font-semibold text-[#9499ad] uppercase tracking-wider mb-2">Filter by role in project</p>
+          <div id="roleFilters" class="flex flex-wrap gap-2"></div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-[#9499ad] uppercase tracking-wider mb-2">Highlight pipeline windows</p>
+          <div id="zoneToggles" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+
+      <!-- Timeline visual chart -->
+      <div class="chart-scroll">
+        <div id="chart" class="chart"></div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <span><i class="mk launch inline-block relative top-0 left-0"></i> Launch</span>
+        <span><i class="mk start inline-block relative top-0 left-0"></i> FIRMS Ingestion Start</span>
+        <span><i class="mk end inline-block relative top-0 left-0">✕</i> End of Mission/Data</span>
+        <span><b class="text-[#fbbf24]">■</b> MODIS (1 km)</span>
+        <span><b class="text-[#60a5fa]">■</b> VIIRS (375 m)</span>
+      </div>
+
+      <!-- Detail Card -->
+      <div id="satDetail" class="card bg-[#12151d] space-y-2" style="display:none;"></div>
+    </section>
+
+    <!-- SECTION 2: 4-STEP PIPELINE -->
+    <section id="pipeline" class="space-y-6">
+      <div class="border-b border-[#262c3d] pb-3">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span>⚙️</span> The 4-Stage Core Pipeline
+        </h2>
+        <p class="text-sm text-[#9499ad]">Modular, fully reproducible, and parameterized via <code>config/settings.yaml</code>.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Step 1 -->
+        <div class="card space-y-3 border-t-2 border-t-[#60a5fa]">
+          <div class="flex justify-between items-start">
+            <span class="text-2xl">🧹</span>
+            <span class="badge badge-blue">Stage 1</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Ingestion & Cleaning</h3>
+          <p class="text-xs text-[#9499ad]">
+            Quality filtering (&gt;30% MODIS, nominal/high VIIRS), spatial bounding box clipping, spatio-temporal deduplication, and FRP imputation.
+          </p>
+          <div class="text-[11px] text-[#9499ad] bg-[#12151d] p-2 rounded border border-[#262c3d]">
+            <code>src/cleaning.py</code> · <code>src/io_firms.py</code>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card space-y-3 border-t-2 border-t-[#fbbf24]">
+          <div class="flex justify-between items-start">
+            <span class="text-2xl">🔍</span>
+            <span class="badge badge-amber">Stage 2</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Sensor Audit</h3>
+          <p class="text-xs text-[#9499ad]">
+            Checks cross-sensor overlap (Aqua vs Terra vs S-NPP vs NOAA-20), orbital drift diagnostics, and Terra exclusion from GLM due to circadian cycle mismatch.
+          </p>
+          <div class="text-[11px] text-[#9499ad] bg-[#12151d] p-2 rounded border border-[#262c3d]">
+            <code>src/audit.py</code> · Cross-sensor ratios
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card space-y-3 border-t-2 border-t-[#fb923c]">
+          <div class="flex justify-between items-start">
+            <span class="text-2xl">📐</span>
+            <span class="badge badge-amber">Stage 3</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">GLM Calibration</h3>
+          <p class="text-xs text-[#9499ad]">
+            Fits a Quasi-Poisson Generalized Linear Model with log link. Trained on 2012–2017 and blind-validated on 2018–2022 hold-out observed VIIRS S-NPP records.
+          </p>
+          <div class="text-[11px] text-[#9499ad] bg-[#12151d] p-2 rounded border border-[#262c3d]">
+            <code>src/calibration.py</code> · <code>src/validation.py</code>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="card space-y-3 border-t-2 border-t-[#4ade80]">
+          <div class="flex justify-between items-start">
+            <span class="text-2xl">🚀</span>
+            <span class="badge badge-green">Stage 4</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Harmonization & Export</h3>
+          <p class="text-xs text-[#9499ad]">
+            Applies calibration factors to 2002–2011 with 95% confidence bands. Generates climatological baselines (p10..p90), anomalies, and exports 106 web JSONs.
+          </p>
+          <div class="text-[11px] text-[#9499ad] bg-[#12151d] p-2 rounded border border-[#262c3d]">
+            <code>src/harmonize.py</code> · <code>src/export_web.py</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SCIENTIFIC EVIDENCE AND SOLUTION CHARTS -->
+    <section id="solution" class="space-y-6">
+      <div class="border-b border-[#262c3d] pb-3">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span>📈</span> Technical Solution & Scientific Figures
+        </h2>
+        <p class="text-sm text-[#9499ad]">Empirical evidence generated by the pipeline demonstrating model fit and historical accuracy.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Chart 1: Harmonized Series -->
+        <div class="card space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">1. Reconstructed Harmonized Series (2002–2026)</h3>
+            <span class="badge badge-green">Final Deliverable</span>
+          </div>
+          <div class="overflow-hidden rounded-lg border border-[#262c3d] bg-[#0b0d12]">
+            <img src="../output/reports/harmonized_series.png" alt="Harmonized Series 2002-2026" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center text-sm text-gray-500\'>output/reports/harmonized_series.png</div>'">
+          </div>
+          <p class="text-xs text-[#9499ad]">
+            Continuous weekly time-series: estimated 2002–2011 period (Aqua scaled with 95% CI) merged seamlessly with 2012–2026 observed VIIRS records.
+          </p>
+        </div>
+
+        <!-- Chart 2: Blind Validation -->
+        <div class="card space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">2. Blind Validation: Predicted MODIS vs. Observed VIIRS</h3>
+            <span class="badge badge-blue">Hold-out 2018–2022</span>
+          </div>
+          <div class="overflow-hidden rounded-lg border border-[#262c3d] bg-[#0b0d12]">
+            <img src="../output/reports/prediction_vs_snpp.png" alt="MODIS vs VIIRS Validation" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center text-sm text-gray-500\'>output/reports/prediction_vs_snpp.png</div>'">
+          </div>
+          <p class="text-xs text-[#9499ad]">
+            Trained strictly on 2012–2017, the model accurately predicts fire counts and peak seasonal timing across the 5 hold-out evaluation years (mean annual error &lt; 9.6%).
+          </p>
+        </div>
+
+        <!-- Chart 3: Calibration Curve -->
+        <div class="card space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">3. GLM Calibration Fit (Aqua vs. S-NPP)</h3>
+            <span class="badge badge-amber">Model B Fit</span>
+          </div>
+          <div class="overflow-hidden rounded-lg border border-[#262c3d] bg-[#0b0d12]">
+            <img src="../output/reports/calibration_validation.png" alt="GLM Calibration Curve" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center text-sm text-gray-500\'>output/reports/calibration_validation.png</div>'">
+          </div>
+          <p class="text-xs text-[#9499ad]">
+            Seasonal factor calibration (wet season vs. dry season). The Quasi-Poisson distribution effectively models overdispersion inherent in satellite fire detections.
+          </p>
+        </div>
+
+        <!-- Chart 4: Raw Counts Gap -->
+        <div class="card space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">4. Raw Sensor Discrepancy (Uncalibrated)</h3>
+            <span class="badge badge-red">Original Problem</span>
+          </div>
+          <div class="overflow-hidden rounded-lg border border-[#262c3d] bg-[#0b0d12]">
+            <img src="../output/reports/audit_annual_counts.png" alt="Raw Counts by Sensor" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center text-sm text-gray-500\'>output/reports/audit_annual_counts.png</div>'">
+          </div>
+          <p class="text-xs text-[#9499ad]">
+            The 2012 transition gap: comparing raw MODIS and VIIRS records without harmonization creates a false threefold surge in historical fire frequency.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: MODEL METRICS -->
+    <section id="metrics" class="space-y-6">
+      <div class="border-b border-[#262c3d] pb-3">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span>🎯</span> Official Calibration & Validation Benchmarks
+        </h2>
+        <p class="text-sm text-[#9499ad]">Empirical benchmarks calculated on NASA FIRMS active fire records.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="card text-center space-y-1">
+          <div class="text-xs text-[#9499ad] uppercase font-semibold">Global Factor</div>
+          <div class="text-3xl font-bold text-[#fbbf24]">2.85×</div>
+          <div class="text-[11px] text-[#9499ad]">Aqua → VIIRS Multiplier</div>
+        </div>
+        <div class="card text-center space-y-1">
+          <div class="text-xs text-[#9499ad] uppercase font-semibold">Relative Annual MAE</div>
+          <div class="text-3xl font-bold text-[#4ade80]">9.6%</div>
+          <div class="text-[11px] text-[#9499ad]">Mean hold-out validation error</div>
+        </div>
+        <div class="card text-center space-y-1">
+          <div class="text-xs text-[#9499ad] uppercase font-semibold">Weekly Correlation</div>
+          <div class="text-3xl font-bold text-[#60a5fa]">0.96</div>
+          <div class="text-[11px] text-[#9499ad]">Pearson r (predicted vs. observed)</div>
+        </div>
+        <div class="card text-center space-y-1">
+          <div class="text-xs text-[#9499ad] uppercase font-semibold">Harmonized Weeks</div>
+          <div class="text-3xl font-bold text-white">1,271</div>
+          <div class="text-[11px] text-[#9499ad]">From 2002 to Nov 2026</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#262c3d] py-6 text-center text-xs text-[#9499ad]">
+    <p>Project developed for the <b>NASA Space Apps Challenge</b> · Satellite Active Fire Harmonization and Monitoring</p>
+  </footer>
+
+  <script>
+    const CONFIG = {
+      yearStart: 2000,
+      yearEnd: 2027,
+      today: '2026-11-14',
+      zones: {
+        modisOnly:   { label: 'MODIS-Only Era', color: '#fbbf24', start: 2002, end: 2011, desc: 'Historical period before VIIRS launch. VIIRS equivalent is estimated via Aqua × GLM factor.' },
+        viirsReal:   { label: 'VIIRS Era (Observed)', color: '#60a5fa', start: 2012, end: 2026, desc: 'High-resolution (375 m) observed active fire detections from S-NPP and NOAA-20.' },
+        calibration: { label: 'Calibration Window (Training)', color: '#fb923c', start: 2012, end: 2017, desc: 'Training window utilized to parameterize the Quasi-Poisson GLM.' },
+        validation:  { label: 'Validation Window (Hold-out)', color: '#4ade80', start: 2018, end: 2022, desc: 'Blind test evaluation window used to assess predictive error and stability.' }
+      }
+    };
+
+    const ROLE_LABELS = {
+      reference: 'Reference',
+      calibration: 'Calibration',
+      validation: 'Validation',
+      continuity: 'Continuity'
+    };
+
+    const SATELLITES = [
+      {
+        id: 'terra', name: 'Terra', family: 'MODIS', sensor: 'MODIS', resolution: '1 km',
+        overpass: '~10:30 local solar time (morning); decoupled from diurnal peak burn period',
+        launch: { date: '1999-12', label: 'Dec 1999' },
+        firmsStart: { date: '2000-11', label: 'Nov 2000' },
+        firmsEnd: null,
+        roles: ['sensitivity'],
+        notes: 'Detects only ~20% of Aqua fire counts due to early morning overpass before peak burning hours. Excluded from GLM to avoid confounding circadian cycle with detection efficiency.'
+      },
+      {
+        id: 'aqua', name: 'Aqua', family: 'MODIS', sensor: 'MODIS', resolution: '1 km',
+        overpass: '~13:30 local solar time (afternoon); closely aligned with peak fire activity and VIIRS',
+        launch: { date: '2002-05', label: 'May 2002' },
+        firmsStart: { date: '2002-07', label: 'Jul 2002' },
+        firmsEnd: null,
+        roles: ['reference', 'calibration'],
+        notes: 'Primary MODIS reference satellite utilized for scaling towards VIIRS with a 2.85× factor.'
+      },
+      {
+        id: 'snpp', name: 'S-NPP', family: 'VIIRS', sensor: 'VIIRS', resolution: '375 m',
+        overpass: '~13:35 local solar time (afternoon); optimal for direct parity with Aqua',
+        launch: { date: '2011-10', label: 'Oct 2011' },
+        firmsStart: { date: '2012-01', label: 'Jan 2012' },
+        firmsEnd: { date: '2026-11-02', label: 'Nov 2, 2026' },
+        roles: ['calibration'],
+        notes: 'Primary ground-truth target for GLM calibration. Provides the 375 m fine-resolution baseline.'
+      },
+      {
+        id: 'noaa20', name: 'NOAA-20', family: 'VIIRS', sensor: 'VIIRS', resolution: '375 m',
+        overpass: '~13:20 local solar time (afternoon); ~50 min offset from S-NPP',
+        launch: { date: '2017-11', label: 'Nov 2017' },
+        firmsStart: { date: '2018-01', label: 'Jan 2018' },
+        firmsEnd: null,
+        roles: ['validation', 'continuity'],
+        notes: 'Ensures post-S-NPP observation continuity. Empirical ratio with S-NPP = 0.99 (identical sensor response).'
+      }
+    ];
+
+    let state = { roleFilter: null, activeZones: new Set(['modisOnly', 'viirsReal']), selSat: 'aqua' };
+
+    function parseDate(s) {
+      if (!s) return CONFIG.yearEnd;
+      const parts = s.split('-').map(Number);
+      return parts[0] + (parts[1] ? (parts[1] - 0.5) / 12 : 0);
+    }
+
+    function pct(year) {
+      return ((year - CONFIG.yearStart) / (CONFIG.yearEnd - CONFIG.yearStart)) * 100;
+    }
+
+    function renderChart() {
+      const chart = document.getElementById('chart');
+      let tintsHtml = Object.entries(CONFIG.zones).map(([id, z]) =>
+        `<div class="tint ${state.activeZones.has(id) ? 'on' : ''}" data-tint="${id}" style="left:${pct(z.start)}%;width:${pct(z.end + 1) - pct(z.start)}%;--zc:${z.color}"></div>`
+      ).join('');
+
+      let gridlinesHtml = '';
+      for (let y = CONFIG.yearStart; y <= CONFIG.yearEnd; y++) {
+        gridlinesHtml += `<div class="gl ${y % 5 === 0 ? 'major' : ''}" style="left:${pct(y)}%"></div>`;
+      }
+
+      let years = [];
+      for (let y = CONFIG.yearStart; y < CONFIG.yearEnd; y += 5) years.push(y);
+      let axisLabels = years.map(y => `<span style="left:${pct(y)}%">${y}</span>`).join('');
+      let axisHtml = `<div class="row axis"><div class="lbl"><small>Year</small></div><div class="track">${axisLabels}</div></div>`;
+
+      let rows = '';
+      ['MODIS', 'VIIRS'].forEach(fam => {
+        const sats = SATELLITES.filter(s => s.family === fam);
+        rows += `<div class="grp ${fam.toLowerCase()}"><span>${fam} · ${sats[0].resolution}</span></div>`;
+        sats.forEach(s => {
+          const left = pct(parseDate(s.firmsStart.date));
+          const width = pct(parseDate(s.firmsEnd ? s.firmsEnd.date : CONFIG.today)) - left;
+          const isDim = state.roleFilter && !s.roles.includes(state.roleFilter);
+          rows += `
+            <div class="row ${isDim ? 'dim' : ''}" data-sat="${s.id}">
+              <div class="lbl"><b>${s.name}</b><small>${s.resolution}</small></div>
+              <div class="track">
+                <button type="button" class="bar ${fam.toLowerCase()} ${state.selSat === s.id ? 'sel' : ''}" onclick="selectSat('${s.id}')" style="left:${left}%;width:${width}%;">${s.name}</button>
+                <i class="mk launch" style="left:${pct(parseDate(s.launch.date))}%" title="Launch: ${s.launch.label}"></i>
+                <i class="mk start" style="left:${left}%" title="FIRMS Start: ${s.firmsStart.label}"></i>
+                ${s.firmsEnd ? `<i class="mk end" style="left:${pct(parseDate(s.firmsEnd.date))}%" title="End: ${s.firmsEnd.label}">✕</i>` : ''}
+              </div>
+            </div>`;
+        });
+      });
+
+      // Bottom zone lanes
+      let zonesRow = `<div class="grp zones"><span>Methodological Windows</span></div>` +
+        Object.entries(CONFIG.zones).map(([id, z]) => {
+          const left = pct(z.start);
+          const width = pct(z.end + 1) - left;
+          return `
+            <div class="row" style="min-height:34px">
+              <div class="lbl"><small class="lane-lbl">${z.label}</small></div>
+              <div class="track"><div class="lane-bar" style="left:${left}%;width:${width}%;--zc:${z.color}"></div></div>
+            </div>`;
+        }).join('');
+
+      chart.innerHTML = `<div class="under">${gridlinesHtml}${tintsHtml}</div>${axisHtml}${rows}${zonesRow}`;
+      renderSatDetail();
+    }
+
+    function selectSat(id) {
+      state.selSat = id;
+      renderChart();
+    }
+
+    function renderSatDetail() {
+      const box = document.getElementById('satDetail');
+      const sat = SATELLITES.find(s => s.id === state.selSat);
+      if (!sat) { box.style.display = 'none'; return; }
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#262c3d] pb-2">
+          <div class="flex items-center gap-2">
+            <h4 class="text-base font-bold text-white">${sat.name} (${sat.family})</h4>
+            <span class="badge ${sat.family === 'MODIS' ? 'badge-amber' : 'badge-blue'}">${sat.resolution}</span>
+            <span class="text-xs text-[#9499ad]">${sat.roles.map(r => ROLE_LABELS[r] || r).join(', ')}</span>
+          </div>
+          <span class="text-xs text-[#9499ad]">Launch: <b>${sat.launch.label}</b> · FIRMS: <b>${sat.firmsStart.label}</b> ${sat.firmsEnd ? `→ <b>${sat.firmsEnd.label}</b>` : '→ Active'}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
+          <div><b class="text-[#fbbf24]">Equatorial Overpass:</b> <span class="text-[#ece9e4]">${sat.overpass}</span></div>
+          <div><b class="text-[#60a5fa]">Role in NinaWillay:</b> <span class="text-[#ece9e4]">${sat.notes}</span></div>
+        </div>
+      `;
+    }
+
+    function renderControls() {
+      // Roles
+      const roleBox = document.getElementById('roleFilters');
+      let roleItems = [[null, 'All'], ...Object.entries(ROLE_LABELS)];
+      roleBox.innerHTML = roleItems.map(([id, label]) =>
+        `<button type="button" class="chip" data-role="${id || ''}" aria-pressed="${state.roleFilter === id}">${label}</button>`
+      ).join('');
+      roleBox.onclick = e => {
+        const btn = e.target.closest('.chip'); if (!btn) return;
+        state.roleFilter = btn.dataset.role || null;
+        renderControls();
+        renderChart();
+      };
+
+      // Zones
+      const zoneBox = document.getElementById('zoneToggles');
+      zoneBox.innerHTML = Object.entries(CONFIG.zones).map(([id, z]) =>
+        `<button type="button" class="chip zone" data-zone="${id}" style="--zc:${z.color}" aria-pressed="${state.activeZones.has(id)}">${z.label}</button>`
+      ).join('');
+      zoneBox.onclick = e => {
+        const btn = e.target.closest('.chip'); if (!btn) return;
+        const zid = btn.dataset.zone;
+        state.activeZones.has(zid) ? state.activeZones.delete(zid) : state.activeZones.add(zid);
+        renderControls();
+        renderChart();
+      };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderControls();
+      renderChart();
+    });
+  </script>
+</body>
+</html>
