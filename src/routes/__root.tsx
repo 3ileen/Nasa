@@ -84,6 +84,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Calendario de actividad de incendios del Perú: focos de calor MODIS y VIIRS en una sola serie.",
       },
       { name: "author", content: "Junior FC · Moquegua" },
+      // Declaración de uso de IA (guía NASA Space Apps 2026). Detalle en DECLARACION_IA.md.
+      {
+        name: "ai-disclosure",
+        content:
+          "Código, textos y traducciones generados con asistencia de IA y revisados por el equipo. Datos satelitales de NASA FIRMS (no generados por IA).",
+      },
+      {
+        name: "ai-tools",
+        content: "Claude (Anthropic) mediante Claude Code; Lovable (estructura inicial)",
+      },
       { property: "og:title", content: "NinaWillay · Focos de calor del Perú" },
       {
         property: "og:description",
