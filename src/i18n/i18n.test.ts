@@ -6,7 +6,7 @@ import { qu } from "./qu";
 
 const DICCIONARIOS = { es, en, qu };
 
-/** Recorre el diccionario y devuelve las rutas de los valores vacíos. */
+/** Walks the dictionary and returns the paths of empty values. */
 function vacios(obj: Record<string, unknown>, prefijo = ""): string[] {
   return Object.entries(obj).flatMap(([k, v]) => {
     const ruta = `${prefijo}${k}`;
@@ -19,13 +19,13 @@ function vacios(obj: Record<string, unknown>, prefijo = ""): string[] {
 
 afterEach(() => fijarIdioma("es"));
 
-describe("traducciones", () => {
-  it("los cuatro idiomas tienen exactamente las mismas claves que el español", () => {
+describe("translations", () => {
+  it("all languages have exactly the same keys as Spanish", () => {
     const claves = Object.keys(es).sort();
     for (const d of Object.values(DICCIONARIOS)) expect(Object.keys(d).sort()).toEqual(claves);
   });
 
-  it("ningún texto está vacío y las listas tienen el largo correcto", () => {
+  it("no text is empty and lists have the correct length", () => {
     for (const [codigo, d] of Object.entries(DICCIONARIOS)) {
       expect(vacios(d as unknown as Record<string, unknown>), codigo).toEqual([]);
       expect(d.meses, codigo).toHaveLength(12);
@@ -36,11 +36,11 @@ describe("traducciones", () => {
     }
   });
 
-  it("el selector ofrece los tres idiomas", () => {
+  it("the selector offers the three languages", () => {
     expect(IDIOMAS.map((i) => i.codigo)).toEqual(["es", "qu", "en"]);
   });
 
-  it("fijarIdioma cambia los textos, las fechas y el formato de números", () => {
+  it("fijarIdioma changes texts, dates and number formatting", () => {
     expect(t.titulo).toBe("Focos de calor del Perú");
     expect(fechaLarga("2026-10-06")).toBe("6 de octubre de 2026");
     expect(formatoNumero(2109)).toBe("2.109");

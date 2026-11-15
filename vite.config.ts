@@ -6,8 +6,8 @@ import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 
-// TanStack Start + React. Nitro empaqueta el servidor para Vercel (.vercel/output),
-// que Vercel publica tal cual al compilar con `npm run build`.
+// TanStack Start + React. Nitro bundles the server for Vercel (.vercel/output),
+// which Vercel publishes as-is when building with `npm run build`.
 export default defineConfig(({ command }) => ({
   server: { host: "::", port: 8080 },
   css: { transformer: "lightningcss" },
@@ -35,15 +35,15 @@ export default defineConfig(({ command }) => ({
     tailwindcss(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackStart({
-      // Entrada del servidor: src/server.ts (página de error si falla el renderizado).
+      // Server entry: src/server.ts (shows an error page if rendering fails).
       server: { entry: "server" },
-      // Nada de la carpeta server/ ni "server-only" puede llegar al navegador.
+      // Nothing from server/ folders or "server-only" may reach the browser.
       importProtection: {
         behavior: "error",
         client: { files: ["**/server/**"], specifiers: ["server-only"] },
       },
     }),
-    // Nitro solo hace falta al compilar; en desarrollo sirve Vite.
+    // Nitro is only needed for builds; Vite serves the app in development.
     ...(command === "build" ? [nitro({ preset: "vercel" })] : []),
     viteReact(),
   ],

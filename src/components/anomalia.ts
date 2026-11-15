@@ -1,10 +1,10 @@
-// Colores de las categorías de anomalía: escala de intensidad de claro a oscuro.
+// Anomaly category colors: intensity scale from light to dark.
 import { t } from "@/i18n";
 import { COLORES_CATEGORIA, type CategoriaId, type Mes, type Meta } from "@/lib/historico";
 
-/** Color de fondo de una categoría (escala de intensidad de la app; meta se mantiene por compatibilidad). */
+/** Background color of a category (app intensity scale; meta is kept for compatibility). */
 export function colorCategoria(_meta: Meta | undefined, cat: CategoriaId | null | undefined) {
-  // El proveedor fija data-tema antes de renderizar, así que aquí ya está el tema actual.
+  // The provider sets data-tema before rendering, so the current theme is already set here.
   const tema =
     typeof document !== "undefined" && document.documentElement.dataset["tema"] === "claro"
       ? "claro"
@@ -20,7 +20,7 @@ const luminancia = (hex: string) => {
   return 0.2126 * (c[0] ?? 0) + 0.7152 * (c[1] ?? 0) + 0.0722 * (c[2] ?? 0);
 };
 
-/** Negro o blanco, el que tenga más contraste sobre el color dado. */
+/** Black or white, whichever has more contrast against the given color. */
 export function textoSobre(hex: string) {
   const l = luminancia(hex);
   return (l + 0.05) / 0.05 >= 1.05 / (l + 0.05) ? "#000000" : "#FFFFFF";
@@ -33,8 +33,8 @@ export const nombreFuente = (f: string) => t.fuentes[f] ?? f;
 export const nombreCalidad = (c: string) => t.calidades[c] ?? c;
 
 /**
- * Categoría que se muestra para un mes: sin dato si no hay conteo, y un dato preliminar (NRT)
- * nunca se presenta como récord (la guía lo pide): se muestra como "mucho más que lo usual".
+ * Category shown for a month: no data if there is no count, and preliminary (NRT) data is
+ * never presented as a record (the guide requires this): it is shown as "much more than usual".
  */
 export function categoriaMostrada(m: Pick<Mes, "count" | "cat" | "preliminar">): CategoriaId {
   if (m.count === null) return "sin_dato";

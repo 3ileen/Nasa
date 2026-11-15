@@ -4,8 +4,8 @@ import { mesesDelAnio } from "@/lib/historico";
 import { categoriaMostrada, colorCategoria, nombreCategoria } from "./anomalia";
 
 /**
- * Todos los años × meses. Tocar una casilla elige ese mes; tocar el año elige el año completo.
- * Las categorías resaltadas en la leyenda solo atenúan el resto aquí (no filtran el mapa).
+ * All years × months. Tapping a cell selects that month; tapping the year selects the whole year.
+ * Categories highlighted in the legend only dim the rest here (they do not filter the map).
  */
 export function MatrizHistorica() {
   const e = useEstado();
@@ -26,7 +26,7 @@ export function MatrizHistorica() {
       </div>
       {[...e.anios].reverse().map((a) => {
         const actual = a === e.anio;
-        // Mientras se resalta sin un mes elegido no hay un año activo: no se marca la fila.
+        // While highlighting without a selected month there is no active year: the row is not marked.
         const eligiendo = e.activas.length > 0 && e.gran === "anio";
         return (
           <div

@@ -2,49 +2,49 @@ import { createContext, useContext } from "react";
 import type { CodigoIdioma } from "@/i18n";
 import type { AnioRanking, CategoriaId, CeldasAnio, Historico, Mes, Region } from "@/lib/historico";
 
-// Contexto separado del proveedor para que la recarga en caliente (HMR) no cree un contexto nuevo.
+// Context kept separate from the provider so hot reloading (HMR) doesn't create a new context.
 
 export type Tema = "oscuro" | "claro";
 export type Granularidad = "anio" | "mes";
 export type Paneles = { anios: boolean; resumen: boolean; fechas: boolean };
 
 export type Estado = {
-  // Datos
+  // Data
   cargando: boolean;
   error: string | null;
   datos: Historico | null;
   anios: number[];
-  /** Años completos con puesto en el ranking. */
+  /** Complete years with a rank in the ranking. */
   aniosCompletos: number;
-  // Selección
-  /** "peru" o el id de un departamento. Cambia matriz, ranking, resumen y mapa. */
+  // Selection
+  /** "peru" or a department id. Changes the matrix, ranking, summary and map. */
   region: string;
   regiones: Region[];
   nombreRegion: string;
   anio: number;
   gran: Granularidad;
-  /** Mes elegido, 1–12. */
+  /** Selected month, 1–12. */
   mes: number;
-  /** Categorías resaltadas en la matriz (no filtran el mapa). Vacío = ninguna. */
+  /** Categories highlighted in the matrix (they don't filter the map). Empty = none. */
   activas: CategoriaId[];
   paneles: Paneles;
   escala: 0 | 1 | 2;
   idioma: CodigoIdioma;
   tema: Tema;
-  // Derivados
+  // Derived
   mesesAnio: (Mes | null)[];
   mesSel: Mes | null;
   rankingAnio: AnioRanking | null;
   etiquetaPeriodo: string;
   celdasAnio: CeldasAnio | null;
-  // Acciones
+  // Actions
   elegirRegion: (id: string) => void;
   elegirAnio: (a: number) => void;
   elegirGran: (g: Granularidad) => void;
   elegirMes: (m: number) => void;
-  /** Elige año y mes a la vez (desde la matriz). */
+  /** Selects year and month at once (from the matrix). */
   elegirPeriodo: (a: number, m: number) => void;
-  /** Vuelve a ver el año completo. */
+  /** Goes back to viewing the full year. */
   verAnioCompleto: () => void;
   limpiarCategorias: () => void;
   alternarCategoria: (c: CategoriaId) => void;

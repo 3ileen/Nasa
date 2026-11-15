@@ -71,33 +71,32 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
-    // Replace these placeholders with the app's name and description when first building the app.
     // Each content route, / included, must still set its own head(). Never add og:image or
     // twitter:image here: every page without its own would inherit the root's preview image.
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NinaWillay · Focos de calor del Perú" },
+      { title: "NinaWillay · Fire hotspots in Peru" },
       {
         name: "description",
         content:
-          "Calendario de actividad de incendios del Perú: focos de calor MODIS y VIIRS en una sola serie.",
+          "Fire activity calendar for Peru: MODIS and VIIRS hotspots harmonized into a single series.",
       },
       { name: "author", content: "Junior FC · Moquegua" },
-      // Declaración de uso de IA (guía NASA Space Apps 2026). Detalle en DECLARACION_IA.md.
+      // AI use disclosure (NASA Space Apps 2026 guide). Details in AI_DISCLOSURE.md.
       {
         name: "ai-disclosure",
         content:
-          "Código, textos y traducciones generados con asistencia de IA y revisados por el equipo. Datos satelitales de NASA FIRMS (no generados por IA).",
+          "Code, texts and translations generated with AI assistance and reviewed by the team. Satellite data from NASA FIRMS (not AI-generated).",
       },
       {
         name: "ai-tools",
-        content: "Claude (Anthropic) mediante Claude Code; Lovable (estructura inicial)",
+        content: "Claude (Anthropic) through Claude Code; Lovable (initial scaffold)",
       },
-      { property: "og:title", content: "NinaWillay · Focos de calor del Perú" },
+      { property: "og:title", content: "NinaWillay · Fire hotspots in Peru" },
       {
         property: "og:description",
-        content: "Explora la actividad de incendios del Perú en un mapa y un calendario.",
+        content: "Explore fire activity in Peru on a map and a calendar.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

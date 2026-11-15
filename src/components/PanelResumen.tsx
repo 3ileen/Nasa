@@ -37,7 +37,7 @@ function Indicador({
   );
 }
 
-/** % frente a lo normal: rojo si hay más fuego, verde si hay menos. */
+/** % versus normal: red if there is more fire, green if there is less. */
 function Diferencia({ pct }: { pct: number | null }) {
   if (pct === null) return <span className="indicador-vacio">{t.sinDato}</span>;
   return (
@@ -67,9 +67,9 @@ function Grafico({
   titulo: string;
   barras: Barra[];
   ejes?: string[];
-  /** Nombre del eje horizontal (p. ej. "Mes"). */
+  /** Name of the horizontal axis (e.g. "Mes"). */
   eje?: string;
-  /** Qué significan el color y la línea. */
+  /** What the color and the line mean. */
   nota?: string | undefined;
 }) {
   const e = useEstado();
@@ -145,8 +145,8 @@ const barraMes = (m: Mes, resaltada: boolean): Barra => ({
   resaltada,
 });
 /**
- * El mes elegido en cada año (2002–2026), con la franja de lo usual (p25–p75).
- * Deja claro que la comparación es contra el mismo mes de otros años.
+ * The selected month in each year (2002–2026), with the usual band (p25–p75).
+ * Makes clear that the comparison is against the same month in other years.
  */
 function MismoMesCadaAnio({ mes, titulo }: { mes: number; titulo: string }) {
   const e = useEstado();
@@ -226,7 +226,7 @@ function MismoMesCadaAnio({ mes, titulo }: { mes: number; titulo: string }) {
   );
 }
 
-/** Avisos de la guía (sección 10) para un mes, en una línea cada uno. */
+/** Guide warnings (section 10) for a month, one line each. */
 function Avisos({ periodo }: { periodo: Mes | null }) {
   const avisos: string[] = [];
   if (periodo?.count === null || periodo?.cat === "sin_dato") avisos.push(t.avisoSinDato);

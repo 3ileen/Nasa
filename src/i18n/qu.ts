@@ -1,9 +1,9 @@
-// Runasimi: quechua sureño Collao (Qullaw), la variedad de Moquegua, Puno, Cusco y Arequipa.
-// Vocabulario revisado con SimiAru (https://github.com/Andre031222/SimiAru, datos CC BY-SA 4.0):
-// formas marcadas Qullaw o comunes, nunca solo Chanka.
-// BORRADOR: debe revisarlo una persona quechuahablante antes de publicarlo.
-// Meses del calendario andino (qhulla puquy y qhapaq raymi están en SimiAru como enero y
-// diciembre); se escriben sin "killa", que las frases añaden donde hace falta.
+// Runasimi: Southern Quechua, Collao (Qullaw) variety, spoken in Moquegua, Puno, Cusco and Arequipa.
+// Vocabulary checked against SimiAru (https://github.com/Andre031222/SimiAru, data CC BY-SA 4.0):
+// forms marked Qullaw or common, never Chanka-only.
+// DRAFT: must be reviewed by a Quechua speaker before publishing.
+// Months of the Andean calendar (qhulla puquy and qhapaq raymi are listed in SimiAru as January and
+// December); written without "killa", which the phrases add where needed.
 import type { FechaPartes, Textos } from "./es";
 
 const killakuna = [
@@ -85,7 +85,7 @@ export const qu: Textos = {
     "sin dato": "Mana willay kanchu",
   },
 
-  // Periodo y matriz
+  // Period and matrix
   periodo: "Pacha",
   mesEtiqueta: "Killa",
   todoElAnio: "Llapan wata",
@@ -168,7 +168,7 @@ export const qu: Textos = {
   tooltipCelda: (focos, frp) => `${focos} ninakuna${frp ? `<br>FRP ${frp} MW` : ""}`,
 
   meses: killakuna,
-  // Tres letras, distintas entre sí (el nombre completo va en la ayuda de cada casilla).
+  // Three letters, all distinct (the full name goes in each cell's tooltip).
   mesesCortos: ["qhu", "hat", "paw", "ayr", "aym", "int", "ant", "sit", "quy", "uma", "aya", "ray"],
   fechaCorta: (f: FechaPartes) => `${killakuna[f.mes]} killapa ${f.dia} p'unchaynin`,
   fechaLarga: (f: FechaPartes) =>

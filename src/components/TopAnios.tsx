@@ -4,9 +4,9 @@ import { categoriaAnio } from "@/lib/historico";
 import { colorCategoria, nombreCategoria } from "./anomalia";
 
 /**
- * Años ordenados por cantidad de focos (más fuego arriba). Los incompletos van al final sin
- * puesto. El color de la barra compara el año con un año usual, con la escala de la matriz.
- * Tocar una fila elige ese año completo.
+ * Years sorted by hotspot count (most fire on top). Incomplete years go last without a
+ * rank. The bar color compares the year with a usual year, using the matrix scale.
+ * Tapping a row selects that whole year.
  */
 export function TopAnios() {
   const e = useEstado();

@@ -8,23 +8,23 @@ import { PanelPeriodo } from "@/components/PanelPeriodo";
 import { PanelResumen } from "@/components/PanelResumen";
 import { PanelMatriz } from "@/components/PanelMatriz";
 
-// Leaflet, Geoman y MapLibre solo en el navegador (no en SSR).
+// Leaflet and MapLibre run only in the browser (not during SSR).
 const Mapa = lazy(() => import("@/components/Mapa"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NinaWillay · Focos de calor del Perú" },
+      { title: "NinaWillay · Fire hotspots in Peru" },
       {
         name: "description",
         content:
-          "Calendario histórico de focos de calor del Perú, 2002–2026: MODIS y VIIRS en una sola serie, comparado con lo normal.",
+          "Historical calendar of fire hotspots in Peru, 2002–2026: MODIS and VIIRS in a single series, compared with the usual.",
       },
-      { property: "og:title", content: "NinaWillay · Focos de calor del Perú" },
+      { property: "og:title", content: "NinaWillay · Fire hotspots in Peru" },
       {
         property: "og:description",
         content:
-          "MODIS + VIIRS en una sola serie: calendario, ranking y mapa de focos de calor del Perú.",
+          "MODIS + VIIRS in a single series: calendar, ranking and map of fire hotspots in Peru.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

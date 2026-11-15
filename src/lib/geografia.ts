@@ -1,5 +1,5 @@
-// Geografía de referencia del mapa: nombres de departamentos, frontera del Perú,
-// posición de las etiquetas y a qué departamento pertenece cada cuadro.
+// Reference geography for the map: department names, Peru's border,
+// label positions and which department each cell belongs to.
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import { point } from "@turf/helpers";
 import type { Feature, FeatureCollection, MultiPolygon, Polygon, Position } from "geojson";
@@ -7,7 +7,7 @@ import type { Feature, FeatureCollection, MultiPolygon, Polygon, Position } from
 export type Limites = FeatureCollection<Polygon | MultiPolygon, { NOMBDEP: string }>;
 type Depto = Feature<Polygon | MultiPolygon, { NOMBDEP: string }>;
 
-/** NOMBDEP (mayúsculas, sin tildes) → nombre para mostrar. */
+/** NOMBDEP (uppercase, no accents) → display name. */
 const NOMBRES: Record<string, string> = {
   AMAZONAS: "Amazonas",
   ANCASH: "Áncash",
@@ -41,9 +41,9 @@ const anillos = (d: Depto): Position[][] =>
   d.geometry.type === "Polygon" ? d.geometry.coordinates : d.geometry.coordinates.flat();
 
 /**
- * Frontera exterior del Perú: los tramos que pertenecen a un solo departamento
- * (los tramos internos los comparten dos departamentos vecinos).
- * Devuelve segmentos [lat, lon] listos para Leaflet.
+ * Peru's outer border: the segments that belong to a single department
+ * (internal segments are shared by two neighboring departments).
+ * Returns [lat, lon] segments ready for Leaflet.
  */
 export function fronteraExterior(limites: Limites): [number, number][][] {
   const clave = (a: Position, b: Position) => {
@@ -70,7 +70,7 @@ export function fronteraExterior(limites: Limites): [number, number][][] {
     ]);
 }
 
-/** Un punto dentro del departamento para su etiqueta (cerca del centro del anillo más grande). */
+/** A point inside the department for its label (near the center of the largest ring). */
 export function puntoEtiqueta(d: Depto): [number, number] {
   const anillo = anillos(d).reduce((a, b) => (b.length > a.length ? b : a), [] as Position[]);
   const xs = anillo.map((p) => p[0] ?? 0);
@@ -80,7 +80,7 @@ export function puntoEtiqueta(d: Depto): [number, number] {
     ys.reduce((s, y) => s + y, 0) / ys.length,
   ];
   if (booleanPointInPolygon(point(prom), d)) return [prom[1], prom[0]];
-  // Si el promedio cae fuera (formas cóncavas), buscar el punto interior más cercano en una grilla.
+  // If the average falls outside (concave shapes), find the closest interior point on a grid.
   const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
   let mejor: [number, number] | null = null;
   let dist = Infinity;
@@ -98,7 +98,7 @@ export function puntoEtiqueta(d: Depto): [number, number] {
   return mejor ?? [prom[1], prom[0]];
 }
 
-/** Departamento que contiene el centro de cada cuadro (id → NOMBDEP). */
+/** Department containing the center of each cell (id → NOMBDEP). */
 export function departamentoDeCeldas(
   limites: Limites,
   celdas: { id: string; lat: number; lon: number }[],

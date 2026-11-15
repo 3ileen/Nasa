@@ -1,15 +1,15 @@
-// Datos históricos armonizados MODIS + VIIRS (2002–2026), según output/frontend_datos.md (esquema 1.2).
-// Regla clave: null = sin dato (hueco), 0 = cero real.
+// Harmonized MODIS + VIIRS historical data (2002–2026), per output/frontend_datos.md (schema 1.2).
+// Key rule: null = no data (gap), 0 = real zero.
 
 export const BASE_DATOS = "/data/historico/";
-export const AMBITO = "peru"; // Cusco queda para una mejora futura.
+export const AMBITO = "peru"; // Cusco is left for a future improvement.
 
 /**
- * Colores "frente a lo usual", distintos para cada tema:
- * - Oscuro: crema → naranja → rojo, y récord en rosa intenso para que no se pierda en el negro
- *   (daltonismo ΔE ≥ 10,7 entre todos los pares).
- * - Claro: escala más saturada que termina en granate muy oscuro, que resalta sobre el blanco
- *   (los tonos suaves llevan borde).
+ * "Compared to the usual" colors, different for each theme:
+ * - Dark: cream → orange → red, with the record in hot pink so it doesn't get lost on black
+ *   (color blindness ΔE ≥ 10.7 between all pairs).
+ * - Light: a more saturated scale ending in a very dark maroon that stands out on white
+ *   (the soft tones get a border).
  */
 export const COLORES_CATEGORIA: Record<"oscuro" | "claro", Record<string, string>> = {
   oscuro: {
@@ -54,11 +54,11 @@ export type Meta = {
     Record<"alta" | "media" | "baja", { factor: number; ic_inf: number; ic_sup: number }>
   >;
   celdas_anios: number[];
-  /** Datos casi en tiempo real (NRT) que pueden cambiar. `nrt_inicio` vacío = no hay. */
+  /** Near-real-time (NRT) data that may change. Empty `nrt_inicio` = none. */
   preliminar?: { etiqueta: string; descripcion: string; nrt_inicio: Record<string, string> };
 };
 
-/** Campos de un mes frente a lo normal. */
+/** Fields of a month compared to normal. */
 type Anomalia = {
   tramo: Tramo;
   fuente: string;
@@ -87,7 +87,7 @@ export type Mes = Anomalia & {
   mes: number; // 1–12
   temporada: "alta" | "media" | "baja";
   dias_sin_dato: number;
-  /** Mes con al menos un día del producto NRT: puede cambiar; no se presenta como récord. */
+  /** Month with at least one day from the NRT product: may change; not shown as a record. */
   preliminar: boolean;
   dias_preliminar: number;
 };
@@ -107,18 +107,18 @@ export type AnioRanking = {
   pct_ago_sep: number;
 };
 
-/** Celda del mapa: 0,25° (~28 km) hasta 2011 y 0,1° (~11 km) desde 2012. */
+/** Map cell: 0.25° (~28 km) up to 2011 and 0.1° (~11 km) from 2012. */
 export type Celda = {
   id: string;
   lat: number;
   lon: number;
   tamano: number;
-  /** Departamentos a los que el pipeline asigna la celda (recorte aproximado; no se usa en el mapa). */
+  /** Departments the pipeline assigns the cell to (approximate clipping; not used on the map). */
   ambitos?: string[];
 };
 export type CeldasAnio = {
   anio: number;
-  /** Tamaño de las celdas de ese año (0,25 o 0,1). */
+  /** Cell size for that year (0.25 or 0.1). */
   tamano_celda: number;
   tramo: Tramo;
   meses_con_dato: boolean[];
@@ -156,7 +156,7 @@ export async function cargarHistorico(): Promise<Historico> {
 }
 
 const cacheCeldas = new Map<number, Promise<CeldasAnio>>();
-/** Valores del mapa de un año (carga perezosa, una vez por año). */
+/** Map values for a year (lazy-loaded, once per year). */
 export function cargarCeldas(anio: number): Promise<CeldasAnio> {
   let p = cacheCeldas.get(anio);
   if (!p) {
@@ -167,21 +167,21 @@ export function cargarCeldas(anio: number): Promise<CeldasAnio> {
   return p;
 }
 
-// ---------- Regiones (departamentos) ----------
+// ---------- Regions (departments) ----------
 
-/** "peru" es el país; el resto son departamentos con sus propios calendario y ranking. */
+/** "peru" is the country; the rest are departments with their own calendar and ranking. */
 export const PERU = "peru";
 export type Region = { id: string; nombre: string };
 export type DatosRegion = { meses: Mes[]; ranking: AnioRanking[] };
 
-/** Id del pipeline ("la_libertad") → NOMBDEP del mapa ("LA LIBERTAD"). */
+/** Pipeline id ("la_libertad") → map NOMBDEP ("LA LIBERTAD"). */
 export const claveDepto = (id: string) => id.toUpperCase().replace(/_/g, " ");
 
 export const cargarRegiones = () =>
   leer<{ hasta: number; regiones: Region[] }>("regiones/regiones.json");
 
 const cacheRegiones = new Map<string, Promise<DatosRegion>>();
-/** Calendario y ranking de un departamento (carga perezosa, una vez por región). */
+/** Calendar and ranking for a department (lazy-loaded, once per region). */
 export function cargarRegion(id: string): Promise<DatosRegion> {
   let p = cacheRegiones.get(id);
   if (!p) {
@@ -195,9 +195,9 @@ export function cargarRegion(id: string): Promise<DatosRegion> {
   return p;
 }
 
-// ---------- Ayudas de agrupación ----------
+// ---------- Grouping helpers ----------
 
-/** Los 12 meses de un año (null donde no hay fila, p. ej. ene–jun de 2002). */
+/** The 12 months of a year (null where there is no row, e.g. Jan–Jun 2002). */
 export function mesesDelAnio(meses: Mes[], anio: number): (Mes | null)[] {
   const out: (Mes | null)[] = Array.from({ length: 12 }, () => null);
   for (const m of meses) if (m.anio === anio) out[m.mes - 1] = m;
@@ -207,7 +207,7 @@ export function mesesDelAnio(meses: Mes[], anio: number): (Mes | null)[] {
 export const aniosDisponibles = (meses: Mes[]) =>
   [...new Set(meses.map((m) => m.anio))].sort((a, b) => a - b);
 
-/** Una categoría es "por encima" si está en los tres tramos altos. */
+/** A category is "above" if it is in the top three bands. */
 export const SOBRE_NORMAL: CategoriaId[] = ["por_encima", "muy_por_encima", "maximo"];
 export const BAJO_NORMAL: CategoriaId[] = ["por_debajo", "muy_por_debajo"];
 
@@ -222,9 +222,9 @@ export function resumenMeses(meses: (Mes | null)[]) {
 }
 
 /**
- * Categoría de un año completo frente a los demás años, con los mismos cortes de percentil que
- * usa el pipeline para los meses (p10, p25, p75, p90) y récord para el puesto 1.
- * Los años incompletos no se comparan.
+ * Category of a complete year compared to the other years, using the same percentile cutoffs
+ * the pipeline uses for months (p10, p25, p75, p90) and record for rank 1.
+ * Incomplete years are not compared.
  */
 export function categoriaAnio(
   r: Pick<AnioRanking, "completo" | "puesto" | "percentil">,
@@ -238,22 +238,22 @@ export function categoriaAnio(
   return "muy_por_debajo";
 }
 
-// ---------- Mapa: escala secuencial fija (no el semáforo; ver la guía, sección 8) ----------
+// ---------- Map: fixed sequential scale (not the traffic light; see the guide, section 8) ----------
 
-/** Área aproximada de una celda en km² (se achica hacia los polos). */
+/** Approximate area of a cell in km² (shrinks toward the poles). */
 export const areaCeldaKm2 = (c: Pick<Celda, "tamano" | "lat">) =>
   (c.tamano * 111.32) ** 2 * Math.cos((c.lat * Math.PI) / 180);
 
 /**
- * Densidad: focos por 100 km². Es lo que se pinta, porque las celdas cambian de tamaño en 2012
- * (una de 0,25° tiene 6,25 veces el área de una de 0,1°) y así todos los años se comparan igual.
+ * Density: hotspots per 100 km². This is what gets painted, because cells change size in 2012
+ * (a 0.25° cell has 6.25 times the area of a 0.1° one), so all years compare the same way.
  */
 export const densidad = (focos: number, c: Pick<Celda, "tamano" | "lat">) =>
   (100 * focos) / areaCeldaKm2(c);
 
 /**
- * Cortes fijos de densidad (focos por 100 km²), elegidos con la distribución real 2002–2025
- * (aprox. percentiles 25, 45, 75 y 95), iguales para celdas grandes y chicas.
+ * Fixed density cutoffs (hotspots per 100 km²), chosen from the real 2002–2025 distribution
+ * (approx. percentiles 25, 45, 75 and 95), the same for large and small cells.
  */
 export const CORTES_MAPA = { anio: [2, 5, 15, 50], mes: [1, 2.5, 5, 15] } as const;
 
@@ -264,7 +264,7 @@ export function claseMapa(valor: number, cortes: readonly number[]): number {
   return i; // 0..cortes.length
 }
 
-// ---------- Descarga ----------
+// ---------- Download ----------
 
 export function filasCsv(meses: (Mes | null)[]) {
   return meses

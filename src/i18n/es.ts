@@ -1,7 +1,7 @@
-// Textos en español (idioma base). en.ts y qu.ts tienen exactamente la misma forma:
-// el tipo Textos obliga a traducir todas las claves.
+// Spanish texts (base language). en.ts and qu.ts have exactly the same shape:
+// the Textos type forces every key to be translated.
 
-/** Fecha descompuesta: mes de 0 a 11. */
+/** Date split into parts: month from 0 to 11. */
 export type FechaPartes = { dia: number; mes: number; anio: number };
 
 const meses = [
@@ -36,11 +36,11 @@ export const es = {
   ocultar: (panel: string) => `Ocultar ${panel}`,
   peru: "Perú",
 
-  // Panel de años
+  // Years panel
   tramo: { estimado: "estimado", viirs_real: "VIIRS real" },
   descargar: "Descargar estos datos (CSV)",
 
-  // Resumen
+  // Summary
   resumen: "Resumen",
   focosEq: "focos equivalentes",
   entre: (a: string, b: string) => `entre ${a} y ${b}`,
@@ -61,7 +61,7 @@ export const es = {
   cargando: "Cargando datos…",
   errorDatos: "No se pudieron cargar los datos.",
 
-  // Fechas
+  // Dates
   region: "Región",
   avisoRegion: "Datos por región: recorte aproximado y sin margen de error en los años estimados.",
   anio: "Año",
@@ -86,7 +86,7 @@ export const es = {
     "sin dato": "Sin dato",
   } as Record<string, string>,
 
-  // Periodo y matriz
+  // Period and matrix
   periodo: "Periodo",
   mesEtiqueta: "Mes",
   todoElAnio: "Todo el año",
@@ -138,7 +138,7 @@ export const es = {
   soloNiveles: (lista: string) => `Solo ${lista}`,
   mesesSobre: "Meses más altos que lo usual",
   mesesSobreDet: (n: number) => `${n} más bajos`,
-  // Mapa
+  // Map
   preliminarCorto: "preliminar",
   avisoPreliminar:
     "Dato preliminar (casi en tiempo real): puede cambiar cuando NASA publique el definitivo.",
@@ -172,7 +172,7 @@ export const es = {
   tooltipCelda: (focos: string, frp?: string) =>
     `${focos} focos equivalentes${frp ? `<br>FRP ${frp} MW` : ""}`,
 
-  // Calendario y fechas
+  // Calendar and dates
   meses,
   mesesCortos: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
   /** "6 de octubre" */

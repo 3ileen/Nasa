@@ -9,4 +9,5 @@
 
 ## Deployment
 
+- `data-pipeline/` is the Python data pipeline; it is versioned but excluded from Vercel (`.vercelignore`), Prettier and ESLint.
 - Deployed on Vercel. `vite.config.ts` builds with Nitro's `vercel` preset into `.vercel/output`; `vercel.json` only sets the build command.

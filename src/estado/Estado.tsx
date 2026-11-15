@@ -17,10 +17,10 @@ import {
 } from "@/lib/historico";
 
 const angosto = () => window.matchMedia("(max-width: 900px)").matches;
-/** Hasta 1180 px no caben los tres paneles con el mapa: se abre uno a la vez. */
+/** Up to 1180 px the three panels don't fit with the map: only one opens at a time. */
 const COMPACTO = "(max-width: 1180px)";
 const compacto = () => window.matchMedia(COMPACTO).matches;
-/** Deja abierto solo el panel indicado (o ninguno). */
+/** Leaves only the given panel open (or none). */
 const soloPanel = (p: keyof Paneles | null): Paneles => ({
   anios: p === "anios",
   resumen: p === "resumen",
@@ -32,7 +32,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
   const [region, setRegion] = useState(PERU);
   const [regiones, setRegiones] = useState<Region[]>([]);
   const [datosRegion, setDatosRegion] = useState<DatosRegion | null>(null);
-  /** Con una región elegida, sus meses y su ranking reemplazan a los del Perú (mapa y meta iguales). */
+  /** With a region selected, its months and ranking replace Peru's (map and meta stay the same). */
   const datos = useMemo<Historico | null>(
     () =>
       datosPeru && region !== PERU && datosRegion
@@ -49,14 +49,14 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
   const [activas, setActivas] = useState<CategoriaId[]>([]);
   const [paneles, setPaneles] = useState<Paneles>({ anios: true, resumen: true, fechas: true });
   const [escala, setEscala] = useState<0 | 1 | 2>(0);
-  /** Cómo estaban Periodo y Resumen antes de resaltar (para dejarlos igual al quitar el resaltado). */
+  /** How Period and Summary were before highlighting (to restore them when the highlight is cleared). */
   const panelesAntes = useRef<Pick<Paneles, "anios" | "resumen"> | null>(null);
 
-  // ---------- Idioma y tema (se aplican antes de renderizar) ----------
+  // ---------- Language and theme (applied before rendering) ----------
   const [idioma, setIdioma] = useState<CodigoIdioma>("es");
   fijarIdioma(idioma);
   const [tema, setTema] = useState<Tema>("oscuro");
-  // El mapa lee los colores en sus efectos, que corren antes que los nuestros.
+  // The map reads the colors in its effects, which run before ours.
   if (typeof document !== "undefined") document.documentElement.dataset["tema"] = tema;
 
   useEffect(() => {
@@ -72,9 +72,9 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
       if (temaUrl === "claro" || temaUrl === "oscuro") setTema(temaUrl);
       if (esCodigoIdioma(idiomaUrl)) setIdioma(idiomaUrl);
     }
-    // Teléfono: se ve el mapa primero. Tableta: solo la matriz.
+    // Phone: the map is shown first. Tablet: only the matrix.
     if (compacto()) setPaneles(soloPanel(angosto() ? null : "fechas"));
-    // Al achicar la ventana con varios paneles abiertos, queda uno solo.
+    // When the window shrinks with several panels open, only one remains.
     const mq = window.matchMedia(COMPACTO);
     const alCambiar = () => {
       if (!mq.matches) return;
@@ -90,7 +90,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem("tema", tema);
     } catch {
-      // Sin almacenamiento: no se recordará.
+      // No storage: it won't be remembered.
     }
   }, [tema]);
   useEffect(() => {
@@ -99,11 +99,11 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem("idioma", idioma);
     } catch {
-      // Sin almacenamiento: no se recordará.
+      // No storage: it won't be remembered.
     }
   }, [idioma]);
 
-  // ---------- Datos ----------
+  // ---------- Data ----------
   useEffect(() => {
     cargarHistorico()
       .then((d) => {
@@ -118,7 +118,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
       .catch(() => setRegiones([]));
   }, []);
 
-  /** Cambia de región; si el año elegido no existe en ella (regiones hasta 2024), va al último. */
+  /** Switches region; if the selected year doesn't exist there (regions go up to 2024), jumps to the latest. */
   const elegirRegion = (id: string) => {
     if (id === PERU) {
       setRegion(PERU);
@@ -157,8 +157,8 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
   const etiquetaPeriodo = gran === "anio" ? String(anio) : t.mesAnio(mes - 1, anio);
 
   /**
-   * Al empezar a resaltar se contraen Periodo y Resumen (no tienen relación con los meses
-   * resaltados y confundían); al quitar todo el resaltado vuelven a como estaban.
+   * When highlighting starts, Period and Summary collapse (they are unrelated to the highlighted
+   * months and were confusing); when all highlighting is cleared they return to how they were.
    */
   const fijarResaltado = (nuevas: CategoriaId[]) => {
     if (activas.length === 0 && nuevas.length > 0) {
@@ -209,15 +209,15 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
       if (activas.length === 0) return;
       const fila = datos?.meses.find((x) => x.anio === a && x.mes === m);
       const cat: CategoriaId = !fila || fila.count === null ? "sin_dato" : fila.cat;
-      // Casilla fuera de lo resaltado: el usuario cambió de tema, se limpia el resaltado
-      // (Periodo y Resumen vuelven a como estaban).
+      // Cell outside the highlight: the user moved on to something else, so the highlight is
+      // cleared (Period and Summary return to how they were).
       if (!activas.includes(cat)) fijarResaltado([]);
-      // Casilla resaltada: se abre el Resumen para ver el mes elegido.
+      // Highlighted cell: Summary opens to show the selected month.
       else setPaneles((p) => ({ ...p, resumen: true }));
     },
     verAnioCompleto: () => setGran("anio"),
     limpiarCategorias: () => fijarResaltado([]),
-    // Resaltar meses en la matriz deja de mirar un mes concreto: vuelve al año completo.
+    // Highlighting months in the matrix stops focusing on a single month: back to the full year.
     alternarCategoria: (c) => {
       fijarResaltado(activas.includes(c) ? activas.filter((x) => x !== c) : [...activas, c]);
       setGran("anio");
@@ -225,7 +225,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     categoriaVisible: (c) => activas.length === 0 || activas.includes(c),
     alternarPanel: (p) =>
       setPaneles((s) => {
-        // En pantallas compactas, abrir un panel cierra los otros (no se apilan).
+        // On compact screens, opening a panel closes the others (they don't stack).
         if (!s[p] && compacto()) return soloPanel(p);
         return { ...s, [p]: !s[p] };
       }),
