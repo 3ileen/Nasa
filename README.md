@@ -1,24 +1,25 @@
-# Pixel Perfect Snapshot
+# NinaWillay
 
-Implement exactly the screenshot and nothing else
+**Satellite Fire Intelligence** — calendario histórico de focos de calor del Perú (2002–2026),
+con MODIS y VIIRS armonizados en una sola serie, por país y por departamento.
+NASA Space Apps Challenge 2026 · Junior FC, Moquegua.
 
-This project was built with [Lovable](https://lovable.dev).
+## Tecnologías
 
-## Build with Lovable
+React 19 · TypeScript · TanStack Start · Vite · Leaflet + MapLibre · Vitest.
+Los datos son archivos JSON estáticos en `public/data/historico/`; no hay base de datos.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e7f32979-58de-429c-aa90-06756f52dffb).
+## Desarrollo
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+npm install
+npm run dev      # http://localhost:8080
+npm test         # pruebas
+npm run lint
 ```
+
+## Publicar en Vercel
+
+1. En Vercel: **Add New → Project** e importa este repositorio.
+2. No cambies nada en la configuración: `vercel.json` y `vite.config.ts` ya la traen.
+3. **Deploy**. Cada push a la rama de producción vuelve a publicar.
