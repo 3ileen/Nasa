@@ -62,7 +62,7 @@ export const qu: Textos = {
   errorDatos: "Willaykunaqa mana hamurqanchu.",
 
   region: "Suyu",
-  avisoRegion: "Suyukunapa willaynin: manaraq tukusqa, 2024 watakamalla.",
+  avisoRegion: "Suyukunapa willaynin: yaqa patallan, yupasqa watakunapitaq mana pantay tupuyuqchu.",
   anio: "Wata",
   anioAnterior: "Ñawpaq wata",
   anioSiguiente: "Qhipa wata",

@@ -57,7 +57,7 @@ export const en: Textos = {
   errorDatos: "The data could not be loaded.",
 
   region: "Region",
-  avisoRegion: "Regional data: provisional and only up to 2024.",
+  avisoRegion: "Regional data: approximate boundaries and no error range for estimated years.",
   anio: "Year",
   anioAnterior: "Previous year",
   anioSiguiente: "Next year",

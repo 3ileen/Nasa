@@ -108,7 +108,14 @@ export type AnioRanking = {
 };
 
 /** Celda del mapa: 0,25° (~28 km) hasta 2011 y 0,1° (~11 km) desde 2012. */
-export type Celda = { id: string; lat: number; lon: number; tamano: number };
+export type Celda = {
+  id: string;
+  lat: number;
+  lon: number;
+  tamano: number;
+  /** Departamentos a los que el pipeline asigna la celda (recorte aproximado; no se usa en el mapa). */
+  ambitos?: string[];
+};
 export type CeldasAnio = {
   anio: number;
   /** Tamaño de las celdas de ese año (0,25 o 0,1). */

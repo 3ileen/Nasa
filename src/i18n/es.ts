@@ -63,7 +63,7 @@ export const es = {
 
   // Fechas
   region: "Región",
-  avisoRegion: "Datos por región: provisionales y solo hasta 2024.",
+  avisoRegion: "Datos por región: recorte aproximado y sin margen de error en los años estimados.",
   anio: "Año",
   anioAnterior: "Año anterior",
   anioSiguiente: "Año siguiente",

@@ -333,7 +333,10 @@ export default function Mapa() {
     const grupo = L.layerGroup();
     for (const c of datos.celdas) {
       if (c.tamano !== celdasAnio.tamano_celda) continue; // cada año usa un solo tamaño
-      if (claveRegion && deptoDeCelda.get(c.id) !== claveRegion) continue; // solo la región
+      // Solo la región, recortada con el contorno oficial del departamento. (Los "ambitos" del
+      // pipeline son un recorte aproximado que incluye bordes de los vecinos: se verían cuadros
+      // fuera del departamento.)
+      if (claveRegion && deptoDeCelda.get(c.id) !== claveRegion) continue;
       const v = celdasAnio.celdas[c.id];
       if (!v) continue; // ausente = 0
       const valor = porMes ? v.meses[mes - 1] : v.count;
