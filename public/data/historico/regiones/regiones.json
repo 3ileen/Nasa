@@ -1,7 +1,7 @@
 {
  "version": "1.2",
  "generado": "2026-11-15",
- "generado_con": "Script generado con IA (Claude, mediante Claude Code) a partir de la exportación del pipeline; ver DECLARACION_IA.md",
+ "generado_con": "Script generated with AI (Claude, through Claude Code) from the pipeline export; see AI_DISCLOSURE.md",
  "regiones": [
   {
    "id": "amazonas",

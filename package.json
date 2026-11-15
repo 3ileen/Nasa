@@ -1,6 +1,6 @@
 {
   "name": "ninawillay",
-  "description": "NinaWillay: calendario histórico de focos de calor del Perú (NASA FIRMS, MODIS + VIIRS). Código generado con asistencia de IA (Claude de Anthropic, mediante Claude Code; estructura inicial con Lovable) y revisado por el equipo Junior FC. Ver DECLARACION_IA.md.",
+  "description": "NinaWillay: historical calendar of fire hotspots in Peru (NASA FIRMS, MODIS + VIIRS). Code generated with AI assistance (Claude by Anthropic, through Claude Code; initial scaffold with Lovable) and reviewed by the Junior FC team. See AI_DISCLOSURE.md.",
   "keywords": [
     "nasa-space-apps",
     "fire",

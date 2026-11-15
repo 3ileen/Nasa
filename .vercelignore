@@ -1,2 +1,3 @@
-# Vercel Ignore
+# Vercel only deploys the frontend. The data pipeline (Python + raw NASA FIRMS data)
+# lives in the repository but is not uploaded to the deployment.
 data-pipeline/
