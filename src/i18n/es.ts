@@ -1,4 +1,4 @@
-// Textos en español (idioma base). en.ts, qu.ts y ay.ts tienen exactamente la misma forma:
+// Textos en español (idioma base). en.ts y qu.ts tienen exactamente la misma forma:
 // el tipo Textos obliga a traducir todas las claves.
 
 /** Fecha descompuesta: mes de 0 a 11. */

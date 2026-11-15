@@ -1,11 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { ay } from "./ay";
 import { en } from "./en";
 import { es } from "./es";
 import { fechaCorta, fechaLarga, fijarIdioma, formatoNumero, IDIOMAS, t } from ".";
 import { qu } from "./qu";
 
-const DICCIONARIOS = { es, en, qu, ay };
+const DICCIONARIOS = { es, en, qu };
 
 /** Recorre el diccionario y devuelve las rutas de los valores vacíos. */
 function vacios(obj: Record<string, unknown>, prefijo = ""): string[] {
@@ -37,8 +36,8 @@ describe("traducciones", () => {
     }
   });
 
-  it("el selector ofrece los cuatro idiomas", () => {
-    expect(IDIOMAS.map((i) => i.codigo)).toEqual(["es", "qu", "ay", "en"]);
+  it("el selector ofrece los tres idiomas", () => {
+    expect(IDIOMAS.map((i) => i.codigo)).toEqual(["es", "qu", "en"]);
   });
 
   it("fijarIdioma cambia los textos, las fechas y el formato de números", () => {
@@ -54,8 +53,5 @@ describe("traducciones", () => {
     fijarIdioma("qu");
     expect(t.mesEtiqueta).toBe("Killa");
     expect(formatoNumero(2109)).toBe("2.109");
-
-    fijarIdioma("ay");
-    expect(t.mesEtiqueta).toBe("Phaxsi");
   });
 });
