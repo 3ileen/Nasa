@@ -61,6 +61,8 @@ export const qu: Textos = {
   cargando: "Willaykuna hamushan…",
   errorDatos: "Willaykunaqa mana hamurqanchu.",
 
+  region: "Suyu",
+  avisoRegion: "Suyukunapa willaynin: manaraq tukusqa, 2024 watakamalla.",
   anio: "Wata",
   anioAnterior: "Ñawpaq wata",
   anioSiguiente: "Qhipa wata",

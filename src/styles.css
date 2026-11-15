@@ -1794,3 +1794,9 @@ button:not(:disabled) {
   min-width: 56px;
   text-align: right;
 }
+
+/* Selector de región (arriba del panel Periodo) */
+.region-sel {
+  width: 100%;
+  margin-bottom: 12px;
+}

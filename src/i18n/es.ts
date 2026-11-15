@@ -62,6 +62,8 @@ export const es = {
   errorDatos: "No se pudieron cargar los datos.",
 
   // Fechas
+  region: "Región",
+  avisoRegion: "Datos por región: provisionales y solo hasta 2024.",
   anio: "Año",
   anioAnterior: "Año anterior",
   anioSiguiente: "Año siguiente",

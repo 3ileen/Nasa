@@ -5,10 +5,15 @@ import {
   aniosDisponibles,
   cargarCeldas,
   cargarHistorico,
+  cargarRegion,
+  cargarRegiones,
   mesesDelAnio,
+  PERU,
   type CategoriaId,
   type CeldasAnio,
+  type DatosRegion,
   type Historico,
+  type Region,
 } from "@/lib/historico";
 
 const angosto = () => window.matchMedia("(max-width: 900px)").matches;
@@ -23,7 +28,18 @@ const soloPanel = (p: keyof Paneles | null): Paneles => ({
 });
 
 export function ProveedorEstado({ children }: { children: ReactNode }) {
-  const [datos, setDatos] = useState<Historico | null>(null);
+  const [datosPeru, setDatos] = useState<Historico | null>(null);
+  const [region, setRegion] = useState(PERU);
+  const [regiones, setRegiones] = useState<Region[]>([]);
+  const [datosRegion, setDatosRegion] = useState<DatosRegion | null>(null);
+  /** Con una región elegida, sus meses y su ranking reemplazan a los del Perú (mapa y meta iguales). */
+  const datos = useMemo<Historico | null>(
+    () =>
+      datosPeru && region !== PERU && datosRegion
+        ? { ...datosPeru, meses: datosRegion.meses, ranking: datosRegion.ranking }
+        : datosPeru,
+    [datosPeru, region, datosRegion],
+  );
   const [error, setError] = useState<string | null>(null);
   const [celdasAnio, setCeldasAnio] = useState<CeldasAnio | null>(null);
 
@@ -97,7 +113,27 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
         setMes(d.ranking.find((r) => r.anio === ultimo)?.mes_pico ?? 9);
       })
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
+    cargarRegiones()
+      .then((r) => setRegiones(r.regiones))
+      .catch(() => setRegiones([]));
   }, []);
+
+  /** Cambia de región; si el año elegido no existe en ella (regiones hasta 2024), va al último. */
+  const elegirRegion = (id: string) => {
+    if (id === PERU) {
+      setRegion(PERU);
+      setDatosRegion(null);
+      return;
+    }
+    cargarRegion(id)
+      .then((d) => {
+        setDatosRegion(d);
+        setRegion(id);
+        const disponibles = aniosDisponibles(d.meses);
+        setAnio((a) => (disponibles.includes(a) ? a : (disponibles.at(-1) ?? a)));
+      })
+      .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
+  };
 
   useEffect(() => {
     let vigente = true;
@@ -142,6 +178,10 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     datos,
     anios,
     aniosCompletos,
+    region,
+    regiones,
+    nombreRegion:
+      region === PERU ? t.peru : (regiones.find((r) => r.id === region)?.nombre ?? region),
     anio,
     gran,
     mes,
@@ -155,6 +195,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     rankingAnio,
     etiquetaPeriodo,
     celdasAnio,
+    elegirRegion,
     elegirAnio: setAnio,
     elegirGran: setGran,
     elegirMes: (m) => {

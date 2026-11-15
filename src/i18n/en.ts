@@ -56,6 +56,8 @@ export const en: Textos = {
   cargando: "Loading data…",
   errorDatos: "The data could not be loaded.",
 
+  region: "Region",
+  avisoRegion: "Regional data: provisional and only up to 2024.",
   anio: "Year",
   anioAnterior: "Previous year",
   anioSiguiente: "Next year",

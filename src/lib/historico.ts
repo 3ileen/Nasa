@@ -160,6 +160,34 @@ export function cargarCeldas(anio: number): Promise<CeldasAnio> {
   return p;
 }
 
+// ---------- Regiones (departamentos) ----------
+
+/** "peru" es el país; el resto son departamentos con sus propios calendario y ranking. */
+export const PERU = "peru";
+export type Region = { id: string; nombre: string };
+export type DatosRegion = { meses: Mes[]; ranking: AnioRanking[] };
+
+/** Id del pipeline ("la_libertad") → NOMBDEP del mapa ("LA LIBERTAD"). */
+export const claveDepto = (id: string) => id.toUpperCase().replace(/_/g, " ");
+
+export const cargarRegiones = () =>
+  leer<{ hasta: number; regiones: Region[] }>("regiones/regiones.json");
+
+const cacheRegiones = new Map<string, Promise<DatosRegion>>();
+/** Calendario y ranking de un departamento (carga perezosa, una vez por región). */
+export function cargarRegion(id: string): Promise<DatosRegion> {
+  let p = cacheRegiones.get(id);
+  if (!p) {
+    p = Promise.all([
+      leer<{ meses: Mes[] }>(`regiones/calendar_${id}.json`),
+      leer<{ anios: AnioRanking[] }>(`regiones/ranking_${id}.json`),
+    ]).then(([c, r]) => ({ meses: c.meses, ranking: r.anios }));
+    p.catch(() => cacheRegiones.delete(id));
+    cacheRegiones.set(id, p);
+  }
+  return p;
+}
+
 // ---------- Ayudas de agrupación ----------
 
 /** Los 12 meses de un año (null donde no hay fila, p. ej. ene–jun de 2002). */
