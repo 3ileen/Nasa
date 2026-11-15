@@ -1,6 +1,7 @@
-import { Flame, Globe2, Moon, Sun } from "lucide-react";
+import { Globe2, Moon, Sun } from "lucide-react";
 import { esCodigoIdioma, IDIOMAS, t } from "@/i18n";
 import { useEstado } from "@/estado/contexto";
+import { LogoNinaWillay } from "./LogoNinaWillay";
 
 const ESCALAS = [100, 115, 130] as const;
 
@@ -13,13 +14,14 @@ export function MenuSuperior() {
         {t.saltar}
       </a>
       <header className="menu-superior">
-        <div className="marca">
-          <div className="brand-icon" aria-hidden>
-            <Flame strokeWidth={1.6} />
-          </div>
+        <div className="marca" title={t.subtitulo}>
+          <LogoNinaWillay className="marca-logo" />
           <div className="marca-textos">
-            <h1>{t.titulo}</h1>
-            <p>{t.subtitulo}</p>
+            <h1>
+              <span className="marca-nina">Nina</span>
+              <span className="marca-willay">Willay</span>
+            </h1>
+            <p>{t.titulo}</p>
           </div>
         </div>
         <div className="menu-acciones">

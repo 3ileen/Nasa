@@ -14,13 +14,13 @@ const Mapa = lazy(() => import("@/components/Mapa"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Focos de calor del Perú | Junior FC" },
+      { title: "NinaWillay · Focos de calor del Perú" },
       {
         name: "description",
         content:
           "Calendario histórico de focos de calor del Perú, 2002–2026: MODIS y VIIRS en una sola serie, comparado con lo normal.",
       },
-      { property: "og:title", content: "Focos de calor del Perú" },
+      { property: "og:title", content: "NinaWillay · Focos de calor del Perú" },
       {
         property: "og:description",
         content:

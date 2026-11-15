@@ -58,7 +58,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
   }, [tema]);
   useEffect(() => {
     document.documentElement.lang = IDIOMAS.find((i) => i.codigo === idioma)?.lang ?? "es";
-    document.title = `${t.titulo} | Junior FC`;
+    document.title = `NinaWillay · ${t.titulo}`;
     try {
       localStorage.setItem("idioma", idioma);
     } catch {

@@ -47,6 +47,7 @@
   --card: #111317; /* paneles */
   --foreground: #f2f4f8; /* texto principal (18:1 sobre paneles) */
   --primary: #4fd1e8; /* acento: selección, botones principales, área elegida */
+  --marca-azul: #60a5fa; /* azul de NinaWillay aclarado para el negro (7,5:1) */
   --primary-foreground: #000000; /* texto oscuro: tarjeta del resumen y niveles 3–4 */
   --on-primary: #000000; /* texto sobre el acento */
   --secondary: #1d2027; /* opción activa */
@@ -96,6 +97,7 @@
   --card: #ffffff;
   --foreground: #14171c; /* 18:1 sobre paneles */
   --primary: #00727f; /* 5,7:1 sobre paneles */
+  --marca-azul: #1d4ed8; /* azul original de NinaWillay (6,7:1 sobre blanco) */
   --on-primary: #ffffff; /* 5,7:1 sobre el acento */
   --secondary: #e9edf2;
   --muted-foreground: #4b5260; /* 7,9:1 sobre paneles */
@@ -197,25 +199,23 @@ button:not(:disabled) {
   gap: 12px;
   min-width: 0;
 }
-.brand-icon {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  color: var(--primary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+.marca-logo {
+  width: 44px;
+  height: 40px;
   flex: none;
 }
-.brand-icon svg {
-  width: 20px;
-  height: 22px;
+.marca-nina {
+  font-weight: 300;
+}
+.marca-willay {
+  font-weight: 700;
+  color: var(--marca-azul);
 }
 .marca-textos {
   min-width: 0;
 }
 .marca h1 {
-  font-size: calc(16px * var(--text-scale));
+  font-size: calc(18px * var(--text-scale));
   font-weight: 600;
   line-height: 1.2;
   margin: 0;
@@ -891,8 +891,9 @@ button:not(:disabled) {
   .marca h1 {
     font-size: calc(14px * var(--text-scale));
   }
-  .brand-icon {
-    display: none;
+  .marca-logo {
+    width: 34px;
+    height: 31px;
   }
   .idioma svg {
     display: none;
