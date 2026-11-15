@@ -4,9 +4,9 @@ import { t } from "@/i18n";
 import { ProveedorEstado } from "@/estado/Estado";
 import { useEstado } from "@/estado/contexto";
 import { MenuSuperior } from "@/components/MenuSuperior";
-import { PanelArea } from "@/components/PanelArea";
+import { PanelPeriodo } from "@/components/PanelPeriodo";
 import { PanelResumen } from "@/components/PanelResumen";
-import { PanelFechas } from "@/components/PanelFechas";
+import { PanelMatriz } from "@/components/PanelMatriz";
 
 // Leaflet, Geoman y MapLibre solo en el navegador (no en SSR).
 const Mapa = lazy(() => import("@/components/Mapa"));
@@ -14,17 +14,17 @@ const Mapa = lazy(() => import("@/components/Mapa"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Focos de calor del Perú | Junior FC" },
+      { title: "NinaWillay · Focos de calor del Perú" },
       {
         name: "description",
         content:
-          "Calendario de actividad de incendios del Perú con focos de calor MODIS y VIIRS en una sola serie. Elige un área y descubre sus días críticos.",
+          "Calendario histórico de focos de calor del Perú, 2002–2026: MODIS y VIIRS en una sola serie, comparado con lo normal.",
       },
-      { property: "og:title", content: "Focos de calor del Perú" },
+      { property: "og:title", content: "NinaWillay · Focos de calor del Perú" },
       {
         property: "og:description",
         content:
-          "MODIS + VIIRS en una sola serie: mapa y calendario de focos de calor por área de interés.",
+          "MODIS + VIIRS en una sola serie: calendario, ranking y mapa de focos de calor del Perú.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -47,8 +47,9 @@ function Aplicacion() {
   return (
     <div
       className={`app-root ${escala === 1 ? "text-115" : escala === 2 ? "text-130" : ""}`}
-      data-area-abierto={paneles.area}
+      data-anios-abierto={paneles.anios}
       data-fechas-abierto={paneles.fechas}
+      data-resumen-abierto={paneles.resumen}
     >
       <MenuSuperior />
       <main className="escenario">
@@ -57,9 +58,9 @@ function Aplicacion() {
             <Mapa />
           </Suspense>
         </ClientOnly>
-        <PanelArea />
+        <PanelPeriodo />
         <PanelResumen />
-        <PanelFechas />
+        <PanelMatriz />
       </main>
     </div>
   );

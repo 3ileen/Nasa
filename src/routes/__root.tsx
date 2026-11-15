@@ -81,14 +81,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Focos de calor del Perú | Junior FC" },
+      { title: "NinaWillay · Focos de calor del Perú" },
       {
         name: "description",
         content:
           "Calendario de actividad de incendios del Perú: focos de calor MODIS y VIIRS en una sola serie.",
       },
       { name: "author", content: "Junior FC · Moquegua" },
-      { property: "og:title", content: "Focos de calor del Perú" },
+      { property: "og:title", content: "NinaWillay · Focos de calor del Perú" },
       {
         property: "og:description",
         content: "Explora la actividad de incendios del Perú en un mapa y un calendario.",
@@ -102,7 +102,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/ninawillay-icono.svg", type: "image/svg+xml" },
+      { rel: "alternate icon", href: "/logo.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,

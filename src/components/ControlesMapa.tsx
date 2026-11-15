@@ -1,9 +1,8 @@
-import { Crosshair, Globe2, Minus, Mountain, Palette, Plus } from "lucide-react";
+import { Globe2, Minus, Mountain, Palette, Plus } from "lucide-react";
 import { t } from "@/i18n";
 
 type Props = {
   verPeru: () => void;
-  irArea: () => void;
   acercar: () => void;
   alejar: () => void;
   relieve: boolean;
@@ -14,7 +13,6 @@ type Props = {
 
 export function ControlesMapa({
   verPeru,
-  irArea,
   acercar,
   alejar,
   relieve,
@@ -32,15 +30,6 @@ export function ControlesMapa({
         onClick={verPeru}
       >
         <Globe2 aria-hidden size={18} />
-      </button>
-      <button
-        type="button"
-        className="boton-mapa"
-        title={t.irArea}
-        aria-label={t.irArea}
-        onClick={irArea}
-      >
-        <Crosshair aria-hidden size={18} />
       </button>
       <button
         type="button"
