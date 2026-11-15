@@ -5,7 +5,13 @@ import { fijarLocale } from "./formato";
 import { qu } from "./qu";
 
 export type { Textos } from "./es";
-export { formatoDecimal, formatoNumero, formatoPct } from "./formato";
+export {
+  formatoCompacto,
+  formatoDecimal,
+  formatoNumero,
+  formatoPct,
+  formatoPctSigno,
+} from "./formato";
 
 export type CodigoIdioma = "es" | "qu" | "ay" | "en";
 
@@ -43,5 +49,3 @@ const partes = (clave: string) => ({
 export const fechaCorta = (clave: string) => t.fechaCorta(partes(clave));
 /** "6 de octubre de 2026" / "October 6, 2026" */
 export const fechaLarga = (clave: string) => t.fechaLarga(partes(clave));
-/** Texto de una semana a partir de su lunes y su domingo. */
-export const textoSemana = (inicio: string, fin: string) => t.semana(partes(inicio), partes(fin));

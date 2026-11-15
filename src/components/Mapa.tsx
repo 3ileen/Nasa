@@ -1,25 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
-import "@geoman-io/leaflet-geoman-free";
 import { setWorkerUrl, type ExpressionSpecification, type Map as MapaBase } from "maplibre-gl";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { maplibreGL } from "@maplibre/maplibre-gl-leaflet";
-import { Check, Undo2 } from "lucide-react";
-import type { FeatureCollection, MultiPolygon, Polygon } from "geojson";
-import { t, fechaLarga, formatoDecimal } from "@/i18n";
+import { Check, X } from "lucide-react";
+import { formatoNumero, t } from "@/i18n";
 import { useEstado, type Tema } from "@/estado/contexto";
-import { nombreDepartamento } from "@/lib/departamentos";
-import { VARIABLE_NIVEL, type Nivel } from "@/lib/niveles";
+import { CORTES_MAPA, claseMapa } from "@/lib/historico";
+import {
+  departamentoDeCeldas,
+  fronteraExterior,
+  nombreDepartamento,
+  puntoEtiqueta,
+  type Limites,
+} from "@/lib/geografia";
 import { ControlesMapa } from "./ControlesMapa";
 
 setWorkerUrl(workerUrl);
 
-type Limites = FeatureCollection<Polygon | MultiPolygon, { NOMBDEP: string }>;
-
 const css = (token: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(token).trim();
-/** Radio fijo de 2,5 a 4,5 px según el zoom. */
-const radioPara = (zoom: number) => Math.max(2.5, Math.min(4.5, 2.5 + (zoom - 5) * 0.5));
 
 const ATRIBUCION_RELIEVE =
   'Relieve: <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">Terrain Tiles</a> (Mapzen, AWS)';
@@ -111,18 +111,29 @@ function agregarRelieve(base: MapaBase, tema: Tema, capas: CapasRelieve) {
     );
 }
 
+/** Colores de la escala del mapa (5 clases), definidos en styles.css para cada tema. */
+const VARIABLES_ESCALA = ["--mapa-1", "--mapa-2", "--mapa-3", "--mapa-4", "--mapa-5"];
+
 export default function Mapa() {
   const e = useEstado();
   const elemento = useRef<HTMLDivElement>(null);
   const mapa = useRef<L.Map | null>(null);
-  const capaDeps = useRef<L.GeoJSON | null>(null);
-  const capaFocos = useRef<L.LayerGroup | null>(null);
-  const dibujado = useRef<L.Polygon | null>(null);
+  /** Halo y línea de departamentos y de la frontera (el halo da contraste sobre cualquier color). */
+  const capasLimites = useRef<{
+    haloDeps: L.GeoJSON;
+    lineaDeps: L.GeoJSON;
+    haloFrontera: L.LayerGroup;
+    lineaFrontera: L.LayerGroup;
+  } | null>(null);
   const [limites, setLimites] = useState<Limites | null>(null);
   const fondo = useRef<MapaBase | null>(null);
   const temaAplicado = useRef<Tema>("oscuro");
   const [relieve, setRelieve] = useState(true);
   const [coloresAltura, setColoresAltura] = useState(true);
+  /** Niveles de cantidad visibles en el mapa (0–4). Por defecto todos; se desmarca lo que no se quiere ver. */
+  const TODOS_LOS_NIVELES = [0, 1, 2, 3, 4];
+  const [nivelesMapa, setNivelesMapa] = useState<number[]>(TODOS_LOS_NIVELES);
+  const filtroCantidad = nivelesMapa.length < TODOS_LOS_NIVELES.length;
   const capasRelieve = useRef<CapasRelieve>({ sombreado: relieve, colores: coloresAltura });
   capasRelieve.current = { sombreado: relieve, colores: coloresAltura };
   const ultimo = useRef(e);
@@ -135,24 +146,14 @@ export default function Mapa() {
     const ancho = window.innerWidth > 900;
     const p = ultimo.current.paneles;
     mapa.current?.flyToBounds(b, {
-      paddingTopLeft: [ancho && p.area ? 330 : 40, ancho && p.resumen ? 120 : 40],
-      paddingBottomRight: [ancho && p.fechas ? 392 : 70, 80],
+      paddingTopLeft: [ancho && p.anios ? 330 : 40, ancho && p.resumen ? 120 : 40],
+      paddingBottomRight: [ancho && p.fechas ? 440 : 70, 90],
       maxZoom: 10,
       duration: reducido() ? 0 : 0.7,
     });
   };
   const verPeru = () => {
     if (limites) encuadrar(L.geoJSON(limites).getBounds());
-  };
-  const irArea = () => {
-    const a = ultimo.current.area;
-    if (a.modo === "dibujo") {
-      if (a.poligono) encuadrar(L.geoJSON(a.poligono).getBounds());
-      return;
-    }
-    if (!limites || !a.departamentos.length) return;
-    const features = limites.features.filter((f) => a.departamentos.includes(f.properties.NOMBDEP));
-    encuadrar(L.geoJSON({ type: "FeatureCollection", features } as Limites).getBounds());
   };
 
   // Crear el mapa una sola vez.
@@ -164,7 +165,7 @@ export default function Mapa() {
       center: [-9.2, -75],
       zoom: 5,
       minZoom: 3,
-      maxZoom: 16,
+      maxZoom: 12,
       keyboard: true,
     });
     mapa.current = m;
@@ -175,21 +176,22 @@ export default function Mapa() {
     fondo.current = mlMap;
     // Cada vez que se carga un estilo (al inicio y al cambiar de tema) se vuelve a poner el relieve.
     mlMap.on("style.load", () => agregarRelieve(mlMap, temaAplicado.current, capasRelieve.current));
-    m.createPane("focos");
-    const pane = m.getPane("focos");
-    if (pane) pane.style.zIndex = "450";
-    m.pm.setLang("es");
-    m.on("pm:create", (ev) => {
-      const creado = (ev as unknown as { layer: L.Polygon }).layer;
-      dibujado.current = creado;
-      creado.pm.disable();
-      const g = creado.toGeoJSON().geometry;
-      if (g.type === "Polygon") ultimo.current.fijarPoligono(g);
-    });
-    m.on("zoomend", () => {
-      const r = radioPara(m.getZoom());
-      capaFocos.current?.eachLayer((l) => (l as L.CircleMarker).setRadius(r));
-    });
+    // Orden: celdas (420) < límites (430) < nombres de departamentos (440).
+    for (const [nombre, z] of [
+      ["celdas", "420"],
+      ["limites", "430"],
+      ["etiquetas", "440"],
+    ] as const) {
+      const pane = m.createPane(nombre);
+      pane.style.zIndex = z;
+      if (nombre !== "celdas") pane.style.pointerEvents = "none";
+    }
+    // Nombres de departamentos solo cuando hay zoom suficiente para leerlos.
+    const marcarZoom = () => {
+      m.getContainer().dataset["etiquetas"] = m.getZoom() >= 5 ? "si" : "no";
+    };
+    m.on("zoomend", marcarZoom);
+    marcarZoom();
     const cont = m.getContainer();
     cont.setAttribute("role", "region");
     cont.setAttribute("aria-label", t.mapaDescripcion);
@@ -199,15 +201,38 @@ export default function Mapa() {
       .then((r) => r.json() as Promise<Limites>)
       .then((g) => {
         if (cancelado) return;
-        capaDeps.current = L.geoJSON(g, {
-          onEachFeature: (f, capa) => {
-            capa.bindTooltip(nombreDepartamento(f.properties.NOMBDEP), { sticky: true });
-            capa.on("click", () => {
-              if (ultimo.current.area.modo === "departamentos")
-                ultimo.current.alternarDepartamento(f.properties.NOMBDEP);
-            });
-          },
-        }).addTo(m);
+        // Límites de referencia, siempre por encima de los colores (no se eligen).
+        const segmentos = fronteraExterior(g);
+        const linea = (seg: [number, number][]) =>
+          L.polyline(seg, { pane: "limites", interactive: false });
+        const capas = {
+          haloDeps: L.geoJSON(g, { pane: "limites", interactive: false }),
+          haloFrontera: L.layerGroup(segmentos.map(linea)),
+          lineaDeps: L.geoJSON(g, { pane: "limites", interactive: false }),
+          lineaFrontera: L.layerGroup(segmentos.map(linea)),
+        };
+        // El orden de alta define qué queda encima: halos abajo, líneas arriba.
+        capas.haloDeps.addTo(m);
+        capas.haloFrontera.addTo(m);
+        capas.lineaDeps.addTo(m);
+        capas.lineaFrontera.addTo(m);
+        capasLimites.current = capas;
+        L.layerGroup(
+          g.features
+            .filter((f) => f.properties.NOMBDEP !== "CALLAO") // muy pequeño: se superpone con Lima
+            .map((f) =>
+              L.marker(puntoEtiqueta(f), {
+                pane: "etiquetas",
+                interactive: false,
+                keyboard: false,
+                icon: L.divIcon({
+                  className: "etiqueta-depto",
+                  html: `<span>${nombreDepartamento(f.properties.NOMBDEP)}</span>`,
+                  iconSize: [0, 0],
+                }),
+              }),
+            ),
+        ).addTo(m);
         setLimites(g);
       })
       .catch(() => undefined);
@@ -218,35 +243,32 @@ export default function Mapa() {
     };
   }, []);
 
-  // Estilo de los departamentos elegidos + encuadre automático al cambiar el área.
-  // Al cambiar de idioma: etiqueta del mapa y textos de ayuda de Geoman (solo tiene es/en).
+  // Idioma: etiqueta accesible del mapa.
   useEffect(() => {
     mapa.current?.getContainer().setAttribute("aria-label", t.mapaDescripcion);
-    mapa.current?.pm.setLang(e.idioma === "en" ? "en" : "es");
   }, [e.idioma]);
 
-  const { area, tema } = e;
+  // Estilo de los límites (depende del tema) y encuadre inicial de todo el Perú.
+  const { tema } = e;
   useEffect(() => {
     if (!limites) return;
-    capaDeps.current?.setStyle((f) => {
-      const elegido =
-        area.modo === "departamentos" && !!f && area.departamentos.includes(f.properties.NOMBDEP);
-      return {
-        color: css(elegido ? "--primary" : "--map-border"),
-        weight: elegido ? 1.8 : 1,
-        dashArray: elegido ? "5 5" : "",
-        fillColor: css(elegido ? "--primary" : "--card"),
-        fillOpacity: elegido ? 0.1 : 0.13,
-      };
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limites, area, tema]);
-
-  // Encuadre automático solo cuando cambia el área.
+    const c = capasLimites.current;
+    if (!c) return;
+    const linea = css("--limite-linea");
+    const halo = css("--limite-halo");
+    c.haloDeps.setStyle({ color: halo, weight: 3.5, opacity: 0.75, fill: false });
+    c.lineaDeps.setStyle({ color: linea, weight: 1.1, opacity: 0.9, fill: false });
+    c.haloFrontera.eachLayer((l) =>
+      (l as L.Polyline).setStyle({ color: halo, weight: 5.5, opacity: 0.85 }),
+    );
+    c.lineaFrontera.eachLayer((l) =>
+      (l as L.Polyline).setStyle({ color: linea, weight: 2.4, opacity: 1 }),
+    );
+  }, [limites, tema]);
   useEffect(() => {
-    if (limites) irArea();
+    if (limites) verPeru();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limites, area]);
+  }, [limites]);
 
   // Cambio de tema: otro mapa base (el relieve se vuelve a agregar en "style.load").
   useEffect(() => {
@@ -256,66 +278,66 @@ export default function Mapa() {
     base.setStyle(ESTILO_BASE[tema], { diff: false });
   }, [tema]);
 
-  // Focos: CircleMarker con el color del nivel de su día.
-  const { focosVisibles, niveles } = e;
+  // Celdas de 0,25° (~28 km): valor anual o del mes elegido, escala secuencial fija.
+  // El mapa cambia solo con el periodo (año o mes) y con los niveles de cantidad.
+  // La comparación con lo usual solo resalta meses en la matriz.
+  const { celdasAnio, datos, gran, mes, activas } = e;
+  /** Resaltando en la matriz sin un mes elegido: el mapa queda vacío hasta que se elija uno. */
+  const eligiendo = activas.length > 0 && gran === "anio";
+  const porMes = gran !== "anio";
+  const cortes = porMes ? CORTES_MAPA.mes : CORTES_MAPA.anio;
+  const deptoDeCelda = useMemo(
+    () =>
+      limites && datos ? departamentoDeCeldas(limites, datos.celdas) : new Map<string, string>(),
+    [limites, datos],
+  );
   useEffect(() => {
     const m = mapa.current;
-    if (!m) return;
-    const colores = Object.fromEntries(
-      Object.entries(VARIABLE_NIVEL).map(([n, v]) => [n, css(v)]),
-    ) as Record<Nivel, string>;
+    if (!m || !datos || !celdasAnio || eligiendo) return;
+    if (porMes && !celdasAnio.meses_con_dato[mes - 1]) return;
+    const colores = VARIABLES_ESCALA.map(css);
+    const h = datos.tamanoCelda / 2;
     const grupo = L.layerGroup();
-    const r = radioPara(m.getZoom());
-    for (const f of focosVisibles) {
-      L.circleMarker([f.lat, f.lon], {
-        pane: "focos",
-        radius: r,
-        // En modo claro, borde fino para que el amarillo se vea sobre fondo claro.
-        weight: tema === "claro" ? 0.8 : 0,
-        color: "#1F2329",
-        opacity: 0.7,
-        fillColor: colores[niveles.get(f.fecha) ?? 1],
-        fillOpacity: 0.9,
-      })
-        .bindTooltip(() =>
-          t.tooltipFoco(
-            fechaLarga(f.fecha),
-            formatoDecimal(f.peso),
-            formatoDecimal(f.frp),
-            t.confianzaValores[f.confianza] ?? f.confianza,
-          ),
-        )
+    for (const c of datos.celdas) {
+      const v = celdasAnio.celdas[c.id];
+      if (!v) continue; // ausente = 0
+      const valor = porMes ? v.meses[mes - 1] : v.count;
+      if (valor === null || valor === undefined) continue;
+      const clase = claseMapa(valor, cortes);
+      if (clase < 0) continue;
+      if (!nivelesMapa.includes(clase)) continue; // filtro de la leyenda
+      L.rectangle(
+        [
+          [c.lat - h, c.lon - h],
+          [c.lat + h, c.lon + h],
+        ],
+        {
+          pane: "celdas",
+          // En modo claro, contorno fino para que amarillo y verde no se pierdan en el fondo claro.
+          stroke: tema === "claro",
+          weight: 0.5,
+          color: "#1F2329",
+          opacity: 0.45,
+          fillColor: colores[clase] ?? colores[0],
+          fillOpacity: 0.85,
+        },
+      )
+        // Por mes no hay FRP por celda: solo se muestra el conteo.
+        .bindTooltip(() => {
+          const depto = deptoDeCelda.get(c.id);
+          const cifras = t.tooltipCelda(
+            formatoNumero(valor),
+            porMes ? undefined : formatoNumero(v.frp),
+          );
+          return depto ? `<strong>${nombreDepartamento(depto)}</strong><br>${cifras}` : cifras;
+        })
         .addTo(grupo);
     }
     grupo.addTo(m);
-    capaFocos.current = grupo;
     return () => {
       grupo.remove();
-      capaFocos.current = null;
     };
-  }, [focosVisibles, niveles, tema]);
-
-  // Dibujo con Geoman (sin barra de herramientas).
-  useEffect(() => {
-    const m = mapa.current;
-    if (!m) return;
-    m.pm.disableDraw();
-    if (dibujado.current && (area.modo === "departamentos" || !area.poligono)) {
-      m.removeLayer(dibujado.current);
-      dibujado.current = null;
-    }
-    if (area.modo === "dibujo" && !area.poligono) {
-      const color = css("--primary");
-      m.pm.enableDraw("Polygon", {
-        snappable: false,
-        allowSelfIntersection: false,
-        templineStyle: { color },
-        hintlineStyle: { color, dashArray: "5 5" },
-        pathOptions: { color, fillOpacity: 0.12 },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [area.modo, area.poligono === null, e.dibujoVersion]);
+  }, [celdasAnio, datos, porMes, mes, cortes, tema, deptoDeCelda, nivelesMapa, eligiendo]);
 
   // Prender o apagar el sombreado y los colores por altura (cada uno por separado).
   useEffect(() => {
@@ -328,38 +350,94 @@ export default function Mapa() {
     if (relieve || coloresAltura) atrib?.addAttribution(ATRIBUCION_RELIEVE);
   }, [relieve, coloresAltura]);
 
-  const herramienta = () =>
-    mapa.current?.pm.Draw["Polygon"] as unknown as
-      { _removeLastVertex: () => void; _finishShape: () => void } | undefined;
-  const dibujando = area.modo === "dibujo" && !area.poligono;
+  const periodoMapa = porMes ? t.mesAnio(mes - 1, e.anio) : String(e.anio);
+  const rangos = [
+    `1–${formatoNumero(cortes[0] ?? 0)}`,
+    ...cortes.slice(1).map((c, i) => `${formatoNumero((cortes[i] ?? 0) + 1)}–${formatoNumero(c)}`),
+    `> ${formatoNumero(cortes.at(-1) ?? 0)}`,
+  ];
 
   return (
-    <div className="mapa" data-fechas-abierto={e.paneles.fechas} data-dibujando={dibujando}>
+    <div className="mapa" data-fechas-abierto={e.paneles.fechas}>
       <div ref={elemento} className="mapa-lienzo" />
-      {dibujando && (
-        <div className="map-draw-controls">
-          <button
-            type="button"
-            className="boton-mapa con-texto"
-            onClick={() => herramienta()?._removeLastVertex()}
-          >
-            <Undo2 aria-hidden size={16} />
-            {t.deshacer}
-          </button>
-          <button
-            type="button"
-            className="boton-principal"
-            onClick={() => herramienta()?._finishShape()}
-          >
-            <Check aria-hidden size={16} />
-            {t.listo}
-          </button>
+      <section className="map-etiqueta leyenda-mapa" aria-labelledby="leyenda-mapa-titulo">
+        <div className="chips-mapa" aria-live="polite">
+          {eligiendo ? (
+            <span className="chip-mapa chip-aviso">{t.eligeMesResaltado}</span>
+          ) : (
+            <span className="chip-mapa">
+              {e.etiquetaPeriodo.charAt(0).toUpperCase() + e.etiquetaPeriodo.slice(1)}
+              {porMes && (
+                <button
+                  type="button"
+                  aria-label={t.chipVerAnio}
+                  title={t.chipVerAnio}
+                  onClick={e.verAnioCompleto}
+                >
+                  <X size={13} aria-hidden />
+                </button>
+              )}
+            </span>
+          )}
+          {filtroCantidad && (
+            <span className="chip-mapa">
+              {t.soloNiveles(nivelesMapa.map((i) => t.nivelesMapa[i]).join(", "))}
+              <button
+                type="button"
+                aria-label={t.chipQuitarNiveles}
+                title={t.chipQuitarNiveles}
+                onClick={() => setNivelesMapa(TODOS_LOS_NIVELES)}
+              >
+                <X size={13} aria-hidden />
+              </button>
+            </span>
+          )}
         </div>
-      )}
-      <div className="map-etiqueta">{t.enMapa(focosVisibles.length, e.etiquetaPeriodo)}</div>
+        <h2 id="leyenda-mapa-titulo" className="leyenda-mapa-titulo">
+          {t.mapaTitulo(periodoMapa)}
+        </h2>
+        {/* Cada nivel es también un filtro: sin ninguno marcado se ven todos. */}
+        <ol className="leyenda-mapa-escala" aria-label={t.filtrarNivelesMapa}>
+          {rangos.map((r, i) => {
+            const marcado = nivelesMapa.includes(i);
+            const ultimo = marcado && nivelesMapa.length === 1; // siempre queda al menos uno
+            return (
+              <li key={i}>
+                <button
+                  type="button"
+                  className="nivel-mapa"
+                  aria-pressed={marcado}
+                  data-activo={marcado}
+                  disabled={ultimo}
+                  onClick={() =>
+                    setNivelesMapa((n) =>
+                      n.includes(i) ? n.filter((x) => x !== i) : [...n, i].sort((a, b) => a - b),
+                    )
+                  }
+                >
+                  <i style={{ background: `var(${VARIABLES_ESCALA[i]})` }} aria-hidden>
+                    {marcado && <Check size={10} strokeWidth={3.5} />}
+                  </i>
+                  <strong>{t.nivelesMapa[i]}</strong>
+                  <span>{r}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+
+        {celdasAnio?.tramo === "estimado" && <p className="map-etiqueta-aviso">{t.mapaEstimado}</p>}
+        <details className="leyenda-mapa-ayuda">
+          <summary>{t.comoLeerMapa}</summary>
+          <ul>
+            {t.ayudaMapa(periodoMapa).map((linea) => (
+              <li key={linea}>{linea}</li>
+            ))}
+          </ul>
+        </details>
+      </section>
       <ControlesMapa
         verPeru={verPeru}
-        irArea={irArea}
         acercar={() => mapa.current?.zoomIn()}
         alejar={() => mapa.current?.zoomOut()}
         relieve={relieve}

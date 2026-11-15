@@ -1,6 +1,5 @@
-// Textos en español (idioma base). Los demás idiomas (en.ts, qu.ts, ay.ts) tienen
-// exactamente la misma forma: el tipo Textos obliga a traducir todas las claves.
-import { formatoNumero } from "./formato";
+// Textos en español (idioma base). en.ts, qu.ts y ay.ts tienen exactamente la misma forma:
+// el tipo Textos obliga a traducir todas las claves.
 
 /** Fecha descompuesta: mes de 0 a 11. */
 export type FechaPartes = { dia: number; mes: number; anio: number };
@@ -25,130 +24,144 @@ export const es = {
   locale: "es-ES",
 
   titulo: "Focos de calor del Perú",
-  subtitulo: "MODIS + VIIRS en una sola serie",
+  subtitulo: "MODIS + VIIRS en una sola serie, 2002–2024",
   equipo: "NASA Space Apps Challenge 2026 · Junior FC, Moquegua",
   saltar: "Saltar a los filtros",
   idioma: "Idioma",
   reducirTexto: "Reducir tamaño del texto",
   aumentarTexto: "Aumentar tamaño del texto",
   tamanoTexto: (pct: number) => `Tamaño del texto: ${pct}%`,
-
-  // Paneles
-  ocultar: (panel: string) => `Ocultar ${panel}`,
-  mostrar: (panel: string) => `Mostrar ${panel}`,
-
-  // Área
-  area: "Área de interés",
-  areaCorta: "Área",
-  departamentos: "Departamentos",
-  dibujar: "Dibujar área",
-  buscar: "Buscar departamento",
-  buscarPlaceholder: "Buscar departamento…",
-  todoPeru: "Todo el Perú",
-  quitarTodos: "Quitar todos",
-  quitar: (n: string) => `Quitar ${n}`,
-  sinResultados: "No se encontraron departamentos",
-  elegidos: (n: number) => `${n} de 25 elegidos`,
-  totalAnual: (anio: number) => `Focos equivalentes en ${anio}`,
-  ayudaDibujo: "Toca el mapa para marcar tu área. Ciérrala en el primer punto o con «Listo».",
-  redibujar: "Borrar y dibujar otra área",
-  deshacer: "Deshacer",
-  listo: "Listo",
-  areaDibujada: "Área dibujada",
-  sinArea: "Ningún área elegida",
-  nDepartamentos: (n: number) => `${n} departamentos`,
-  descargar: "Descargar estos datos (CSV)",
-  resumen: "Resumen",
-  focosEq: "focos equivalentes",
-  detecciones: (n: number) => `${formatoNumero(n)} ${n === 1 ? "detección" : "detecciones"}`,
-  diaMax: "Día con más fuego",
-  vsAnterior: "Frente al periodo anterior",
-  mismosDias: (n: number) => `${n} ${n === 1 ? "día" : "días"} antes`,
-  sinAnterior: "Sin datos del periodo anterior",
-  anteriorCero: "Sin focos en el periodo anterior",
-  subio: "subió",
-  bajo: "bajó",
-  mesMax: "Mes más activo",
-  frpMax: "Foco más intenso",
-  confianzaAlta: "Confianza alta",
-  deNoche: "Detectados de noche",
-  depTop: "Departamento con más focos",
-  delTotal: "del total",
-  delasDetecciones: "de las detecciones",
-  graficoDia: "Focos equivalentes por día",
-  graficoMes: "Focos equivalentes por mes",
-  maximo: "Máximo",
-  notaEquivalentes:
-    "Focos equivalentes: cada detección MODIS se suma con su peso para igualar la escala de VIIRS.",
-  sinFocos: "No hay focos en esta área y periodo.",
-  cargando: "Cargando datos…",
-  errorDatos: "No se pudieron cargar los datos.",
-  eligeArea: "Elige al menos un departamento o dibuja un área.",
-  dibujaArea: "Dibuja tu área en el mapa para ver sus focos.",
-
-  // Fechas
-  fechas: "Fechas",
-  anio: "Año",
-  datosHasta: (fecha: string) => `datos hasta el ${fecha}`,
-  verPor: "Ver por",
-  gran: { anio: "Año", mes: "Mes", semana: "Semana", dia: "Día" },
-  mesAnterior: "Mes anterior",
-  mesSiguiente: "Mes siguiente",
-  mostrando: "Mostrando",
-  verDoce: "Ver los 12 meses juntos",
-  irAlMes: (mes: string, total: string) => `Ir a ${mes}: ${total} focos equivalentes`,
-  leyenda: "Niveles de actividad",
-  leyendaNota: "Calculados para el área elegida.",
-  sinFiltroNiveles: "Sin filtro.",
-  niveles: ["Sin focos", "Pocos", "Algunos", "Muchos", "Muchísimos"],
-  hasta: (n: string) => `hasta ${n} por día`,
-  rango: (a: string, b: string) => `${a}–${b} por día`,
-  masDe: (n: string) => `más de ${n} por día`,
-  porDia: (n: string) => `${n} por día`,
-  rangoVacio: "sin días en este rango",
-  sinDatosTodavia: "Sin datos todavía",
-  diaSinFocos: "Sin focos",
-  diaSinDatos: "Día sin datos todavía",
-  ariaDia: (dia: number, mes: string, total: string, estado?: string) =>
-    `${dia} de ${mes}: ${estado ?? `${total} focos equivalentes`}`,
-  nivelOculto: "nivel oculto",
-
-  // Mapa
-  mapaDescripcion:
-    "Mapa de focos de calor del Perú. Usa las flechas para moverte y las teclas más y menos para acercarte. Para elegir departamentos también puedes usar la lista del panel Área de interés.",
-  cargandoMapa: "Cargando mapa…",
-  controlesMapa: "Controles del mapa",
-  relieve: "Relieve del terreno",
-  coloresAltura: "Colores por altura",
   modoClaro: "Activar modo claro",
   modoOscuro: "Activar modo oscuro",
+  ocultar: (panel: string) => `Ocultar ${panel}`,
+  peru: "Perú",
+
+  // Panel de años
+  tramo: { estimado: "estimado", viirs_real: "VIIRS real" },
+  descargar: "Descargar estos datos (CSV)",
+
+  // Resumen
+  resumen: "Resumen",
+  focosEq: "focos equivalentes",
+  entre: (a: string, b: string) => `entre ${a} y ${b}`,
+  loNormalDet: (mediana: string) => `mediana ${mediana}`,
+  mesPico: "Mes más activo",
+  agoSep: "En agosto y septiembre",
+  delAnio: "del año",
+  frp: "Potencia del fuego",
+  frpDet: "suma de FRP",
+  satelite: "Satélite",
+  medianaLeyenda: "mediana",
+  maximo: "Máximo",
+  avisoEstimado: "Estimado con MODIS Aqua, calibrado con VIIRS.",
+  avisoIncierta: (a: string, b: string) => `Por el margen de error podría ser «${a}» o «${b}».`,
+  avisoSinDato: "Sin observación completa del satélite.",
+  avisoFrp: "El FRP estimado tiende a sobrestimarse (~12 %).",
+  nota: "Focos en equivalente VIIRS 375 m. De 2002 a 2011 se estiman con MODIS Aqua × factor de temporada.",
+  cargando: "Cargando datos…",
+  errorDatos: "No se pudieron cargar los datos.",
+
+  // Fechas
+  anio: "Año",
+  anioAnterior: "Año anterior",
+  anioSiguiente: "Año siguiente",
+  leyendaNota: (a: number, b: number) => `Comparado con ${a}–${b}.`,
+  incierto: "Color incierto",
+  sinDato: "Sin dato",
+  calidades: {
+    ok: "Completo",
+    parcial: "Parcial",
+    incompleto: "Incompleto",
+    relleno: "Relleno con Aqua",
+    "sin dato": "Sin dato",
+  } as Record<string, string>,
+  fuentes: {
+    estimado: "MODIS Aqua (estimado)",
+    "S-NPP": "VIIRS S-NPP",
+    "NOAA-20": "VIIRS NOAA-20",
+    "NOAA-20+S-NPP": "VIIRS S-NPP y NOAA-20",
+    "S-NPP+estimado": "VIIRS S-NPP y estimado",
+    "sin dato": "Sin dato",
+  } as Record<string, string>,
+
+  // Periodo y matriz
+  periodo: "Periodo",
+  mesEtiqueta: "Mes",
+  todoElAnio: "Todo el año",
+  sincronizado: "Lo elegido se marca igual en la matriz",
+  todosLosAnios: "Todos los años",
+  ayudaMatriz: "Toca un mes, o un año para verlo completo.",
+  comparadoMismoMes: (a: number, b: number) => `Fuego comparado con el mismo mes en ${a}–${b}`,
+  categoriasCortas: {
+    muy_por_debajo: "Mucho menos fuego",
+    por_debajo: "Menos fuego",
+    normal: "Fuego usual",
+    por_encima: "Más fuego",
+    muy_por_encima: "Mucho más fuego",
+    maximo: "Récord de fuego",
+    sin_dato: "Sin dato",
+  } as Record<string, string>,
+  categorias: {
+    muy_por_debajo: "Mucho menos fuego que lo usual",
+    por_debajo: "Menos fuego que lo usual",
+    normal: "Fuego usual para ese mes",
+    por_encima: "Más fuego que lo usual",
+    muy_por_encima: "Mucho más fuego que lo usual",
+    maximo: "Récord: el más alto desde 2003",
+    sin_dato: "Sin dato completo",
+  } as Record<string, string>,
+  eligeMesResaltado: "Elige en la matriz un mes resaltado para verlo en el mapa",
+  ayudaResaltar: "Toca un color para resaltar esos meses.",
+  limpiarFiltros: "Limpiar filtros",
+  estimadoAqua: "2002–2011: estimado con MODIS Aqua",
+  tooltipMatriz: (mes: string, anio: number, focos: string, situacion: string) =>
+    `${mes} ${anio} · ${focos} focos · ${situacion}`,
+  frenteMismoMes: (mes: string) => `Frente a ${mes} de otros años`,
+  mesUsual: (mes: string) => `${mes} usual`,
+  mesEnCadaAnio: (mes: string) => `${mes} en cada año`,
+  notaGraficoAnio: (a: number, b: number) =>
+    `Color de cada barra: fuego comparado con el mismo mes en ${a}–${b}. Línea: lo usual de ese mes (mediana).`,
+  graficoMesesDe: (anio: number) => `Focos por mes en ${anio}`,
+  historicoMismoMes: (a: number, b: number) => `Histórico: el mismo mes, año por año (${a}–${b})`,
+  franjaUsual: "franja = lo usual",
+  frenteAnioUsual: "Frente a un año usual",
+  chipVerAnio: "Ver el año completo",
+  chipQuitarNiveles: "Quitar filtro de cantidad",
+  soloNiveles: (lista: string) => `Solo ${lista}`,
+  mesesSobre: "Meses más altos que lo usual",
+  mesesSobreDet: (n: number) => `${n} más bajos`,
+  // Mapa
+  mapaDescripcion:
+    "Mapa de focos de calor del Perú en celdas de 28 km. Usa las flechas para moverte y las teclas más y menos para acercarte.",
+  cargandoMapa: "Cargando mapa…",
+  controlesMapa: "Controles del mapa",
   verPeru: "Ver todo el Perú",
-  irArea: "Ir a mi área",
   acercar: "Acercar mapa",
   alejar: "Alejar mapa",
-  enMapa: (n: number, periodo: string) =>
-    `En el mapa: ${formatoNumero(n)} ${n === 1 ? "detección" : "detecciones"} de ${periodo}`,
-  tooltipFoco: (fecha: string, peso: string, frp: string, confianza: string) =>
-    `${fecha}<br>${peso} focos equivalentes<br>FRP ${frp} MW · confianza ${confianza}`,
-  /** Valores de la columna "confianza" del CSV. */
-  confianzaValores: { nominal: "nominal", alta: "alta" } as Record<string, string>,
+  relieve: "Relieve del terreno",
+  coloresAltura: "Colores por altura",
+  mapaTitulo: (periodo: string) => `Cantidad de focos · ${periodo}`,
+  nivelesMapa: ["Muy pocos", "Pocos", "Moderado", "Muchos", "Muchísimos"],
+  comoLeerMapa: "¿Cómo leer el mapa?",
+  ayudaMapa: (periodo: string) => [
+    "Cada cuadro cubre unos 28 × 28 km.",
+    `El color dice cuántos focos de calor hubo ahí en ${periodo}: azul, muy pocos; rojo, muchísimos.`,
+    "Donde no hay cuadro, no se detectaron focos.",
+  ],
+  filtrarNivelesMapa: "Filtrar el mapa por cantidad de focos",
+  mapaEstimado: "Estimado: se ve granulado",
+  tooltipCelda: (focos: string, frp?: string) =>
+    `${focos} focos equivalentes${frp ? `<br>FRP ${frp} MW` : ""}`,
 
   // Calendario y fechas
   meses,
   mesesCortos: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-  diasSemana: ["L", "M", "M", "J", "V", "S", "D"],
-  diasSemanaLargos: ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
   /** "6 de octubre" */
   fechaCorta: (f: FechaPartes) => `${f.dia} de ${meses[f.mes]}`,
   /** "6 de octubre de 2026" */
   fechaLarga: (f: FechaPartes) => `${f.dia} de ${meses[f.mes]} de ${f.anio}`,
   /** "octubre 2026" */
   mesAnio: (mes: number, anio: number) => `${meses[mes]} ${anio}`,
-  /** "la semana del 5 al 11 de octubre de 2026" */
-  semana: (i: FechaPartes, f: FechaPartes) =>
-    i.mes === f.mes
-      ? `la semana del ${i.dia} al ${f.dia} de ${meses[f.mes]} de ${f.anio}`
-      : `la semana del ${i.dia} de ${meses[i.mes]} al ${f.dia} de ${meses[f.mes]} de ${f.anio}`,
 };
 
 export type Textos = typeof es;
