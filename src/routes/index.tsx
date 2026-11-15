@@ -49,6 +49,7 @@ function Aplicacion() {
       className={`app-root ${escala === 1 ? "text-115" : escala === 2 ? "text-130" : ""}`}
       data-anios-abierto={paneles.anios}
       data-fechas-abierto={paneles.fechas}
+      data-resumen-abierto={paneles.resumen}
     >
       <MenuSuperior />
       <main className="escenario">
