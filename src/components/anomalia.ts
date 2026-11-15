@@ -1,6 +1,6 @@
 // Colores de las categorías de anomalía: escala de intensidad de claro a oscuro.
 import { t } from "@/i18n";
-import { COLORES_CATEGORIA, type CategoriaId, type Meta } from "@/lib/historico";
+import { COLORES_CATEGORIA, type CategoriaId, type Mes, type Meta } from "@/lib/historico";
 
 /** Color de fondo de una categoría (escala de intensidad de la app; meta se mantiene por compatibilidad). */
 export function colorCategoria(_meta: Meta | undefined, cat: CategoriaId | null | undefined) {
@@ -31,3 +31,13 @@ export const nombreCategoria = (cat: CategoriaId | null | undefined) =>
 
 export const nombreFuente = (f: string) => t.fuentes[f] ?? f;
 export const nombreCalidad = (c: string) => t.calidades[c] ?? c;
+
+/**
+ * Categoría que se muestra para un mes: sin dato si no hay conteo, y un dato preliminar (NRT)
+ * nunca se presenta como récord (la guía lo pide): se muestra como "mucho más que lo usual".
+ */
+export function categoriaMostrada(m: Pick<Mes, "count" | "cat" | "preliminar">): CategoriaId {
+  if (m.count === null) return "sin_dato";
+  if (m.preliminar && m.cat === "maximo") return "muy_por_encima";
+  return m.cat;
+}

@@ -4,9 +4,9 @@ import { setWorkerUrl, type ExpressionSpecification, type Map as MapaBase } from
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { maplibreGL } from "@maplibre/maplibre-gl-leaflet";
 import { Check, X } from "lucide-react";
-import { formatoNumero, t } from "@/i18n";
+import { formatoDecimal, formatoNumero, t } from "@/i18n";
 import { useEstado, type Tema } from "@/estado/contexto";
-import { CORTES_MAPA, claseMapa } from "@/lib/historico";
+import { CORTES_MAPA, claseMapa, densidad } from "@/lib/historico";
 import {
   departamentoDeCeldas,
   fronteraExterior,
@@ -278,7 +278,8 @@ export default function Mapa() {
     base.setStyle(ESTILO_BASE[tema], { diff: false });
   }, [tema]);
 
-  // Celdas de 0,25° (~28 km): valor anual o del mes elegido, escala secuencial fija.
+  // Celdas de 0,25° (~28 km) hasta 2011 y de 0,1° (~11 km) desde 2012; se pinta la densidad
+  // (focos por 100 km²) para que todos los años se comparen con la misma escala.
   // El mapa cambia solo con el periodo (año o mes) y con los niveles de cantidad.
   // La comparación con lo usual solo resalta meses en la matriz.
   const { celdasAnio, datos, gran, mes, activas } = e;
@@ -296,14 +297,16 @@ export default function Mapa() {
     if (!m || !datos || !celdasAnio || eligiendo) return;
     if (porMes && !celdasAnio.meses_con_dato[mes - 1]) return;
     const colores = VARIABLES_ESCALA.map(css);
-    const h = datos.tamanoCelda / 2;
     const grupo = L.layerGroup();
     for (const c of datos.celdas) {
+      if (c.tamano !== celdasAnio.tamano_celda) continue; // cada año usa un solo tamaño
       const v = celdasAnio.celdas[c.id];
       if (!v) continue; // ausente = 0
       const valor = porMes ? v.meses[mes - 1] : v.count;
       if (valor === null || valor === undefined) continue;
-      const clase = claseMapa(valor, cortes);
+      const dens = densidad(valor, c);
+      const clase = claseMapa(dens, cortes);
+      const h = c.tamano / 2;
       if (clase < 0) continue;
       if (!nivelesMapa.includes(clase)) continue; // filtro de la leyenda
       L.rectangle(
@@ -325,10 +328,9 @@ export default function Mapa() {
         // Por mes no hay FRP por celda: solo se muestra el conteo.
         .bindTooltip(() => {
           const depto = deptoDeCelda.get(c.id);
-          const cifras = t.tooltipCelda(
-            formatoNumero(valor),
-            porMes ? undefined : formatoNumero(v.frp),
-          );
+          const cifras =
+            t.tooltipCelda(formatoNumero(valor), porMes ? undefined : formatoNumero(v.frp)) +
+            `<br>${t.densidadTexto(formatoDecimal(dens))}`;
           return depto ? `<strong>${nombreDepartamento(depto)}</strong><br>${cifras}` : cifras;
         })
         .addTo(grupo);
@@ -351,11 +353,16 @@ export default function Mapa() {
   }, [relieve, coloresAltura]);
 
   const periodoMapa = porMes ? t.mesAnio(mes - 1, e.anio) : String(e.anio);
+  // Cortes de densidad (pueden tener decimales, p. ej. 2,5).
+  const num = (n: number) => (Number.isInteger(n) ? formatoNumero(n) : formatoDecimal(n));
   const rangos = [
-    `1–${formatoNumero(cortes[0] ?? 0)}`,
-    ...cortes.slice(1).map((c, i) => `${formatoNumero((cortes[i] ?? 0) + 1)}–${formatoNumero(c)}`),
-    `> ${formatoNumero(cortes.at(-1) ?? 0)}`,
+    `≤ ${num(cortes[0] ?? 0)}`,
+    ...cortes.slice(1).map((c, i) => `${num(cortes[i] ?? 0)}–${num(c)}`),
+    `> ${num(cortes.at(-1) ?? 0)}`,
   ];
+  const conPreliminar = porMes
+    ? !!celdasAnio?.preliminar_meses[mes - 1]
+    : !!celdasAnio?.preliminar_meses.some(Boolean);
 
   return (
     <div className="mapa" data-fechas-abierto={e.paneles.fechas}>
@@ -426,7 +433,10 @@ export default function Mapa() {
           })}
         </ol>
 
-        {celdasAnio?.tramo === "estimado" && <p className="map-etiqueta-aviso">{t.mapaEstimado}</p>}
+        {celdasAnio && (
+          <p className="map-etiqueta-aviso">{t.mapaResolucion(celdasAnio.tamano_celda < 0.2)}</p>
+        )}
+        {conPreliminar && <p className="map-etiqueta-aviso">{t.mapaPreliminar}</p>}
         <details className="leyenda-mapa-ayuda">
           <summary>{t.comoLeerMapa}</summary>
           <ul>

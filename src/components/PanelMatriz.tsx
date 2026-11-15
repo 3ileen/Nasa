@@ -32,6 +32,10 @@ export function PanelMatriz() {
         <i className="muestra-estimado" aria-hidden />
         {t.estimadoAqua}
       </p>
+      <p className="nota-tramo">
+        <i className="muestra-preliminar" aria-hidden />
+        {t.notaPreliminar}
+      </p>
       <LeyendaMatriz />
     </PanelFlotante>
   );

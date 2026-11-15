@@ -24,7 +24,7 @@ export const qu: Textos = {
   locale: "es-ES",
 
   titulo: "Perú suyupi q'uñi kaqkuna",
-  subtitulo: "MODIS + VIIRS huk siqillapi, 2002–2024",
+  subtitulo: "MODIS + VIIRS huk siqillapi, 2002–2026",
   equipo: "NASA Space Apps Challenge 2026 · Junior FC, Moquegua",
   saltar: "Akllanakunaman riy",
   idioma: "Simi",
@@ -127,6 +127,23 @@ export const qu: Textos = {
   soloNiveles: (lista) => `${lista}lla`,
   mesesSobre: "Sapa kutinmanta aswan killakuna",
   mesesSobreDet: (n) => `${n} aswan pisi`,
+  preliminarCorto: "ñawpaqlla",
+  avisoPreliminar: "Ñawpaqlla willakuy: NASA tukusqa willakuyta horqoptin tikrakunmanmi.",
+  notaPreliminar: "Ch'iqchi patan: ñawpaqlla willakuy, tikrakunmanmi.",
+  mapaPreliminar: "Ñawpaqlla willakuykunata hap'in, tikrakunmanmi.",
+  anioIncompleto: "Mana hunt'asqa wata: mana tupachikunchu.",
+  enCurso: "kunan wata",
+  densidadTexto: (d) => `sapa 100 km²-pi ${d}`,
+  mapaResolucion: (fina) =>
+    fina
+      ? "~11 km k'uchukuna (VIIRS, 2012manta)."
+      : "~28 km k'uchukuna (MODISwan yupasqa, 2002–2011): ch'aqchu hina rikukun.",
+  mapaTitulo: (periodo) => `Sapa 100 km²-pi q'uñi kaqkuna · ${periodo}`,
+  ayudaMapa: (periodo) => [
+    "Sapa k'uchu 2011kama 28 km hina, 2012manta 11 km hina (VIIRS aswan sut'ita rikun).",
+    `Llimp'iqa ${periodo} pachapi sapa 100 km²-pi hayk'a q'uñi kaqkuna kasqanta willan: anqas, ancha pisi; puka, ancha achka.`,
+    "Mana k'uchu kaqpiqa mana q'uñi kaqkuna tarikurqanchu.",
+  ],
   mapaDescripcion:
     "Perúpa q'uñi kaqkunanpa mapan, 28 km k'uchukunapi. Wach'i llaveswan kuyuchiy, más menos llaveswantaq asuchiy karunchaypas.",
   cargandoMapa: "Mapa apakamushan…",
@@ -136,16 +153,9 @@ export const qu: Textos = {
   alejar: "Mapata karunchay",
   relieve: "Urqukuna wayq'ukuna",
   coloresAltura: "Hatun kayninman hina llimp'ikuna",
-  mapaTitulo: (periodo) => `Q'uñi kaqkunapa yupaynin · ${periodo}`,
   nivelesMapa: ["Ancha pisi", "Pisi", "Chawpi", "Achka", "Ancha achka"],
   comoLeerMapa: "¿Imaynatataq mapata ñawinchana?",
-  ayudaMapa: (periodo) => [
-    "Sapa k'uchu 28 × 28 km hina hap'in.",
-    `Llimp'iqa ${periodo} pachapi hayk'a q'uñi kaqkuna kasqanta willan: anqas, ancha pisi; puka, ancha achka.`,
-    "Mana k'uchu kaqpiqa mana q'uñi kaqkuna tarikurqanchu.",
-  ],
   filtrarNivelesMapa: "Mapata q'uñi kaqkunapa yupayninman hina akllay",
-  mapaEstimado: "Yupasqa: ch'aqchu hina rikukun",
   tooltipCelda: (focos, frp) =>
     `${focos} tupachisqa q'uñi kaqkuna${frp ? `<br>FRP ${frp} MW` : ""}`,
 

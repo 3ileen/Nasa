@@ -10,7 +10,13 @@ import {
 } from "@/i18n";
 import { useEstado } from "@/estado/contexto";
 import { resumenMeses, type CategoriaId, type Mes } from "@/lib/historico";
-import { colorCategoria, nombreCalidad, nombreCategoria, nombreFuente } from "./anomalia";
+import {
+  categoriaMostrada,
+  colorCategoria,
+  nombreCalidad,
+  nombreCategoria,
+  nombreFuente,
+} from "./anomalia";
 import { PanelFlotante } from "./PanelFlotante";
 
 function Indicador({
@@ -134,12 +140,12 @@ const barraMes = (m: Mes, resaltada: boolean): Barra => ({
   etiqueta: t.mesAnio(m.mes - 1, m.anio),
   valor: m.count,
   mediana: m.mediana,
-  cat: m.cat,
+  cat: categoriaMostrada(m),
   estimado: m.tramo === "estimado",
   resaltada,
 });
 /**
- * El mes elegido en cada año (2002–2024), con la franja de lo usual (p25–p75).
+ * El mes elegido en cada año (2002–2026), con la franja de lo usual (p25–p75).
  * Deja claro que la comparación es contra el mismo mes de otros años.
  */
 function MismoMesCadaAnio({ mes, titulo }: { mes: number; titulo: string }) {
@@ -225,6 +231,7 @@ function Avisos({ periodo }: { periodo: Mes | null }) {
   const avisos: string[] = [];
   if (periodo?.count === null || periodo?.cat === "sin_dato") avisos.push(t.avisoSinDato);
   if (periodo?.tramo === "estimado") avisos.push(t.avisoEstimado, t.avisoFrp);
+  if (periodo?.preliminar) avisos.push(t.avisoPreliminar);
   if (periodo?.incierta && periodo.cat_inf && periodo.cat_sup)
     avisos.push(
       t.avisoIncierta(nombreCategoria(periodo.cat_inf), nombreCategoria(periodo.cat_sup)),
@@ -282,8 +289,14 @@ export function PanelResumen() {
           />
           <Indicador
             titulo={t.frenteAnioUsual}
-            valor={<Diferencia pct={r?.anomalia_pct ?? null} />}
-            detalle={meta ? t.leyendaNota(meta.linea_base[0], meta.linea_base[1]) : undefined}
+            valor={r && !r.completo ? "—" : <Diferencia pct={r?.anomalia_pct ?? null} />}
+            detalle={
+              r && !r.completo
+                ? t.anioIncompleto
+                : meta
+                  ? t.leyendaNota(meta.linea_base[0], meta.linea_base[1])
+                  : undefined
+            }
           />
           <Indicador
             titulo={t.mesPico}
@@ -320,7 +333,12 @@ export function PanelResumen() {
               : [],
           )}
         />
-        {r?.tramo === "estimado" && <ListaAvisos avisos={[t.avisoEstimado]} />}
+        <ListaAvisos
+          avisos={[
+            ...(r?.tramo === "estimado" ? [t.avisoEstimado] : []),
+            ...(r?.preliminar ? [t.avisoPreliminar] : []),
+          ]}
+        />
       </>
     );
   } else {
@@ -334,8 +352,11 @@ export function PanelResumen() {
             titulo={t.frenteMismoMes(nombreMes)}
             valor={
               <span className="situacion">
-                <i style={{ background: colorCategoria(meta, p?.cat) }} aria-hidden />
-                {nombreCategoria(p?.cat)}
+                <i
+                  style={{ background: colorCategoria(meta, p ? categoriaMostrada(p) : undefined) }}
+                  aria-hidden
+                />
+                {nombreCategoria(p ? categoriaMostrada(p) : undefined)}
                 {p?.incierta && <span title={t.incierto}> ≈</span>}
               </span>
             }
@@ -374,6 +395,9 @@ export function PanelResumen() {
           {titulo}
           {(r || periodo) && (
             <span className="etiqueta-tramo">{t.tramo[(periodo ?? r)?.tramo ?? "viirs_real"]}</span>
+          )}
+          {(periodo ?? r)?.preliminar && (
+            <span className="etiqueta-tramo etiqueta-preliminar-borde">{t.preliminarCorto}</span>
           )}
         </div>
         {!e.error && !e.cargando && (
