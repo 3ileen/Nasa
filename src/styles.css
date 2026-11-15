@@ -1724,3 +1724,73 @@ button:not(:disabled) {
     max-width: calc(100% - 424px - 136px);
   }
 }
+
+/* ---------- Top años: tabla de focos por año ---------- */
+.vista-matriz {
+  margin: 4px 0 10px;
+}
+.top-anios {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: calc(12px * var(--text-scale));
+  font-variant-numeric: tabular-nums;
+}
+.top-anios th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  padding: 0 4px 6px;
+}
+.top-anios th.top-focos {
+  text-align: right;
+}
+.top-anios td {
+  padding: 1px 4px;
+  height: 26px;
+}
+.top-anios tbody tr {
+  cursor: pointer;
+}
+.top-anios tbody tr:hover {
+  background: var(--accent);
+}
+.top-anios tr[data-elegido="true"] {
+  background: var(--secondary);
+  box-shadow: inset 3px 0 var(--primary);
+}
+.top-puesto {
+  width: 28px;
+  color: var(--muted-foreground);
+  text-align: right;
+}
+.top-anio {
+  border: 0;
+  background: none;
+  color: var(--foreground);
+  font: inherit;
+  font-weight: 600;
+  padding: 2px 0;
+}
+.top-anios td.top-focos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.top-barra-fondo {
+  flex: 1;
+  height: 14px;
+  display: block;
+}
+.top-barra {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+}
+.top-barra[data-preliminar="true"] {
+  outline: 1.5px dashed var(--muted-foreground);
+  outline-offset: 1px;
+}
+.top-numero {
+  min-width: 56px;
+  text-align: right;
+}

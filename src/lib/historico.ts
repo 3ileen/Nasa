@@ -186,6 +186,23 @@ export function resumenMeses(meses: (Mes | null)[]) {
   };
 }
 
+/**
+ * Categoría de un año completo frente a los demás años, con los mismos cortes de percentil que
+ * usa el pipeline para los meses (p10, p25, p75, p90) y récord para el puesto 1.
+ * Los años incompletos no se comparan.
+ */
+export function categoriaAnio(
+  r: Pick<AnioRanking, "completo" | "puesto" | "percentil">,
+): CategoriaId {
+  if (!r.completo || r.percentil === null) return "sin_dato";
+  if (r.puesto === 1) return "maximo";
+  if (r.percentil >= 90) return "muy_por_encima";
+  if (r.percentil > 75) return "por_encima";
+  if (r.percentil >= 25) return "normal";
+  if (r.percentil >= 10) return "por_debajo";
+  return "muy_por_debajo";
+}
+
 // ---------- Mapa: escala secuencial fija (no el semáforo; ver la guía, sección 8) ----------
 
 /** Área aproximada de una celda en km² (se achica hacia los polos). */
