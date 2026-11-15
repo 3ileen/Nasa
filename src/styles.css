@@ -1669,11 +1669,6 @@ button:not(:disabled) {
   .map-etiqueta {
     bottom: 80px;
   }
-  /* Con la matriz abierta, la leyenda se centra en el espacio libre del mapa. */
-  .mapa[data-fechas-abierto="true"] .map-etiqueta {
-    left: calc((100% - 424px) / 2);
-    max-width: calc(100% - 448px);
-  }
   .map-controls,
   .app-root[data-fechas-abierto="true"] .map-controls {
     bottom: 80px;
@@ -1719,5 +1714,13 @@ button:not(:disabled) {
 @media (min-width: 1181px) {
   .panel-resumen {
     max-height: calc(100% - 260px);
+  }
+}
+
+/* Con la matriz abierta, la leyenda se centra en el mapa libre y no pasa bajo los botones. */
+@media (min-width: 901px) {
+  .mapa[data-fechas-abierto="true"] .map-etiqueta {
+    left: calc((100% - 424px) / 2);
+    max-width: calc(100% - 424px - 136px);
   }
 }
