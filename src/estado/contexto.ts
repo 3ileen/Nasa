@@ -1,57 +1,49 @@
 import { createContext, useContext } from "react";
-import type { Polygon } from "geojson";
 import type { CodigoIdioma } from "@/i18n";
-import type { Foco, IndiceDias } from "@/lib/datos";
-import type { Area, NivelesActivos } from "@/lib/filtros";
-import type { Resumen } from "@/lib/indicadores";
-import type { Limites, Nivel } from "@/lib/niveles";
-import type { Granularidad, Periodo } from "@/lib/periodos";
+import type { AnioRanking, CategoriaId, CeldasAnio, Historico, Mes } from "@/lib/historico";
 
 // Contexto separado del proveedor para que la recarga en caliente (HMR) no cree un contexto nuevo.
-export type Paneles = { area: boolean; resumen: boolean; fechas: boolean };
 
 export type Tema = "oscuro" | "claro";
+export type Granularidad = "anio" | "mes";
+export type Paneles = { anios: boolean; resumen: boolean; fechas: boolean };
 
 export type Estado = {
   // Datos
   cargando: boolean;
   error: string | null;
+  datos: Historico | null;
   anios: number[];
-  ultimaFecha: string | null;
-  // Filtros
-  area: Area;
+  /** Años completos con puesto en el ranking. */
+  aniosCompletos: number;
+  // Selección
   anio: number;
   gran: Granularidad;
+  /** Mes elegido, 1–12. */
   mes: number;
-  dia: string;
-  activos: NivelesActivos;
+  /** Categorías resaltadas en la matriz (no filtran el mapa). Vacío = ninguna. */
+  activas: CategoriaId[];
   paneles: Paneles;
   escala: 0 | 1 | 2;
   idioma: CodigoIdioma;
   tema: Tema;
-  dibujoVersion: number;
   // Derivados
-  periodo: Periodo;
+  mesesAnio: (Mes | null)[];
+  mesSel: Mes | null;
+  rankingAnio: AnioRanking | null;
   etiquetaPeriodo: string;
-  etiquetaArea: string;
-  indiceArea: IndiceDias;
-  limites: Limites;
-  niveles: Map<string, Nivel>;
-  focosVisibles: Foco[];
-  resumen: Resumen;
-  totalesDepartamento: Record<string, number>;
+  celdasAnio: CeldasAnio | null;
   // Acciones
-  elegirModo: (modo: Area["modo"]) => void;
-  alternarDepartamento: (clave: string) => void;
-  fijarDepartamentos: (claves: string[]) => void;
-  fijarPoligono: (p: Polygon | null) => void;
-  redibujar: () => void;
   elegirAnio: (a: number) => void;
   elegirGran: (g: Granularidad) => void;
-  moverMes: (delta: number) => void;
-  irAMes: (m: number) => void;
-  elegirDia: (d: string) => void;
-  alternarNivel: (n: 1 | 2 | 3 | 4) => void;
+  elegirMes: (m: number) => void;
+  /** Elige año y mes a la vez (desde la matriz). */
+  elegirPeriodo: (a: number, m: number) => void;
+  /** Vuelve a ver el año completo. */
+  verAnioCompleto: () => void;
+  limpiarCategorias: () => void;
+  alternarCategoria: (c: CategoriaId) => void;
+  categoriaVisible: (c: CategoriaId) => boolean;
   alternarPanel: (p: keyof Paneles) => void;
   fijarEscala: (e: 0 | 1 | 2) => void;
   elegirIdioma: (c: CodigoIdioma) => void;
