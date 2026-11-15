@@ -7,7 +7,7 @@ import { MatrizHistorica } from "./MatrizHistorica";
 import { PanelFlotante } from "./PanelFlotante";
 import { TopAnios } from "./TopAnios";
 
-/** Toda la serie junta: años × meses. También sirve para elegir el periodo. */
+/** The whole series at once: years × months. Also used to pick the period. */
 export function PanelMatriz() {
   const e = useEstado();
   const [vista, setVista] = useState<"calendario" | "top">("calendario");

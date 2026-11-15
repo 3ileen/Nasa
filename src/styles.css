@@ -40,70 +40,70 @@
   --radius-md: 6px;
   --radius-lg: 8px;
 }
-/* Paleta: negro neutro + acento cian (no compite con los naranjas y amarillos del fuego). */
+/* Palette: neutral black + cyan accent (does not compete with the fire oranges and yellows). */
 :root {
   --text-scale: 1;
-  --background: #000000; /* fondo de la app y del mapa */
-  --card: #111317; /* paneles */
-  --foreground: #f2f4f8; /* texto principal (18:1 sobre paneles) */
-  --primary: #4fd1e8; /* acento: selección, botones principales, área elegida */
-  --marca-azul: #60a5fa; /* azul de NinaWillay aclarado para el negro (7,5:1) */
-  --primary-foreground: #000000; /* texto oscuro: tarjeta del resumen y niveles 3–4 */
-  --on-primary: #000000; /* texto sobre el acento */
-  --secondary: #1d2027; /* opción activa */
-  --muted-foreground: #b4bac5; /* texto secundario (9:1 sobre paneles) */
+  --background: #000000; /* app and map background */
+  --card: #111317; /* panels */
+  --foreground: #f2f4f8; /* main text (18:1 on panels) */
+  --primary: #4fd1e8; /* accent: selection, primary buttons, selected area */
+  --marca-azul: #60a5fa; /* NinaWillay blue lightened for black (7.5:1) */
+  --primary-foreground: #000000; /* dark text: summary card and levels 3–4 */
+  --on-primary: #000000; /* text on the accent */
+  --secondary: #1d2027; /* active option */
+  --muted-foreground: #b4bac5; /* secondary text (9:1 on panels) */
   --accent: #262a32; /* hover */
   --border: #2e333d;
-  --border-strong: #5f6673; /* bordes de botones (3:1 sobre paneles) */
+  --border-strong: #5f6673; /* button borders (3:1 on panels) */
   --fire: oklch(0.778 0.167 64);
-  /* Niveles de actividad, estilo semáforo: verde → ámbar → naranja → rojo.
-    Texto: negro en 1–3 (≥ 7:1) y blanco en 4 (5,4:1). Sobre el mapa oscuro todos ≥ 3:1. */
-  --level-0: #262a33; /* día sin focos */
-  --level-1: #1baf5d; /* Pocos */
-  --level-2: #f6c744; /* Algunos */
-  --level-3: #ea7a2c; /* Muchos */
-  --level-4: #c8261f; /* Muchísimos */
-  --sin-datos: #08090b; /* día sin datos todavía */
-  /* Tarjeta clara del resumen */
+  /* Activity levels, traffic-light style: green → amber → orange → red.
+    Text: black on 1–3 (≥ 7:1) and white on 4 (5.4:1). On the dark map all ≥ 3:1. */
+  --level-0: #262a33; /* day without hotspots */
+  --level-1: #1baf5d; /* Few */
+  --level-2: #f6c744; /* Some */
+  --level-3: #ea7a2c; /* Many */
+  --level-4: #c8261f; /* Very many */
+  --sin-datos: #08090b; /* day with no data yet */
+  /* Light summary card */
   --summary: #f5f6f8;
   --summary-chip: #e7e9ed;
   --summary-border: #d3d6dc;
   --summary-muted: #4a505b;
   --sube: #b42318;
   --baja: #067647;
-  /* Mapa */
+  /* Map */
   --map-border: #7a8291;
   --map-fill: transparent;
   --panel: color-mix(in oklch, var(--card) 95%, transparent);
   --menu: color-mix(in oklch, var(--background) 92%, transparent);
   --shadow-map: 0 4px 16px rgb(0 0 0 / 0.5);
   --shadow-panel: 0 8px 24px rgb(0 0 0 / 0.6);
-  /* Escala del mapa por celda, tipo mapa de calor: azul (muy pocos) → rojo (muchísimos).
-     Daltonismo: ΔE ≥ 8,9 entre todos los pares; visión normal ≥ 17,7. */
+  /* Per-cell map scale, heatmap style: blue (very few) → red (very many).
+     Color blindness: ΔE ≥ 8.9 between all pairs; normal vision ≥ 17.7. */
   --mapa-1: #2f6fe4;
   --mapa-2: #2bb673;
   --mapa-3: #f5d020;
   --mapa-4: #f7861e;
   --mapa-5: #d7262b;
-  /* Límites sobre el mapa: línea clara con halo oscuro */
+  /* Boundaries on the map: light line with dark halo */
   --limite-linea: #f2f4f8;
   --limite-halo: #000000;
 }
 
-/* Modo claro (data-tema="claro" en <html>). Mismos niveles de fuego; acento teal oscuro
-   porque el cian no tiene contraste sobre blanco. Todos los pares cumplen WCAG AA. */
+/* Light mode (data-tema="claro" on <html>). Same fire levels; dark teal accent
+   because cyan has no contrast on white. All pairs meet WCAG AA. */
 :root[data-tema="claro"] {
   --background: #eef0f3;
   --card: #ffffff;
-  --foreground: #14171c; /* 18:1 sobre paneles */
-  --primary: #00727f; /* 5,7:1 sobre paneles */
-  --marca-azul: #1d4ed8; /* azul original de NinaWillay (6,7:1 sobre blanco) */
-  --on-primary: #ffffff; /* 5,7:1 sobre el acento */
+  --foreground: #14171c; /* 18:1 on panels */
+  --primary: #00727f; /* 5.7:1 on panels */
+  --marca-azul: #1d4ed8; /* original NinaWillay blue (6.7:1 on white) */
+  --on-primary: #ffffff; /* 5.7:1 on the accent */
   --secondary: #e9edf2;
-  --muted-foreground: #4b5260; /* 7,9:1 sobre paneles */
+  --muted-foreground: #4b5260; /* 7.9:1 on panels */
   --accent: #e3e7ec;
   --border: #d3d8df;
-  --border-strong: #868d9a; /* 3,3:1 sobre paneles */
+  --border-strong: #868d9a; /* 3.3:1 on panels */
   --level-0: #e2e5ea;
   --sin-datos: #f7f8fa;
   --summary: #ffffff;
@@ -113,7 +113,7 @@
   --map-border: #5b6270;
   --shadow-map: 0 2px 10px rgb(20 23 28 / 0.12);
   --shadow-panel: 0 6px 20px rgb(20 23 28 / 0.14);
-  /* Límites sobre el mapa claro: línea oscura con halo blanco */
+  /* Boundaries on the light map: dark line with white halo */
   --limite-linea: #14171c;
   --limite-halo: #ffffff;
 }
@@ -160,7 +160,7 @@ button:not(:disabled) {
   text-transform: capitalize;
 }
 
-/* ---------- Estructura: mapa a pantalla completa + paneles flotantes ---------- */
+/* ---------- Layout: full-screen map + floating panels ---------- */
 .app-root {
   position: fixed;
   inset: 0;
@@ -177,7 +177,7 @@ button:not(:disabled) {
   --text-scale: 1.3;
 }
 
-/* Menú superior */
+/* Top menu */
 .menu-superior {
   position: absolute;
   top: 0;
@@ -287,7 +287,7 @@ button:not(:disabled) {
   opacity: 0.45;
 }
 
-/* Panel genérico */
+/* Generic panel */
 .panel-flotante {
   position: absolute;
   z-index: 10;
@@ -403,7 +403,7 @@ button:not(:disabled) {
   pointer-events: auto;
 }
 
-/* Controles comunes */
+/* Common controls */
 .segmented {
   display: flex;
   background: var(--background);
@@ -515,7 +515,7 @@ button:not(:disabled) {
   opacity: 0.35;
 }
 
-/* Panel Área */
+/* Area panel */
 .descarga {
   margin-top: 16px;
   padding-top: 14px;
@@ -525,7 +525,7 @@ button:not(:disabled) {
   width: 100%;
 }
 
-/* Panel Resumen (tarjeta clara) */
+/* Summary panel (light card) */
 .panel-resumen .panel {
   width: 100%;
   max-width: 700px;
@@ -668,9 +668,9 @@ button:not(:disabled) {
   line-height: 1.5;
 }
 
-/* Panel Fechas */
+/* Dates panel */
 
-/* Leyenda / filtro */
+/* Legend / filter */
 .leyenda {
   margin-top: 14px;
   padding-top: 12px;
@@ -710,9 +710,9 @@ button:not(:disabled) {
   line-height: 1.5;
 }
 
-/* Vista anual (12 meses) */
+/* Year view (12 months) */
 
-/* ---------- Mapa ---------- */
+/* ---------- Map ---------- */
 .mapa {
   position: absolute;
   inset: 0;
@@ -916,13 +916,13 @@ button:not(:disabled) {
     scroll-behavior: auto !important;
   }
 }
-/* Mientras se dibuja, no mostrar nombres de departamentos: el dibujo es libre. */
+/* While drawing, hide department names: drawing is freehand. */
 .boton-mapa[data-activo="true"] {
   border-color: var(--primary);
   color: var(--primary);
 }
 
-/* Botón de tema en el menú */
+/* Theme button in the menu */
 .boton-tema {
   width: 38px;
   height: 36px;
@@ -940,11 +940,11 @@ button:not(:disabled) {
   background: var(--card);
 }
 
-/* ---------- Histórico 2002–2024 ---------- */
+/* ---------- Historical 2002–2024 ---------- */
 
-/* Etiqueta de tramo (estimado / VIIRS real / incompleto) */
+/* Period segment label (estimated / actual VIIRS / incomplete) */
 
-/* Trama de "estimado" (2002–2011) sobre el color de la casilla */
+/* "Estimated" hatch pattern (2002–2011) over the cell color */
 [data-estimado="true"] {
   background-image: repeating-linear-gradient(135deg, rgb(0 0 0 / 0.2) 0 2px, transparent 2px 6px);
 }
@@ -956,14 +956,14 @@ button:not(:disabled) {
   opacity: 0.25;
 }
 
-/* Calendario del año: 12 meses */
+/* Year calendar: 12 months */
 [data-elegido="true"] {
   box-shadow:
     0 0 0 2px var(--card),
     0 0 0 4px var(--primary);
 }
 
-/* Matriz de todos los años */
+/* All-years matrix */
 .matriz {
   display: grid;
   gap: 2px;
@@ -1000,9 +1000,9 @@ button:not(:disabled) {
   background: transparent;
 }
 
-/* Leyenda de anomalías */
+/* Anomaly legend */
 
-/* Resumen: gráfico con mediana, situación y avisos */
+/* Summary: chart with median, status and warnings */
 .grafico-titulo {
   display: flex;
   justify-content: space-between;
@@ -1072,7 +1072,7 @@ button:not(:disabled) {
   margin-top: 2px;
 }
 
-/* Mapa: leyenda de la escala por celda */
+/* Map: per-cell scale legend */
 .map-etiqueta {
   border-radius: 10px;
   white-space: normal;
@@ -1105,13 +1105,13 @@ button:not(:disabled) {
   color: var(--muted-foreground);
 }
 
-/* Borde sutil: los tonos más claros de la escala no se pierden sobre fondos claros */
+/* Subtle border: the lightest scale tones do not get lost on light backgrounds */
 .matriz-celda:not(.matriz-vacia),
 .legend-swatch {
   border: 1px solid rgb(0 0 0 / 0.14);
 }
 
-/* Leyenda del mapa: título, 5 niveles con palabra y rango, y ayuda plegable */
+/* Map legend: title, 5 levels with word and range, and collapsible help */
 .leyenda-mapa {
   min-width: min(440px, calc(100vw - 24px));
   text-align: left;
@@ -1170,7 +1170,7 @@ button:not(:disabled) {
   text-align: left;
 }
 
-/* Nombres de departamentos sobre el mapa (con halo para leerse sobre cualquier color) */
+/* Department names on the map (with a halo so they read over any color) */
 .etiqueta-depto span {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -1187,7 +1187,7 @@ button:not(:disabled) {
   display: none;
 }
 
-/* Niveles de la leyenda del mapa como filtro */
+/* Map legend levels as a filter */
 .nivel-mapa {
   width: 100%;
   display: grid;
@@ -1216,7 +1216,7 @@ button:not(:disabled) {
   color: #000000;
 }
 
-/* ---------- Panel "Periodo" (izquierda): año y mes simples ---------- */
+/* ---------- "Period" panel (left): simple year and month ---------- */
 .anio-sel {
   display: flex;
   gap: 6px;
@@ -1262,7 +1262,7 @@ button:not(:disabled) {
   opacity: 0.35;
   cursor: not-allowed;
 }
-/* Lo elegido: mismo borde cian aquí y en la matriz */
+/* Selection: same cyan border here and in the matrix */
 .boton-todo-anio[aria-pressed="true"],
 .boton-mes[aria-pressed="true"] {
   background: var(--secondary);
@@ -1286,7 +1286,7 @@ button:not(:disabled) {
   flex: none;
 }
 
-/* ---------- Panel "Todos los años" (derecha): la matriz ---------- */
+/* ---------- "All years" panel (right): the matrix ---------- */
 .ayuda-matriz {
   font-size: calc(12px * var(--text-scale));
   color: var(--muted-foreground);
@@ -1347,7 +1347,7 @@ button:not(:disabled) {
   display: inline-block;
   flex: none;
 }
-/* Trama de "estimado" sobre el color de la casilla */
+/* "Estimated" hatch pattern over the cell color */
 [data-estimado="true"] {
   background-image: repeating-linear-gradient(135deg, rgb(0 0 0 / 0.2) 0 2px, transparent 2px 6px);
 }
@@ -1355,7 +1355,7 @@ button:not(:disabled) {
   opacity: 0.22;
 }
 
-/* Leyenda de la matriz: resalta meses (no filtra el mapa) */
+/* Matrix legend: highlights months (does not filter the map) */
 .leyenda-chips {
   display: flex;
   flex-wrap: wrap;
@@ -1396,7 +1396,7 @@ button:not(:disabled) {
   text-decoration: underline;
 }
 
-/* Resumen: el mismo mes en cada año, con la franja de lo usual */
+/* Summary: the same month in each year, with the usual band */
 .mismo-mes {
   position: relative;
 }
@@ -1432,7 +1432,7 @@ button:not(:disabled) {
   margin-top: 2px;
 }
 
-/* Mapa: chips de lo que se está viendo */
+/* Map: chips for what is being viewed */
 .chips-mapa {
   display: flex;
   flex-wrap: wrap;
@@ -1468,7 +1468,7 @@ button:not(:disabled) {
   color: var(--foreground);
 }
 
-/* Etiqueta de tramo en el resumen (estimado / VIIRS real) */
+/* Period segment label in the summary (estimated / actual VIIRS) */
 .etiqueta-tramo {
   display: inline-block;
   margin-left: 6px;
@@ -1480,7 +1480,7 @@ button:not(:disabled) {
   vertical-align: middle;
 }
 
-/* Matriz más legible: meses con 3 letras y casillas más altas */
+/* More readable matrix: 3-letter months and taller cells */
 .matriz-fila {
   grid-template-columns: 40px repeat(12, minmax(0, 1fr));
 }
@@ -1493,7 +1493,7 @@ button:not(:disabled) {
   height: 20px;
 }
 
-/* Filtro de cantidad: niveles desmarcados se ven apagados */
+/* Count filter: unchecked levels look dimmed */
 .nivel-mapa[aria-pressed="false"] {
   opacity: 0.4;
 }
@@ -1505,7 +1505,7 @@ button:not(:disabled) {
   cursor: not-allowed;
 }
 
-/* Gráfico "mes en cada año": más alto y con años */
+/* "Month in each year" chart: taller and with years */
 .mismo-mes {
   height: 120px;
   margin-top: 14px;
@@ -1530,7 +1530,7 @@ button:not(:disabled) {
   color: var(--primary-foreground);
 }
 
-/* Ejes con nombre: matriz y gráficos del resumen */
+/* Named axes: matrix and summary charts */
 .matriz-ejes {
   display: flex;
   justify-content: space-between;
@@ -1556,7 +1556,7 @@ button:not(:disabled) {
   margin-top: 2px;
 }
 
-/* Barra superior de la matriz con "Limpiar filtros" */
+/* Matrix top bar with "Limpiar filtros" (Clear filters) */
 .matriz-barra {
   display: flex;
   align-items: flex-start;
@@ -1585,7 +1585,7 @@ button:not(:disabled) {
   background: var(--accent);
 }
 
-/* Matriz al resaltar: los meses no resaltados se ven tenues (siguen con su color y se pueden tocar) */
+/* Matrix while highlighting: non-highlighted months look faint (they keep their color and can still be tapped) */
 .matriz-celda[data-atenuado="true"] {
   opacity: 0.22;
 }
@@ -1595,14 +1595,14 @@ button:not(:disabled) {
 .grafico-pila {
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.3);
 }
-/* Aviso en el mapa mientras se elige un mes resaltado */
+/* Notice on the map while a highlighted month is being picked */
 .chip-aviso {
   border-style: dashed;
   font-weight: 500;
   padding-right: 12px;
 }
 
-/* Nota que explica el color y la línea del gráfico anual */
+/* Note explaining the color and line of the yearly chart */
 .grafico-nota {
   margin: 4px 0 0;
   font-size: calc(11px * var(--text-scale));
@@ -1610,7 +1610,7 @@ button:not(:disabled) {
   line-height: 1.4;
 }
 
-/* Dato preliminar (NRT): borde punteado en la matriz y etiqueta en el resumen */
+/* Preliminary data (NRT): dotted border in the matrix and label in the summary */
 .matriz-celda[data-preliminar="true"] {
   outline: 1.5px dashed var(--muted-foreground);
   outline-offset: -3px;
@@ -1624,12 +1624,12 @@ button:not(:disabled) {
   border-style: dashed;
 }
 
-/* ---------- Cabecera fija de los paneles: el botón para cerrar siempre a la vista ---------- */
+/* ---------- Sticky panel header: the close button always in view ---------- */
 .panel-cabecera {
   position: sticky;
   top: 0;
   z-index: 2;
-  background: var(--card); /* opaco: lo que se desplaza no se ve por detrás */
+  background: var(--card); /* opaque: scrolled content does not show through */
   border-radius: 12px 12px 0 0;
 }
 .panel-resumen .panel-cabecera {
@@ -1649,9 +1649,9 @@ button:not(:disabled) {
   margin-top: 0;
 }
 
-/* ---------- Pantallas compactas: un panel a la vez, sin capas encima ---------- */
+/* ---------- Compact screens: one panel at a time, no stacked layers ---------- */
 @media (max-width: 1180px) {
-  /* Resumen: chip abajo al centro; abierto, una hoja desde abajo. */
+  /* Summary: chip at bottom center; when open, a bottom sheet. */
   .panel-resumen,
   .app-root[data-anios-abierto="true"] .panel-resumen,
   .app-root[data-fechas-abierto="true"] .panel-resumen {
@@ -1661,11 +1661,11 @@ button:not(:disabled) {
     right: 12px;
     max-height: calc(100% - 92px);
   }
-  /* Chip del Resumen centrado en el mapa libre cuando la matriz está abierta. */
+  /* Summary chip centered on the free map area when the matrix is open. */
   .app-root[data-fechas-abierto="true"] .panel-resumen {
     right: 424px;
   }
-  /* La leyenda del mapa queda sobre el chip del Resumen. */
+  /* The map legend sits above the Summary chip. */
   .map-etiqueta {
     bottom: 80px;
   }
@@ -1675,7 +1675,7 @@ button:not(:disabled) {
   }
 }
 @media (max-width: 900px) {
-  /* Los botones del mapa suben bajo los chips para no tapar la leyenda. */
+  /* The map buttons move up below the chips so they do not cover the legend. */
   .map-controls,
   .app-root[data-fechas-abierto="true"] .map-controls {
     top: 68px;
@@ -1689,8 +1689,8 @@ button:not(:disabled) {
   .app-root[data-fechas-abierto="true"] .panel-resumen {
     right: 12px;
   }
-  /* Un panel abierto ocupa el ancho bajo la fila de chips y deja ver el chip del Resumen,
-     así se puede pasar de un panel a otro sin cerrarlo antes. */
+  /* An open panel takes the full width below the chip row and leaves the Summary chip visible,
+     so you can switch from one panel to another without closing it first. */
   .panel-anios[data-abierto="true"],
   .panel-fechas[data-abierto="true"] {
     top: 64px;
@@ -1710,14 +1710,14 @@ button:not(:disabled) {
   }
 }
 
-/* Escritorio con poca altura: el Resumen no baja hasta la leyenda del mapa. */
+/* Short desktop screens: the Summary does not extend down to the map legend. */
 @media (min-width: 1181px) {
   .panel-resumen {
     max-height: calc(100% - 260px);
   }
 }
 
-/* Con la matriz abierta, la leyenda se centra en el mapa libre y no pasa bajo los botones. */
+/* With the matrix open, the legend is centered on the free map area and does not go under the buttons. */
 @media (min-width: 901px) {
   .mapa[data-fechas-abierto="true"] .map-etiqueta {
     left: calc((100% - 424px) / 2);
@@ -1725,7 +1725,7 @@ button:not(:disabled) {
   }
 }
 
-/* ---------- Top años: tabla de focos por año ---------- */
+/* ---------- Top years: table of hotspots per year ---------- */
 .vista-matriz {
   margin: 4px 0 10px;
 }
@@ -1795,7 +1795,7 @@ button:not(:disabled) {
   text-align: right;
 }
 
-/* Selector de región (arriba del panel Periodo) */
+/* Region selector (above the Period panel) */
 .region-sel {
   width: 100%;
   margin-bottom: 12px;

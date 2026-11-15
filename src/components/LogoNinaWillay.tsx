@@ -1,7 +1,7 @@
 /**
- * Marca de NinaWillay (public/ninawillay-logo.svg): órbita y satélite alrededor de una llama.
- * Se dibuja en línea para que la órbita tome el azul del tema (--marca-azul) y se lea bien
- * tanto en modo oscuro como en claro; la llama mantiene sus naranjas en ambos.
+ * NinaWillay logo (public/ninawillay-logo.svg): orbit and satellite around a flame.
+ * Drawn inline so the orbit takes the theme blue (--marca-azul) and reads well in both
+ * dark and light mode; the flame keeps its oranges in both.
  */
 export function LogoNinaWillay({ className }: { className?: string | undefined }) {
   return (

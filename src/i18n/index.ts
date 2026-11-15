@@ -9,7 +9,7 @@ export { formatoDecimal, formatoNumero, formatoPct, formatoPctSigno } from "./fo
 
 export type CodigoIdioma = "es" | "qu" | "en";
 
-/** Cada idioma se muestra con su propio nombre. `lang` va al atributo <html lang>. */
+/** Each language is shown by its own name. `lang` goes to the <html lang> attribute. */
 export const IDIOMAS: { codigo: CodigoIdioma; nombre: string; lang: string }[] = [
   { codigo: "es", nombre: "Español", lang: "es" },
   { codigo: "qu", nombre: "Runasimi", lang: "qu" },
@@ -22,9 +22,9 @@ export const esCodigoIdioma = (c: unknown): c is CodigoIdioma =>
   typeof c === "string" && c in DICCIONARIOS;
 
 /**
- * Textos del idioma activo. Es un enlace vivo (`export let`): al llamar a fijarIdioma,
- * todos los módulos que importan `t` ven el nuevo diccionario en su siguiente render.
- * El proveedor de estado lo fija antes de renderizar, así que toda la interfaz cambia junta.
+ * Texts for the active language. It is a live binding (`export let`): when fijarIdioma is called,
+ * every module that imports `t` sees the new dictionary on its next render.
+ * The state provider sets it before rendering, so the whole interface changes together.
  */
 export let t: Textos = es;
 
@@ -43,7 +43,7 @@ export const fechaCorta = (clave: string) => t.fechaCorta(partes(clave));
 /** "6 de octubre de 2026" / "October 6, 2026" */
 export const fechaLarga = (clave: string) => t.fechaLarga(partes(clave));
 
-/** 22397 → "22,4 mil"; en quechua, "22,4 waranqa" (Intl no tiene quechua). */
+/** 22397 → "22,4 mil"; in Quechua, "22,4 waranqa" (Intl has no Quechua). */
 export const formatoCompacto = (n: number) => {
   const s = compactoBase(n);
   return t.codigo === "qu" ? s.replace(/[\s\u00a0]mil$/, " waranqa") : s;

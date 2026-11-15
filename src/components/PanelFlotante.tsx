@@ -5,18 +5,18 @@ import { t } from "@/i18n";
 type Props = {
   id: string;
   titulo: string;
-  /** Texto del botón pequeño cuando el panel está oculto, p. ej. "Área · Moquegua". */
+  /** Text of the small button when the panel is hidden, e.g. "Área · Moquegua". */
   resumenCerrado: string;
   abierto: boolean;
   alternar: () => void;
   icono?: ReactNode;
   className?: string;
-  /** Oculta el título visible (se mantiene para lectores de pantalla). */
+  /** Hides the visible title (kept for screen readers). */
   tituloOculto?: boolean;
   children: ReactNode;
 };
 
-/** Panel flotante sobre el mapa que se puede ocultar y volver a mostrar. */
+/** Floating panel over the map that can be hidden and shown again. */
 export function PanelFlotante({
   id,
   titulo,

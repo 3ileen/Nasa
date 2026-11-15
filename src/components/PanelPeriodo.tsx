@@ -5,7 +5,7 @@ import { useEstado } from "@/estado/contexto";
 import { filasCsv, PERU } from "@/lib/historico";
 import { PanelFlotante } from "./PanelFlotante";
 
-/** Forma simple de elegir el periodo: un año y un mes (o el año completo). Sincronizado con la matriz. */
+/** Simple way to pick the period: a year and a month (or the whole year). Synced with the matrix. */
 export function PanelPeriodo() {
   const e = useEstado();
   const i = e.anios.indexOf(e.anio);

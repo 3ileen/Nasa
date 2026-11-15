@@ -1,4 +1,4 @@
-// Formato de números según el idioma activo. Lo fija i18n/index.ts al cambiar de idioma.
+// Number formatting for the active language. Set by i18n/index.ts when the language changes.
 const opciones = (min: number, max: number) =>
   ({
     minimumFractionDigits: min,
@@ -19,22 +19,22 @@ export function fijarLocale(locale: string) {
   compacto = new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 });
 }
 
-/** 2109 → "2.109" (español) o "2,109" (inglés) */
+/** 2109 → "2.109" (Spanish) or "2,109" (English) */
 export function formatoNumero(n: number) {
   return enteros.format(Math.round(n));
 }
-/** 123.45 → "123,5" (español) o "123.5" (inglés) */
+/** 123.45 → "123,5" (Spanish) or "123.5" (English) */
 export function formatoDecimal(n: number) {
   return unDecimal.format(n);
 }
 export function formatoPct(n: number) {
   return `${enteros.format(Math.round(n))}%`;
 }
-/** 22397 → "22,4 mil" (español) o "22.4K" (inglés). Debajo de 10 000 usa el número completo. */
+/** 22397 → "22,4 mil" (Spanish) or "22.4K" (English). Below 10 000 it uses the full number. */
 export function formatoCompacto(n: number) {
   return Math.abs(n) < 10000 ? formatoNumero(n) : compacto.format(n);
 }
-/** +6,7 % / −12,3 %: con signo, un decimal. */
+/** +6,7 % / −12,3 %: signed, one decimal. */
 export function formatoPctSigno(n: number) {
   const v = unDecimal.format(Math.abs(n));
   return `${n > 0 ? "+" : n < 0 ? "−" : ""}${v}%`;

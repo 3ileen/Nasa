@@ -4,14 +4,14 @@ import { useEstado } from "@/estado/contexto";
 import type { CategoriaId } from "@/lib/historico";
 import { colorCategoria, textoSobre } from "./anomalia";
 
-/** Leyenda de la matriz: tocar un color resalta esos meses en la matriz (no cambia el mapa). */
+/** Matrix legend: tapping a color highlights those months in the matrix (does not change the map). */
 export function LeyendaMatriz() {
   const e = useEstado();
   const meta = e.datos?.meta;
   if (!meta) return null;
   const categorias = [...meta.categorias]
     .filter((c) => c.id !== "sin_dato")
-    .sort((a, b) => a.orden - b.orden); // de menos (claro) a más (oscuro)
+    .sort((a, b) => a.orden - b.orden); // from least (light) to most (dark)
   const [a, b] = meta.linea_base;
   return (
     <div

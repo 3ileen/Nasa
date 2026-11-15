@@ -24,9 +24,9 @@ const css = (token: string) =>
 const ATRIBUCION_RELIEVE =
   'Relieve: <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">Terrain Tiles</a> (Mapzen, AWS)';
 
-// Tema: "oscuro" | "claro" (definido en el contexto).
+// Theme: "oscuro" | "claro" (defined in the context).
 
-/** Mapa base de OpenFreeMap para cada tema. */
+/** OpenFreeMap base map for each theme. */
 const ESTILO_BASE: Record<Tema, string> = {
   oscuro: "https://tiles.openfreemap.org/styles/dark",
   claro: "https://tiles.openfreemap.org/styles/positron",
@@ -39,15 +39,15 @@ const alturas = (colores: string[]): ExpressionSpecification => {
     ["linear"],
     ["elevation"],
     -1,
-    "rgba(0, 0, 0, 0)", // bajo el nivel del mar: transparente
+    "rgba(0, 0, 0, 0)", // below sea level: transparent
     ...cotas.flatMap((c, i) => [c, colores[i] ?? "#000000"]),
   ] as ExpressionSpecification;
 };
 
 /**
- * Colores por altura (m s. n. m.): 0 costa/llano amazónico · 500 selva baja · 1500 ceja de selva
- * · 2500 valles interandinos · 3500 puna · 4500 alta montaña · 6000 cumbres.
- * Apagados a propósito: sin marrones, naranjas ni amarillos, para no confundirse con el fuego.
+ * Colors by elevation (m a.s.l.): 0 coast/Amazon plain · 500 lowland rainforest · 1500 cloud forest
+ * · 2500 inter-Andean valleys · 3500 puna · 4500 high mountains · 6000 peaks.
+ * Muted on purpose: no browns, oranges or yellows, so they are not confused with fire.
  */
 const COLORES_ALTURA: Record<Tema, ExpressionSpecification> = {
   oscuro: alturas(["#16241B", "#1C2C21", "#28342A", "#33382F", "#3B3D40", "#47494E", "#5A5C62"]),
@@ -72,7 +72,7 @@ const SOMBREADO: Record<Tema, Record<string, string | number>> = {
 type CapasRelieve = { sombreado: boolean; colores: boolean };
 const vis = (v: boolean) => (v ? "visible" : "none");
 
-/** Agrega (o vuelve a agregar tras cambiar de estilo) el relieve: color por altura y sombreado. */
+/** Adds (or re-adds after a style change) the terrain: color by elevation and hillshade. */
 function agregarRelieve(base: MapaBase, tema: Tema, capas: CapasRelieve) {
   if (!base.getSource("relieve"))
     base.addSource("relieve", {
@@ -83,10 +83,10 @@ function agregarRelieve(base: MapaBase, tema: Tema, capas: CapasRelieve) {
       maxzoom: 14,
     });
   const estilo = base.getStyle().layers;
-  // Ambas capas van debajo del agua: así el mar y los lagos tapan el relieve del fondo marino,
-  // y las vías, límites, etiquetas y focos quedan por encima.
+  // Both layers go below the water: this way the sea and lakes cover the seabed relief,
+  // and roads, boundaries, labels and hotspots stay on top.
   const antesDelAgua = estilo.find((l) => l.id === "water")?.id ?? estilo[1]?.id;
-  // Color por altura (primero) y sombreado encima.
+  // Color by elevation (first) and hillshade on top.
   if (!base.getLayer("relieve-color"))
     base.addLayer(
       {
@@ -111,14 +111,14 @@ function agregarRelieve(base: MapaBase, tema: Tema, capas: CapasRelieve) {
     );
 }
 
-/** Colores de la escala del mapa (5 clases), definidos en styles.css para cada tema. */
+/** Map scale colors (5 classes), defined in styles.css for each theme. */
 const VARIABLES_ESCALA = ["--mapa-1", "--mapa-2", "--mapa-3", "--mapa-4", "--mapa-5"];
 
 export default function Mapa() {
   const e = useEstado();
   const elemento = useRef<HTMLDivElement>(null);
   const mapa = useRef<L.Map | null>(null);
-  /** Halo y línea de departamentos y de la frontera (el halo da contraste sobre cualquier color). */
+  /** Halo and line for departments and the border (the halo gives contrast over any color). */
   const capasLimites = useRef<{
     haloDeps: L.GeoJSON;
     lineaDeps: L.GeoJSON;
@@ -130,7 +130,7 @@ export default function Mapa() {
   const temaAplicado = useRef<Tema>("oscuro");
   const [relieve, setRelieve] = useState(true);
   const [coloresAltura, setColoresAltura] = useState(true);
-  /** Niveles de cantidad visibles en el mapa (0–4). Por defecto todos; se desmarca lo que no se quiere ver. */
+  /** Count levels visible on the map (0–4). All by default; uncheck the ones you do not want to see. */
   const TODOS_LOS_NIVELES = [0, 1, 2, 3, 4];
   const [nivelesMapa, setNivelesMapa] = useState<number[]>(TODOS_LOS_NIVELES);
   const filtroCantidad = nivelesMapa.length < TODOS_LOS_NIVELES.length;
@@ -140,11 +140,11 @@ export default function Mapa() {
   ultimo.current = e;
 
   const reducido = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Deja libre el espacio de los paneles abiertos (en pantallas anchas).
+  // Keeps the space of open panels clear (on wide screens).
   /**
-   * Encuadra un área dejando libre el espacio de los paneles abiertos (en pantallas anchas).
-   * Todo el Perú usa márgenes fijos (se ve grande aunque el Resumen tape el norte).
-   * Un departamento usa el alto real del Resumen y de la leyenda, para no quedar detrás.
+   * Fits an area while keeping the space of open panels clear (on wide screens).
+   * All of Peru uses fixed margins (it looks large even if the Summary covers the north).
+   * A department uses the actual height of the Summary and the legend, so it is not hidden behind them.
    */
   const encuadrar = (b: L.LatLngBounds, esRegion = false) => {
     if (!b.isValid()) return;
@@ -159,21 +159,21 @@ export default function Mapa() {
       });
       return;
     }
-    // Alto real de lo que tapa el mapa arriba (Resumen) y abajo (leyenda), para no dejar la
-    // zona detrás de ellos.
+    // Actual height of what covers the map at the top (Summary) and bottom (legend), so the
+    // area does not end up behind them.
     const cont = mapa.current?.getContainer().getBoundingClientRect();
     const resumen = document.querySelector("#panel-resumen .panel:not([hidden])");
     const leyenda = document.querySelector(".leyenda-mapa")?.getBoundingClientRect();
     if (!cont) return;
-    // Bordes del espacio libre (en píxeles del mapa).
+    // Edges of the free space (in map pixels).
     const izq = ancho && p.anios ? 330 : 40;
     const der = cont.width - (ancho && p.fechas ? 440 : 70);
     const arriba =
       ancho && p.resumen && resumen ? resumen.getBoundingClientRect().bottom - cont.top + 16 : 40;
     const leyArriba = leyenda ? leyenda.top - cont.top - 16 : cont.height - 90;
     const leyDer = leyenda ? leyenda.right - cont.left + 16 : izq;
-    // Dos huecos posibles: entre el Resumen y la leyenda, o a la derecha de la leyenda.
-    // Se usa el más grande, para que el departamento no quede detrás de ningún panel.
+    // Two possible gaps: between the Summary and the legend, or to the right of the legend.
+    // The larger one is used, so the department is not hidden behind any panel.
     const area = (x0: number, y0: number, x1: number, y1: number) =>
       Math.max(0, x1 - x0) * Math.max(0, y1 - y0);
     const sobre = area(izq, Math.max(40, arriba), der, leyArriba);
@@ -192,16 +192,16 @@ export default function Mapa() {
   const verPeru = () => {
     if (limites) encuadrar(L.geoJSON(limites).getBounds());
   };
-  /** Departamento elegido (NOMBDEP) o null para todo el Perú. */
+  /** Selected department (NOMBDEP) or null for all of Peru. */
   const claveRegion = e.region === PERU ? null : claveDepto(e.region);
   const featureRegion = limites?.features.find((f) => f.properties.NOMBDEP === claveRegion);
-  /** Encuadra la región elegida, o todo el Perú. */
+  /** Fits the selected region, or all of Peru. */
   const verRegion = () => {
     if (featureRegion) encuadrar(L.geoJSON(featureRegion).getBounds(), true);
     else verPeru();
   };
 
-  // Crear el mapa una sola vez.
+  // Create the map only once.
   useEffect(() => {
     if (!elemento.current) return;
     const m = L.map(elemento.current, {
@@ -219,9 +219,9 @@ export default function Mapa() {
     const base = maplibreGL({ style: ESTILO_BASE[temaInicial] }).addTo(m);
     const mlMap = base.getMaplibreMap();
     fondo.current = mlMap;
-    // Cada vez que se carga un estilo (al inicio y al cambiar de tema) se vuelve a poner el relieve.
+    // Every time a style loads (at startup and on theme change) the terrain is added again.
     mlMap.on("style.load", () => agregarRelieve(mlMap, temaAplicado.current, capasRelieve.current));
-    // Orden: celdas (420) < límites (430) < nombres de departamentos (440).
+    // Order: cells (420) < boundaries (430) < department names (440).
     for (const [nombre, z] of [
       ["celdas", "420"],
       ["limites", "430"],
@@ -231,7 +231,7 @@ export default function Mapa() {
       pane.style.zIndex = z;
       if (nombre !== "celdas") pane.style.pointerEvents = "none";
     }
-    // Nombres de departamentos solo cuando hay zoom suficiente para leerlos.
+    // Department names only when zoomed in enough to read them.
     const marcarZoom = () => {
       m.getContainer().dataset["etiquetas"] = m.getZoom() >= 5 ? "si" : "no";
     };
@@ -246,7 +246,7 @@ export default function Mapa() {
       .then((r) => r.json() as Promise<Limites>)
       .then((g) => {
         if (cancelado) return;
-        // Límites de referencia, siempre por encima de los colores (no se eligen).
+        // Reference boundaries, always above the colors (not selectable).
         const segmentos = fronteraExterior(g);
         const linea = (seg: [number, number][]) =>
           L.polyline(seg, { pane: "limites", interactive: false });
@@ -256,7 +256,7 @@ export default function Mapa() {
           lineaDeps: L.geoJSON(g, { pane: "limites", interactive: false }),
           lineaFrontera: L.layerGroup(segmentos.map(linea)),
         };
-        // El orden de alta define qué queda encima: halos abajo, líneas arriba.
+        // The order in which they are added defines what stays on top: halos below, lines above.
         capas.haloDeps.addTo(m);
         capas.haloFrontera.addTo(m);
         capas.lineaDeps.addTo(m);
@@ -264,7 +264,7 @@ export default function Mapa() {
         capasLimites.current = capas;
         L.layerGroup(
           g.features
-            .filter((f) => f.properties.NOMBDEP !== "CALLAO") // muy pequeño: se superpone con Lima
+            .filter((f) => f.properties.NOMBDEP !== "CALLAO") // very small: overlaps with Lima
             .map((f) =>
               L.marker(puntoEtiqueta(f), {
                 pane: "etiquetas",
@@ -288,12 +288,12 @@ export default function Mapa() {
     };
   }, []);
 
-  // Idioma: etiqueta accesible del mapa.
+  // Language: accessible label of the map.
   useEffect(() => {
     mapa.current?.getContainer().setAttribute("aria-label", t.mapaDescripcion);
   }, [e.idioma]);
 
-  // Estilo de los límites (depende del tema) y encuadre inicial de todo el Perú.
+  // Boundary style (depends on the theme) and initial fit to all of Peru.
   const { tema } = e;
   useEffect(() => {
     if (!limites) return;
@@ -310,7 +310,7 @@ export default function Mapa() {
       (l as L.Polyline).setStyle({ color: linea, weight: 2.4, opacity: 1 }),
     );
   }, [limites, tema]);
-  // Al cambiar de región: se acerca a ella y se resalta su borde (o vuelve a todo el Perú).
+  // On region change: zoom to it and highlight its border (or go back to all of Peru).
   useEffect(() => {
     const m = mapa.current;
     if (!m || !limites) return;
@@ -327,7 +327,7 @@ export default function Mapa() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limites, claveRegion, tema]);
 
-  // Cambio de tema: otro mapa base (el relieve se vuelve a agregar en "style.load").
+  // Theme change: another base map (the terrain is re-added on "style.load").
   useEffect(() => {
     const base = fondo.current;
     if (!base || temaAplicado.current === tema) return;
@@ -335,12 +335,12 @@ export default function Mapa() {
     base.setStyle(ESTILO_BASE[tema], { diff: false });
   }, [tema]);
 
-  // Celdas de 0,25° (~28 km) hasta 2011 y de 0,1° (~11 km) desde 2012; se pinta la densidad
-  // (focos por 100 km²) para que todos los años se comparen con la misma escala.
-  // El mapa cambia solo con el periodo (año o mes) y con los niveles de cantidad.
-  // La comparación con lo usual solo resalta meses en la matriz.
+  // 0.25° cells (~28 km) until 2011 and 0.1° cells (~11 km) from 2012; density is painted
+  // (hotspots per 100 km²) so that all years are compared on the same scale.
+  // The map only changes with the period (year or month) and the count levels.
+  // The comparison with the usual only highlights months in the matrix.
   const { celdasAnio, datos, gran, mes, activas } = e;
-  /** Resaltando en la matriz sin un mes elegido: el mapa queda vacío hasta que se elija uno. */
+  /** Highlighting in the matrix without a selected month: the map stays empty until one is picked. */
   const eligiendo = activas.length > 0 && gran === "anio";
   const porMes = gran !== "anio";
   const cortes = porMes ? CORTES_MAPA.mes : CORTES_MAPA.anio;
@@ -357,20 +357,20 @@ export default function Mapa() {
     const colores = VARIABLES_ESCALA.map(css);
     const grupo = L.layerGroup();
     for (const c of datos.celdas) {
-      if (c.tamano !== celdasAnio.tamano_celda) continue; // cada año usa un solo tamaño
-      // Solo la región, recortada con el contorno oficial del departamento. (Los "ambitos" del
-      // pipeline son un recorte aproximado que incluye bordes de los vecinos: se verían cuadros
-      // fuera del departamento.)
+      if (c.tamano !== celdasAnio.tamano_celda) continue; // each year uses a single size
+      // Only the region, clipped with the official department outline. (The pipeline's "ambitos"
+      // are an approximate clip that includes edges of the neighbors: squares would show up
+      // outside the department.)
       if (claveRegion && deptoDeCelda.get(c.id) !== claveRegion) continue;
       const v = celdasAnio.celdas[c.id];
-      if (!v) continue; // ausente = 0
+      if (!v) continue; // missing = 0
       const valor = porMes ? v.meses[mes - 1] : v.count;
       if (valor === null || valor === undefined) continue;
       const dens = densidad(valor, c);
       const clase = claseMapa(dens, cortes);
       const h = c.tamano / 2;
       if (clase < 0) continue;
-      if (!nivelesMapa.includes(clase)) continue; // filtro de la leyenda
+      if (!nivelesMapa.includes(clase)) continue; // legend filter
       L.rectangle(
         [
           [c.lat - h, c.lon - h],
@@ -378,7 +378,7 @@ export default function Mapa() {
         ],
         {
           pane: "celdas",
-          // En modo claro, contorno fino para que amarillo y verde no se pierdan en el fondo claro.
+          // In light mode, a thin outline so yellow and green do not get lost on the light background.
           stroke: tema === "claro",
           weight: 0.5,
           color: "#1F2329",
@@ -387,7 +387,7 @@ export default function Mapa() {
           fillOpacity: 0.85,
         },
       )
-        // Por mes no hay FRP por celda: solo se muestra el conteo.
+        // Per month there is no FRP per cell: only the count is shown.
         .bindTooltip(() => {
           const depto = deptoDeCelda.get(c.id);
           const cifras =
@@ -414,7 +414,7 @@ export default function Mapa() {
     claveRegion,
   ]);
 
-  // Prender o apagar el sombreado y los colores por altura (cada uno por separado).
+  // Turn the hillshade and the elevation colors on or off (each one separately).
   useEffect(() => {
     const base = fondo.current;
     if (base?.getLayer("relieve")) base.setLayoutProperty("relieve", "visibility", vis(relieve));
@@ -428,7 +428,7 @@ export default function Mapa() {
   const periodoMapa = `${claveRegion ? `${e.nombreRegion} · ` : ""}${
     porMes ? t.mesAnio(mes - 1, e.anio) : String(e.anio)
   }`;
-  // Cortes de densidad (pueden tener decimales, p. ej. 2,5).
+  // Density breaks (may have decimals, e.g. 2.5).
   const num = (n: number) => (Number.isInteger(n) ? formatoNumero(n) : formatoDecimal(n));
   const rangos = [
     `≤ ${num(cortes[0] ?? 0)}`,
@@ -491,11 +491,11 @@ export default function Mapa() {
         <h2 id="leyenda-mapa-titulo" className="leyenda-mapa-titulo">
           {t.mapaTitulo(periodoMapa)}
         </h2>
-        {/* Cada nivel es también un filtro: sin ninguno marcado se ven todos. */}
+        {/* Each level is also a filter: with none checked, all are shown. */}
         <ol className="leyenda-mapa-escala" aria-label={t.filtrarNivelesMapa}>
           {rangos.map((r, i) => {
             const marcado = nivelesMapa.includes(i);
-            const ultimo = marcado && nivelesMapa.length === 1; // siempre queda al menos uno
+            const ultimo = marcado && nivelesMapa.length === 1; // at least one always remains
             return (
               <li key={i}>
                 <button

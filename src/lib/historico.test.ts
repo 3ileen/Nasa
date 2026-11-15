@@ -13,7 +13,7 @@ import {
   type Mes,
 } from "./historico";
 
-// Se prueba contra los archivos reales de public/data/historico (contrato de output/frontend_datos.md).
+// Tested against the real files in public/data/historico (contract in output/frontend_datos.md).
 const leer = <T>(f: string): T =>
   JSON.parse(
     fs.readFileSync(path.resolve(__dirname, "../../public/data/historico", f), "utf8"),
@@ -21,14 +21,14 @@ const leer = <T>(f: string): T =>
 const meses = leer<{ meses: Mes[] }>("calendar_peru.json").meses;
 const ranking = leer<{ anios: AnioRanking[] }>("ranking_peru.json").anios;
 
-describe("datos históricos", () => {
-  it("el calendario cubre de julio de 2002 a noviembre de 2026 (293 meses)", () => {
+describe("historical data", () => {
+  it("the calendar covers July 2002 to November 2026 (293 months)", () => {
     expect(meses).toHaveLength(293);
     expect(mesesDelAnio(meses, 2002).slice(0, 6)).toEqual([null, null, null, null, null, null]);
     expect(mesesDelAnio(meses, 2024).every(Boolean)).toBe(true);
   });
 
-  it("el ranking pone primero a 2005 y deja sin puesto a los años incompletos", () => {
+  it("the ranking puts 2005 first and leaves incomplete years unranked", () => {
     expect(ranking[0]?.anio).toBe(2005);
     expect(
       ranking
@@ -38,35 +38,35 @@ describe("datos históricos", () => {
     ).toEqual([2002, 2010, 2026]);
   });
 
-  it("solo los meses NRT recientes son preliminares y no hay récord preliminar", () => {
+  it("only recent NRT months are preliminary and there is no preliminary record", () => {
     const prel = meses.filter((m) => m.preliminar);
     expect(prel.length).toBeGreaterThan(0);
     expect(prel.every((m) => m.anio === 2026)).toBe(true);
     expect(ranking.find((r) => r.anio === 2026)?.preliminar).toBe(true);
   });
 
-  it("cuenta los meses sobre y bajo lo normal", () => {
+  it("counts months above and below normal", () => {
     const r = resumenMeses(mesesDelAnio(meses, 2024));
     expect(r.sobre + r.bajo).toBeLessThanOrEqual(12);
     expect(r.sobre).toBeGreaterThan(0);
   });
 
-  it("la descarga trae una fila por mes con datos", () => {
+  it("the download has one row per month with data", () => {
     expect(filasCsv(mesesDelAnio(meses, 2002))).toHaveLength(6);
     expect(filasCsv(mesesDelAnio(meses, 2024))[8]).toMatchObject({ anio: 2024, mes: 9 });
   });
 });
 
-describe("escala del mapa", () => {
-  it("0 no se pinta y los cortes son inclusivos", () => {
+describe("map scale", () => {
+  it("0 is not painted and cutoffs are inclusive", () => {
     expect(claseMapa(0, CORTES_MAPA.anio)).toBe(-1);
     expect([1, 2, 3, 5, 6, 15, 16, 50, 51].map((v) => claseMapa(v, CORTES_MAPA.anio))).toEqual([
       0, 0, 1, 1, 2, 2, 3, 3, 4,
     ]);
   });
 
-  it("la densidad iguala celdas grandes y chicas", () => {
-    // Una celda de 0,25° tiene 6,25 veces el área de una de 0,1° en la misma latitud.
+  it("density equalizes large and small cells", () => {
+    // A 0.25° cell has 6.25 times the area of a 0.1° cell at the same latitude.
     const grande = densidad(625, { tamano: 0.25, lat: -10 });
     const chica = densidad(100, { tamano: 0.1, lat: -10 });
     expect(grande).toBeCloseTo(chica, 6);
@@ -74,8 +74,8 @@ describe("escala del mapa", () => {
   });
 });
 
-describe("colores frente a lo usual", () => {
-  it("en cada tema, cada categoría tiene su propio color", () => {
+describe("colors compared to the usual", () => {
+  it("in each theme, each category has its own color", () => {
     const orden = [
       "muy_por_debajo",
       "por_debajo",
