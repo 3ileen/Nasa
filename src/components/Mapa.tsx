@@ -141,25 +141,50 @@ export default function Mapa() {
 
   const reducido = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Deja libre el espacio de los paneles abiertos (en pantallas anchas).
-  const encuadrar = (b: L.LatLngBounds) => {
+  /**
+   * Encuadra un área dejando libre el espacio de los paneles abiertos (en pantallas anchas).
+   * Todo el Perú usa márgenes fijos (se ve grande aunque el Resumen tape el norte).
+   * Un departamento usa el alto real del Resumen y de la leyenda, para no quedar detrás.
+   */
+  const encuadrar = (b: L.LatLngBounds, esRegion = false) => {
     if (!b.isValid()) return;
     const ancho = window.innerWidth > 900;
     const p = ultimo.current.paneles;
+    if (!esRegion) {
+      mapa.current?.flyToBounds(b, {
+        paddingTopLeft: [ancho && p.anios ? 330 : 40, ancho && p.resumen ? 120 : 40],
+        paddingBottomRight: [ancho && p.fechas ? 440 : 70, 90],
+        maxZoom: 10,
+        duration: reducido() ? 0 : 0.7,
+      });
+      return;
+    }
     // Alto real de lo que tapa el mapa arriba (Resumen) y abajo (leyenda), para no dejar la
     // zona detrás de ellos.
     const cont = mapa.current?.getContainer().getBoundingClientRect();
     const resumen = document.querySelector("#panel-resumen .panel:not([hidden])");
-    const leyenda = document.querySelector(".leyenda-mapa");
+    const leyenda = document.querySelector(".leyenda-mapa")?.getBoundingClientRect();
+    if (!cont) return;
+    // Bordes del espacio libre (en píxeles del mapa).
+    const izq = ancho && p.anios ? 330 : 40;
+    const der = cont.width - (ancho && p.fechas ? 440 : 70);
     const arriba =
-      ancho && p.resumen && resumen && cont
-        ? resumen.getBoundingClientRect().bottom - cont.top + 16
-        : 40;
-    const abajo = leyenda && cont ? cont.bottom - leyenda.getBoundingClientRect().top + 16 : 90;
+      ancho && p.resumen && resumen ? resumen.getBoundingClientRect().bottom - cont.top + 16 : 40;
+    const leyArriba = leyenda ? leyenda.top - cont.top - 16 : cont.height - 90;
+    const leyDer = leyenda ? leyenda.right - cont.left + 16 : izq;
+    // Dos huecos posibles: entre el Resumen y la leyenda, o a la derecha de la leyenda.
+    // Se usa el más grande, para que el departamento no quede detrás de ningún panel.
+    const area = (x0: number, y0: number, x1: number, y1: number) =>
+      Math.max(0, x1 - x0) * Math.max(0, y1 - y0);
+    const sobre = area(izq, Math.max(40, arriba), der, leyArriba);
+    const alLado = area(Math.max(izq, leyDer), Math.max(40, arriba), der, cont.height - 40);
+    const [x0, y0, x1, y1] =
+      ancho && alLado > sobre
+        ? [Math.max(izq, leyDer), Math.max(40, arriba), der, cont.height - 40]
+        : [izq, Math.max(40, arriba), der, Math.max(arriba + 120, leyArriba)];
     mapa.current?.flyToBounds(b, {
-      paddingTopLeft: [ancho && p.anios ? 330 : 40, Math.max(40, arriba)],
-      // Abajo solo se reserva la leyenda en pantallas angostas; en escritorio, con el Resumen
-      // abierto, reservarla dejaría la región diminuta.
-      paddingBottomRight: [ancho && p.fechas ? 440 : 70, ancho ? 40 : Math.max(90, abajo)],
+      paddingTopLeft: [x0, y0],
+      paddingBottomRight: [Math.max(20, cont.width - x1), Math.max(20, cont.height - y1)],
       maxZoom: 10,
       duration: reducido() ? 0 : 0.7,
     });
@@ -172,7 +197,7 @@ export default function Mapa() {
   const featureRegion = limites?.features.find((f) => f.properties.NOMBDEP === claveRegion);
   /** Encuadra la región elegida, o todo el Perú. */
   const verRegion = () => {
-    if (featureRegion) encuadrar(L.geoJSON(featureRegion).getBounds());
+    if (featureRegion) encuadrar(L.geoJSON(featureRegion).getBounds(), true);
     else verPeru();
   };
 
