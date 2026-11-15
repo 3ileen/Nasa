@@ -15,6 +15,10 @@ Los datos satelitales son de NASA FIRMS. Detalle de dónde y cómo se usó: [DEC
 React 19 · TypeScript · TanStack Start · Vite · Leaflet + MapLibre · Vitest.
 Los datos son archivos JSON estáticos en `public/data/historico/`; no hay base de datos.
 
+## Pipeline de datos (`data-pipeline/`)
+
+El directorio `data-pipeline/` contiene el pipeline en Python que descarga, procesa y armoniza estadísticamente las series de focos de calor de NASA FIRMS (MODIS y VIIRS 2002–2026), exportando los JSON estáticos utilizados por la aplicación web. Se excluye del despliegue en Vercel mediante `.vercelignore`.
+
 ## Desarrollo
 
 ```bash
