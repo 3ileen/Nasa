@@ -2,22 +2,23 @@
 // Vocabulario revisado con SimiAru (https://github.com/Andre031222/SimiAru, datos CC BY-SA 4.0):
 // formas marcadas Qullaw o comunes, nunca solo Chanka.
 // BORRADOR: debe revisarlo una persona quechuahablante antes de publicarlo.
-// Los nombres de los meses se dejan en castellano, como se usan comúnmente en el Perú.
+// Meses del calendario andino (qhulla puquy y qhapaq raymi están en SimiAru como enero y
+// diciembre); se escriben sin "killa", que las frases añaden donde hace falta.
 import type { FechaPartes, Textos } from "./es";
 
 const killakuna = [
-  "enero",
-  "febrero",
-  "marzo",
-  "abril",
-  "mayo",
-  "junio",
-  "julio",
-  "agosto",
-  "septiembre",
-  "octubre",
-  "noviembre",
-  "diciembre",
+  "Qhulla puquy",
+  "Hatun puquy",
+  "Pawqar waray",
+  "Ayriway",
+  "Aymuray",
+  "Inti raymi",
+  "Anta situwa",
+  "Qhapaq situwa",
+  "Quya raymi",
+  "Uma raymi",
+  "Aya marq'ay",
+  "Qhapaq raymi",
 ];
 
 export const qu: Textos = {
@@ -45,11 +46,11 @@ export const qu: Textos = {
   entre: (a, b) => `${a} manta ${b} kama`,
   loNormalDet: (mediana) => `chawpin ${mediana}`,
   mesPico: "Aswan nina killa",
-  agoSep: "Agosto, septiembre killakunapi",
+  agoSep: "Qhapaq situwa, Quya raymi killakunapi",
   delAnio: "watamanta",
   frp: "Ninapa kallpan",
   frpDet: "FRP huñusqa",
-  satelite: "Satélite",
+  satelite: "Satélite nisqa",
   medianaLeyenda: "chawpi",
   maximo: "Aswan hatun",
   avisoEstimado: "MODIS Aquawan yupasqa, VIIRSwan rikch'anachisqa.",
@@ -115,8 +116,8 @@ export const qu: Textos = {
   tooltipMatriz: (mes, anio, focos, situacion) =>
     `${mes} ${anio} · ${focos} ninakuna · ${situacion}`,
   frenteMismoMes: (mes) => `Huk watakunapa ${mes} killanwan rikch'anachisqa`,
-  mesUsual: (mes) => `Yachasqa ${mes}`,
-  mesEnCadaAnio: (mes) => `Sapa watapi ${mes}`,
+  mesUsual: (mes) => `Yachasqa ${mes} killa`,
+  mesEnCadaAnio: (mes) => `Sapa watapi ${mes} killa`,
   notaGraficoAnio: (a, b) =>
     `Sapa barrapa llimphin: ${a}–${b} watakunapi kikin killawan rikch'anachisqa nina. Siq'i: chay killapa yachasqan (chawpi).`,
   graficoMesesDe: (anio) => `${anio} watapi sapa killa ninakuna`,
@@ -160,8 +161,10 @@ export const qu: Textos = {
   tooltipCelda: (focos, frp) => `${focos} ninakuna${frp ? `<br>FRP ${frp} MW` : ""}`,
 
   meses: killakuna,
-  mesesCortos: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-  fechaCorta: (f: FechaPartes) => `${f.dia} ${killakuna[f.mes]}`,
-  fechaLarga: (f: FechaPartes) => `${f.dia} ${killakuna[f.mes]} ${f.anio}`,
-  mesAnio: (mes, anio) => `${killakuna[mes]} ${anio}`,
+  // Tres letras, distintas entre sí (el nombre completo va en la ayuda de cada casilla).
+  mesesCortos: ["qhu", "hat", "paw", "ayr", "aym", "int", "ant", "sit", "quy", "uma", "aya", "ray"],
+  fechaCorta: (f: FechaPartes) => `${killakuna[f.mes]} killapa ${f.dia} p'unchaynin`,
+  fechaLarga: (f: FechaPartes) =>
+    `${f.anio} watapi, ${killakuna[f.mes]} killapa ${f.dia} p'unchaynin`,
+  mesAnio: (mes, anio) => `${killakuna[mes]} killa ${anio}`,
 };

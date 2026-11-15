@@ -4,13 +4,8 @@ import { fijarLocale } from "./formato";
 import { qu } from "./qu";
 
 export type { Textos } from "./es";
-export {
-  formatoCompacto,
-  formatoDecimal,
-  formatoNumero,
-  formatoPct,
-  formatoPctSigno,
-} from "./formato";
+import { formatoCompacto as compactoBase } from "./formato";
+export { formatoDecimal, formatoNumero, formatoPct, formatoPctSigno } from "./formato";
 
 export type CodigoIdioma = "es" | "qu" | "en";
 
@@ -47,3 +42,9 @@ const partes = (clave: string) => ({
 export const fechaCorta = (clave: string) => t.fechaCorta(partes(clave));
 /** "6 de octubre de 2026" / "October 6, 2026" */
 export const fechaLarga = (clave: string) => t.fechaLarga(partes(clave));
+
+/** 22397 → "22,4 mil"; en quechua, "22,4 waranqa" (Intl no tiene quechua). */
+export const formatoCompacto = (n: number) => {
+  const s = compactoBase(n);
+  return t.codigo === "qu" ? s.replace(/[\s\u00a0]mil$/, " waranqa") : s;
+};
