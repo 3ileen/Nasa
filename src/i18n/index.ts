@@ -26,7 +26,7 @@ export const esCodigoIdioma = (c: unknown): c is CodigoIdioma =>
  * every module that imports `t` sees the new dictionary on its next render.
  * The state provider sets it before rendering, so the whole interface changes together.
  */
-export let t: Textos = es;
+export let t: Textos = en;
 
 export function fijarIdioma(codigo: CodigoIdioma) {
   t = DICCIONARIOS[codigo];

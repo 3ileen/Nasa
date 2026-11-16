@@ -53,7 +53,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
   const panelesAntes = useRef<Pick<Paneles, "anios" | "resumen"> | null>(null);
 
   // ---------- Language and theme (applied before rendering) ----------
-  const [idioma, setIdioma] = useState<CodigoIdioma>("es");
+  const [idioma, setIdioma] = useState<CodigoIdioma>("en");
   fijarIdioma(idioma);
   const [tema, setTema] = useState<Tema>("oscuro");
   // The map reads the colors in its effects, which run before ours.
@@ -94,7 +94,7 @@ export function ProveedorEstado({ children }: { children: ReactNode }) {
     }
   }, [tema]);
   useEffect(() => {
-    document.documentElement.lang = IDIOMAS.find((i) => i.codigo === idioma)?.lang ?? "es";
+    document.documentElement.lang = IDIOMAS.find((i) => i.codigo === idioma)?.lang ?? "en";
     document.title = `NinaWillay · ${t.titulo}`;
     try {
       localStorage.setItem("idioma", idioma);
